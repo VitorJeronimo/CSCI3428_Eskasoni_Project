@@ -11,5 +11,5 @@ those words.
 people from any age group that are trying to learn the language.
 
 Our goal is to encourage students in the Mi'kmaw community to immerse themselves
-into the language and spend more time working their vocabulary, while also having
+into the language and spend more time working on their vocabulary, while also having
 fun!
