@@ -1,8 +1,14 @@
-const CategoryList = () => {
+import Category from './Category'
+
+const CategoryList = ({ categories, setCategories }) => {
   return (
-    <p>
-      "Placeholder for categories list"
-    </p>
+    <section className="CategoryList">
+      <ul className="Categories">
+        {categories.map(category => (
+          <Category key={category.id} title={category.title} />
+        ))}
+      </ul>
+    </section>
   );
 }
 
