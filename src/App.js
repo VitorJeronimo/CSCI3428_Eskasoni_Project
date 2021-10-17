@@ -17,12 +17,17 @@ function App() {
     {id: 6, title: "Category 6", completed: false},
   ]);
 
+  const [initialLetter, setInitialLetter] = useState("A");
+
   return (
     <div className="App">
       <InitialLetter />
       <Timer />
       <ActionButtons />
-      <CategoryList categories={categories} setCategories={setCategories}/>
+      <CategoryList 
+      categories={categories} 
+      setCategories={setCategories}
+      initialLetter={initialLetter}/>
     </div>
   );
 }
