@@ -9,12 +9,12 @@ function App() {
   // These are just placeholder categories, we need to define the ones
   // that are actually going into the first release.
   const [categories, setCategories] = useState([
-    {id: 1, title: "Authors", completed: false},
-    {id: 2, title: "Bodies of water", completed: false},
-    {id: 3, title: "A bird", completed: false},
-    {id: 4, title: "Countries", completed: false},
-    {id: 5, title: "Cartoon characters", completed: false},
-    {id: 6, title: "Holidays", completed: false},
+    {id: 1, title: "Category 1", completed: false},
+    {id: 2, title: "Category 2", completed: false},
+    {id: 3, title: "Category 3", completed: false},
+    {id: 4, title: "Category 4", completed: false},
+    {id: 5, title: "Category 5", completed: false},
+    {id: 6, title: "Category 6", completed: false},
   ]);
 
   return (

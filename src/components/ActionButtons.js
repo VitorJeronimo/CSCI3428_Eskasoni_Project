@@ -1,9 +1,10 @@
-const ActionButton = () => {
+const ActionButtons = () => {
   return (
-    <p>
-      "Placeholder for ActionButton"
-    </p>
+    <section className="ActionButtons">
+      <button>New character</button>
+      <button>New List</button>
+    </section>
   );
 }
 
-export default ActionButton;
+export default ActionButtons;

@@ -1,8 +1,8 @@
 const InitialLetter = () => {
   return (
-    <p>
-      "Placeholder for initial letter"
-    </p>
+    <section className="InitialLetter">
+      <h1>A</h1>
+    </section>
   );
 }
 

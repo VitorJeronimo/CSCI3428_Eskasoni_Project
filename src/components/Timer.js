@@ -1,8 +1,8 @@
 const Timer = () => {
   return (
-    <p>
-      "Placeholder for timer"
-    </p>
+    <section className="Timer">
+      <p>120s</p>  
+    </section>
   );
 }
 
