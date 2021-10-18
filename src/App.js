@@ -36,6 +36,13 @@ function App() {
           )
         );
       }
+      else {
+        setCategories(
+          categories.map((category) =>
+            category.id === id ? { ...category, completed: false } : category
+          )
+        );
+      }
     }
   };
 
