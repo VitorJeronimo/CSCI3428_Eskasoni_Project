@@ -45,10 +45,12 @@ function App() {
     }
   };
 
+  const MinSecs = {minutes: 0, seconds: 0}
+
   return (
     <div className="App">
       <InitialLetter />
-      <Timer />
+      <Timer MinSecs = {MinSecs}/>
       <ActionButtons />
       <CategoryList categories={categories} onBlur={checkInput} />
     </div>
