@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ActionButtons from "./components/ActionButtons";
 import CategoryList from "./components/CategoryList";
-import InitialLetter from "./components/InitialLetter";
+import CurrentLetter from "./components/CurrentLetter";
 import Timer from "./components/Timer";
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
 
 
   const letters = ["P","T","K","Q","J","S","L","M","N","W","Y","A","E","I","O","U"];
-  const [currentLetter, setCurrentLetter] = useState("A");
+  const [currentLetter, setCurrentLetter] = useState("M");
 
   /**
    * Checks if the word given by the user is a valid answer to the category.
@@ -53,7 +53,7 @@ function App() {
 
   return (
     <div className="App">
-      <InitialLetter currentLetter={ currentLetter } />
+      <CurrentLetter currentLetter={ currentLetter } />
       <Timer />
       <ActionButtons onClick={handleNewCharacter}/>
       <CategoryList categories={categories} onBlur={checkInput} />
