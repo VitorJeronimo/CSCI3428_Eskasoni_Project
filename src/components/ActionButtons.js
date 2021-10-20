@@ -1,8 +1,8 @@
 const ActionButtons = ({onClick}) => {
   return (
     <section className="ActionButtons">
-      <button onClick={onClick}>New character</button>
-      <button>New List</button>
+      <button className="btn" onClick={onClick}>New character</button>
+      <button className="btn">New List</button>
     </section>
   );
 }

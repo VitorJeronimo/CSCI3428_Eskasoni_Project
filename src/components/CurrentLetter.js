@@ -1,8 +1,8 @@
-import styles from "./CurrentLetter.module.css"
+// import styles from "./CurrentLetter.module.css"
 
 const CurrentLetter = ({currentLetter}) => {
   return (
-    <section className={styles.CurrentLetter}>
+    <section className="InitialLetter">
       <h1>{ currentLetter }</h1>
     </section>
   );
