@@ -5,6 +5,10 @@ import CurrentLetter from "./components/CurrentLetter";
 import Timer from "./components/Timer";
 
 function App() {
+  //===== VARIABLES ============================================================
+  const letters = ["P","T","K","Q","J","S","L","M","N","W","Y","A","E","I","O","U"];
+
+  //===== STATES ===============================================================
   // These are just placeholder categories, we need to define the ones
   // that are actually going into the first release.
   const [categories, setCategories] = useState([
@@ -16,10 +20,9 @@ function App() {
     { id: 6, title: "Trees", completed: false },
   ]);
 
+  const [currentLetter, setCurrentLetter] = useState(letters.at(Math.floor(Math.random()*16)));
 
-  const letters = ["P","T","K","Q","J","S","L","M","N","W","Y","A","E","I","O","U"];
-  const [currentLetter, setCurrentLetter] = useState("M");
-
+  //===== FUNCTIONS ============================================================
   /**
    * Checks if the word given by the user is a valid answer to the category.
    * Initially, it only checks if the word starts with the chosen initial letter.
@@ -48,8 +51,10 @@ function App() {
   };
 
   const handleNewCharacter = () => {
-    setCurrentLetter(letters[Math.floor(Math.random()*15)]);
+    setCurrentLetter(letters[Math.floor(Math.random()*16)]);
   }
+
+  //===== APP ==================================================================
 
   return (
     <div className="App">
