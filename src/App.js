@@ -16,7 +16,9 @@ function App() {
     { id: 6, title: "Trees", completed: false },
   ]);
 
-  const [initialLetter, setInitialLetter] = useState("A");
+
+  const letters = ["P","T","K","Q","J","S","L","M","N","W","Y","A","E","I","O","U"];
+  const [currentLetter, setCurrentLetter] = useState("A");
 
   /**
    * Checks if the word given by the user is a valid answer to the category.
@@ -28,7 +30,7 @@ function App() {
     // If user input is not empty, check if the first letter matches the chosen letter
     // for the current round.
     if (userInput !== "") {
-      if (userInput[0].toLowerCase() === initialLetter.toLowerCase()) {
+      if (userInput[0].toLowerCase() === currentLetter.toLowerCase()) {
         setCategories(
           categories.map((category) =>
             category.id === id ? { ...category, completed: true } : category
@@ -45,11 +47,15 @@ function App() {
     }
   };
 
+  const handleNewCharacter = () => {
+    setCurrentLetter(letters[Math.floor(Math.random()*15)]);
+  }
+
   return (
     <div className="App">
-      <InitialLetter />
+      <InitialLetter currentLetter={ currentLetter } />
       <Timer />
-      <ActionButtons />
+      <ActionButtons onClick={handleNewCharacter}/>
       <CategoryList categories={categories} onBlur={checkInput} />
     </div>
   );

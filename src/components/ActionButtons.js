@@ -1,7 +1,7 @@
-const ActionButtons = () => {
+const ActionButtons = ({onClick}) => {
   return (
     <section className="ActionButtons">
-      <button>New character</button>
+      <button onClick={onClick}>New character</button>
       <button>New List</button>
     </section>
   );
