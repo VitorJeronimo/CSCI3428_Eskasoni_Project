@@ -17,6 +17,16 @@ const Timer = ({MinSecs}) => {
     }
   };
 
+  const handleStartClick = () => {
+    setTime([2,30]);
+    setActive(true);
+  }
+
+  const handleResetClick = () => {
+    setTime([0,0]);
+    setActive(false);
+  }
+
   const reset = () => {
     setActive(false);
     setTime([parseInt(minutes), parseInt(seconds)]);
@@ -32,11 +42,13 @@ const Timer = ({MinSecs}) => {
   return (
     <section className={ styles.Timer }>
       <div>
-        <p className={ styles.time }>{`${mins.toString().padStart(2, '0')}:
-          ${secs.toString().padStart(2, '0')}`}
+        <p className={ styles.time }>{`${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`}
         </p>
       </div>
-      <button className={ styles.button } onClick={() => setActive(true)}>START</button>
+      <div className={ styles.timerButtons}>
+        <button className={ styles.button } onClick={handleStartClick}>START</button>
+        <button className={ styles.button } onClick={handleResetClick}>RESET</button>
+      </div>
     </section>
   );
 }

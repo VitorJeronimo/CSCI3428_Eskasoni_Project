@@ -46,7 +46,7 @@ function App() {
     }
   };
 
-  const MinSecs = {minutes: 2, seconds: 30}
+  const MinSecs = {minutes: 0, seconds: 0}
 
   return (
     <div className="App">
