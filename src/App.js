@@ -7,6 +7,7 @@ import Timer from "./components/Timer";
 function App() {
   //===== VARIABLES ============================================================
   const letters = ["P","T","K","Q","J","S","L","M","N","W","Y","A","E","I","O","U"];
+  const MinSecs = {minutes: 0, seconds: 0}
 
   //===== STATES ===============================================================
   // These are just placeholder categories, we need to define the ones
@@ -59,7 +60,7 @@ function App() {
   return (
     <div className="App">
       <CurrentLetter currentLetter={ currentLetter } />
-      <Timer />
+      <Timer MinSecs={MinSecs}/>
       <ActionButtons onClick={handleNewCharacter}/>
       <CategoryList categories={categories} onBlur={checkInput} />
     </div>
