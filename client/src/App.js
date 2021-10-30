@@ -55,7 +55,18 @@ function App() {
     setCurrentLetter(letters[Math.floor(Math.random()*16)]);
   }
 
+  // const testBackend = async () => {
+  //   const response = await fetch('/test')
+  //   const body = await response.json();
+
+  //   if (response.status !== 200) {
+  //     throw Error(body.message)
+  //   }
+  //   console.log(body)
+  // }
+
   //===== APP ==================================================================
+  // testBackend();
 
   return (
     <div className="App">
