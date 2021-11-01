@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ActionButtons from "./components/ActionButtons";
 import CategoryList from "./components/CategoryList";
 import CurrentLetter from "./components/CurrentLetter";
@@ -6,8 +6,25 @@ import Timer from "./components/Timer";
 
 function App() {
   //===== VARIABLES ============================================================
-  const letters = ["P","T","K","Q","J","S","L","M","N","W","Y","A","E","I","O","U"];
-  const MinSecs = {minutes: 0, seconds: 0}
+  const letters = [
+    "P",
+    "T",
+    "K",
+    "Q",
+    "J",
+    "S",
+    "L",
+    "M",
+    "N",
+    "W",
+    "Y",
+    "A",
+    "E",
+    "I",
+    "O",
+    "U",
+  ];
+  const MinSecs = { minutes: 0, seconds: 0 };
 
   //===== STATES ===============================================================
   // These are just placeholder categories, we need to define the ones
@@ -21,7 +38,9 @@ function App() {
     { id: 6, title: "Trees", completed: false },
   ]);
 
-  const [currentLetter, setCurrentLetter] = useState(letters.at(Math.floor(Math.random()*16)));
+  const [currentLetter, setCurrentLetter] = useState(
+    letters.at(Math.floor(Math.random() * 16))
+  );
 
   //===== FUNCTIONS ============================================================
   /**
@@ -40,8 +59,7 @@ function App() {
             category.id === id ? { ...category, completed: true } : category
           )
         );
-      }
-      else {
+      } else {
         setCategories(
           categories.map((category) =>
             category.id === id ? { ...category, completed: false } : category
@@ -52,19 +70,42 @@ function App() {
   };
 
   const handleNewCharacter = () => {
-    setCurrentLetter(letters[Math.floor(Math.random()*16)]);
+    setCurrentLetter(letters[Math.floor(Math.random() * 16)]);
+  };
+  function handleEnter(e) {
+    if (e.keyCode === 192) {
+      document.write("hi");
+    }
   }
+  useKey("Backquote", handleEnter("Backquote"));
 
   //===== APP ==================================================================
 
   return (
     <div className="App">
-      <CurrentLetter currentLetter={ currentLetter } />
-      <Timer MinSecs={MinSecs}/>
-      <ActionButtons onClick={handleNewCharacter}/>
+      <CurrentLetter currentLetter={currentLetter} />
+      <Timer MinSecs={MinSecs} />
+      <ActionButtons onClick={handleNewCharacter} />
       <CategoryList categories={categories} onBlur={checkInput} />
     </div>
   );
+}
+
+function useKey(key, cb) {
+  const callbackRef = useRef(cb);
+
+  useEffect(() => {
+    callbackRef.current = cb;
+  });
+
+  useEffect(() => {
+    function handle(event) {
+      if (event.code === key) {
+      }
+    }
+    document.addEventListener("keypress", handle);
+    return () => document.removeEventListener("keypress", handle);
+  }, [key]);
 }
 
 export default App;
