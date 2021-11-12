@@ -14,11 +14,11 @@ function App() {
   // that are actually going into the first release.
   const [categories, setCategories] = useState([
     { id: 1, title: "Animals", completed: false },
-    { id: 2, title: "Behavior", completed: false },
-    { id: 3, title: "Body Parts", completed: false },
-    { id: 4, title: "Clothing", completed: false },
+    { id: 2, title: "Places", completed: false },
+    { id: 3, title: "Summer Activities", completed: false },
+    { id: 4, title: "Transportation", completed: false },
     { id: 5, title: "Color", completed: false },
-    { id: 6, title: "Trees", completed: false },
+    { id: 6, title: "Nature", completed: false },
   ]);
 
   const [currentLetter, setCurrentLetter] = useState(letters.at(Math.floor(Math.random()*16)));
@@ -55,18 +55,18 @@ function App() {
     setCurrentLetter(letters[Math.floor(Math.random()*16)]);
   }
 
-  // const testBackend = async () => {
-  //   const response = await fetch('/test')
-  //   const body = await response.json();
+  const testBackend = async () => {
+    const response = await fetch('/test')
+    const body = await response.json();
 
-  //   if (response.status !== 200) {
-  //     throw Error(body.message)
-  //   }
-  //   console.log(body)
-  // }
+    if (response.status !== 200) {
+      throw Error(body.message)
+    }
+    console.log(body)
+  }
 
   //===== APP ==================================================================
-  // testBackend();
+  testBackend();
 
   return (
     <div className="App">
