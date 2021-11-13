@@ -1,8 +1,18 @@
 import { useState } from "react";
 import ActionButtons from "./components/ActionButtons";
 import CategoryList from "./components/CategoryList";
+import Chat from "./components/Chat";
 import CurrentLetter from "./components/CurrentLetter";
 import Timer from "./components/Timer";
+import Login from "./components/Login";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+import io from "socket.io-client";
+
+const socket = io.connect("http://localhost:5000");
 
 function App() {
   //===== VARIABLES ============================================================
@@ -22,6 +32,10 @@ function App() {
   ]);
 
   const [currentLetter, setCurrentLetter] = useState(letters.at(Math.floor(Math.random()*16)));
+
+  // These states are set by the Login component.
+  const [userName, setUserName] = useState("");
+  const [roomName, setRoomName] = useState("");
 
   //===== FUNCTIONS ============================================================
   /**
@@ -55,25 +69,31 @@ function App() {
     setCurrentLetter(letters[Math.floor(Math.random()*16)]);
   }
 
-  const testBackend = async () => {
-    const response = await fetch('/new_game')
-    const body = await response.json();
-
-    if (response.status !== 200) {
-      throw Error(body.message)
+  const joinRoom = () => {
+    if (userName !== "" && roomName !== "") {
+        socket.emit("join_room", roomName);
     }
-    console.log(body)
-  }
+  };
 
   //===== APP ==================================================================
   testBackend();
 
   return (
     <div className="App">
-      <CurrentLetter currentLetter={ currentLetter } />
-      <Timer MinSecs={MinSecs}/>
-      <ActionButtons onClick={handleNewCharacter}/>
-      <CategoryList categories={categories} onBlur={checkInput} />
+      <Router>
+        <Switch>
+          <Route exact path="/game">
+            <CurrentLetter currentLetter={ currentLetter } />
+            <Timer MinSecs={MinSecs}/>
+            <ActionButtons onClick={handleNewCharacter}/>
+            <CategoryList categories={categories} onBlur={checkInput} />
+            <Chat socket={socket} userName={userName} roomName={roomName}/>
+          </Route>
+          <Route path="/">
+            <Login setRoomName={setRoomName} setUserName={setUserName} joinRoom={joinRoom}/>
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
