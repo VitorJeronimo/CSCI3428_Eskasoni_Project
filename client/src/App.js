@@ -76,7 +76,6 @@ function App() {
   };
 
   //===== APP ==================================================================
-  testBackend();
 
   return (
     <div className="App">
@@ -85,8 +84,8 @@ function App() {
           <Route exact path="/game">
             <CurrentLetter currentLetter={ currentLetter } />
             <Timer MinSecs={MinSecs}/>
-            <ActionButtons onClick={handleNewCharacter}/>
-            <CategoryList categories={categories} onBlur={checkInput} />
+            <ActionButtons handleNewCharacter={handleNewCharacter}/>
+            <CategoryList categories={categories} checkInput={checkInput} />
             <Chat socket={socket} userName={userName} roomName={roomName}/>
           </Route>
           <Route path="/">
