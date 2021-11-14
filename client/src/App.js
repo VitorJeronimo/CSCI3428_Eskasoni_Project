@@ -31,7 +31,7 @@ function App() {
     { id: 6, title: "Trees", completed: false },
   ]);
 
-  const [currentLetter, setCurrentLetter] = useState(letters.at(Math.floor(Math.random()*16)));
+  const [currentLetter, setCurrentLetter] = useState("");
 
   // These states are set by the Login component.
   const [userName, setUserName] = useState("");
@@ -71,8 +71,17 @@ function App() {
 
   const joinRoom = () => {
     if (userName !== "" && roomName !== "") {
-        socket.emit("join_room", roomName);
+        socket.emit("join_room", { userName, roomName });
     }
+  };
+
+  socket.on("update_client", (gameDuration, currentLetter, currentCategories) => {
+    setCurrentLetter(currentLetter);
+    setCategories(currentCategories);
+  })
+
+  const startGame = () => {
+    socket.emit("start_game");
   };
 
   //===== APP ==================================================================
@@ -83,7 +92,7 @@ function App() {
         <Switch>
           <Route exact path="/game">
             <CurrentLetter currentLetter={ currentLetter } />
-            <Timer MinSecs={MinSecs}/>
+            <Timer MinSecs={MinSecs} startGame={startGame}/>
             <ActionButtons handleNewCharacter={handleNewCharacter}/>
             <CategoryList categories={categories} checkInput={checkInput} />
             <Chat socket={socket} userName={userName} roomName={roomName}/>
