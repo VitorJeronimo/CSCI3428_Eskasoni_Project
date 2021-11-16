@@ -72,12 +72,6 @@ function App() {
   const handleNewCharacter = () => {
     setCurrentLetter(letters[Math.floor(Math.random() * 16)]);
   };
-  function handleEnter(e) {
-    if (e.keyCode === 192) {
-      document.write("hi");
-    }
-  }
-  useKey("Backquote", handleEnter("Backquote"));
 
   //===== APP ==================================================================
 
@@ -91,21 +85,8 @@ function App() {
   );
 }
 
-function useKey(key, cb) {
-  const callbackRef = useRef(cb);
-
-  useEffect(() => {
-    callbackRef.current = cb;
-  });
-
-  useEffect(() => {
-    function handle(event) {
-      if (event.code === key) {
-      }
-    }
-    document.addEventListener("keypress", handle);
-    return () => document.removeEventListener("keypress", handle);
-  }, [key]);
+function schwaSound(ev) {
+  ev.target.value = ev.target.value.toupperCase();
 }
 
 export default App;
