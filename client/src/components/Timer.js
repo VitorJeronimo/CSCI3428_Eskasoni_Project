@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./Timer.module.css";
 
-const Timer = ({MinSecs}) => {
+const Timer = ({ MinSecs, startGame }) => {
 
   const { minutes, seconds = 60 } = MinSecs;
   const [[mins, secs], setTime] = useState([minutes, seconds]);
@@ -18,6 +18,7 @@ const Timer = ({MinSecs}) => {
   };
 
   const handleStartClick = () => {
+    startGame();
     setTime([2,30]);
     setActive(true);
   }
