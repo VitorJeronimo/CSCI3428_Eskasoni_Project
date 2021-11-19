@@ -1,6 +1,9 @@
+//===== VARIABLES =================================================================================
 const playersList = [];       // List of players currently on the server
 
+//===== METHODS ===================================================================================
 /**
+ * Creates a Player object and adds it to the list of players in the server.
  * 
  * @param   {string} id       The user's socket.id provided by Socket.io
  * @param   {string} userName Username provided by the user at login 
@@ -18,12 +21,19 @@ function addPlayer(id, userName, roomName) {
     words: []
   }
 
-  // Add new player to players array
   playersList.push(player);
   
   return player;
 }
 
+/**
+ * Returns a player object whose id matches the id passed into the method.
+ * Otherwise, returns nothing.
+ * 
+ * @param   {string} id The user's id provided by Socket.io
+ * @returns {object}    (Optional) Player object whose id matches the
+ *                      id passed to the method
+ */
 function getCurrentPlayer(id) {
   // Search player's index by its id
   const index = playersList.findIndex(player => player.id === id);
@@ -34,10 +44,20 @@ function getCurrentPlayer(id) {
   }
 }
 
+/**
+ * Returns the list of all players currently in the server.
+ * 
+ * @returns {object} Array of players that are connected to the server
+ */
 function getPlayersList() {
   return playersList;
 }
 
+/**
+ * Removes the player from the players list.
+ * 
+ * @param {string} id The user's id provided by Socket.io
+ */
 function playerDisconnects(id) {
   // Search the player's index by its id
   const index = playersList.findIndex(player => player.id === id);
@@ -47,6 +67,8 @@ function playerDisconnects(id) {
     playersList.splice(index);
   }
 }
+
+//===== EXPORTS ===================================================================================
 
 module.exports = {
   playersList,
