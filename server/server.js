@@ -97,12 +97,12 @@ io.on("connection", (socket) => {
      */
     socket.on("disconnect", () => {
         // Get the room name of the player that's disconnecting
-        const { roomName } = players.getCurrentPlayer(socket.id);
-      
+        const player = players.getCurrentPlayer(socket.id);
+
         // Remove the player from the players list in and disconnect them
         // from the server.
-        players.playerDisconnects(socket.id);
-        socket.leave(roomName);
+        players.playerDisconnects(player);
+        socket.leave(player.roomName);
 
         console.log("User disconnected", socket.id);
     });
