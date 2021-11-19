@@ -9,7 +9,6 @@ import {
 import io from "socket.io-client";
 
 // Local imports
-import ActionButtons from "./components/ActionButtons";
 import CategoryList from "./components/CategoryList";
 import Chat from "./components/Chat";
 import CurrentLetter from "./components/CurrentLetter";
@@ -29,11 +28,11 @@ function App() {
   // that are actually going into the first release.
   const [categories, setCategories] = useState([
     { id: 1, title: "Animals", completed: false },
-    { id: 2, title: "Behavior", completed: false },
-    { id: 3, title: "Body Parts", completed: false },
-    { id: 4, title: "Clothing", completed: false },
+    { id: 2, title: "Places", completed: false },
+    { id: 3, title: "Summer Activities", completed: false },
+    { id: 4, title: "Transportation", completed: false },
     { id: 5, title: "Color", completed: false },
-    { id: 6, title: "Trees", completed: false },
+    { id: 6, title: "Nature", completed: false },
   ]);
 
   const [currentLetter, setCurrentLetter] = useState("");
@@ -71,10 +70,6 @@ function App() {
     }
   };
 
-  const handleNewCharacter = () => {
-    setCurrentLetter(letters[Math.floor(Math.random()*16)]);
-  }
-
   const joinRoom = () => {
     if (userName !== "" && roomName !== "") {
         socket.emit("join_room", { userName, roomName });
@@ -99,8 +94,7 @@ function App() {
           <Route exact path="/game">
             <CurrentLetter currentLetter={ currentLetter } />
             <Timer MinSecs={MinSecs} startGame={startGame}/>
-            <ActionButtons handleNewCharacter={handleNewCharacter}/>
-            <CategoryList categories={categories} checkInput={checkInput} />
+            <CategoryList categories={categories}/>
             <Chat socket={socket} userName={userName} roomName={roomName}/>
           </Route>
           <Route path="/">
