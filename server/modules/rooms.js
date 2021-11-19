@@ -1,5 +1,6 @@
 const { shuffle } = require("./utils")
-const rooms = []
+
+const roomsList = []
 
 const letters = ["P","T","K","Q","J","S","L","M","N","W","Y","A","E","I","O","U"];
 const categories = [
@@ -26,16 +27,16 @@ function createRoom(roomName, admin) {
     currentCategories: []
   };
 
-  rooms.push(room);
+  roomsList.push(room);
   updateRoom(room);
 
   return room;
 }
 
 function getCurrentRoom(roomName) {
-    const index = rooms.findIndex(room => room.roomName === roomName);
+    const index = roomsList.findIndex(room => room.roomName === roomName);
     if (index !== -1) {
-        return rooms[index];
+        return roomsList[index];
     }
 
     return null;
@@ -66,7 +67,7 @@ function generateCategoriesList() {
 }
 
 module.exports = {
-  rooms,
+  roomsList,
   createRoom,
   getCurrentRoom,
   updateRoom

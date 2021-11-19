@@ -1,10 +1,6 @@
+//===== IMPORTS ===================================================================================
+// Required imports
 import { useState } from "react";
-import ActionButtons from "./components/ActionButtons";
-import CategoryList from "./components/CategoryList";
-import Chat from "./components/Chat";
-import CurrentLetter from "./components/CurrentLetter";
-import Timer from "./components/Timer";
-import Login from "./components/Login";
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,6 +8,15 @@ import {
 } from "react-router-dom";
 import io from "socket.io-client";
 
+// Local imports
+import ActionButtons from "./components/ActionButtons";
+import CategoryList from "./components/CategoryList";
+import Chat from "./components/Chat";
+import CurrentLetter from "./components/CurrentLetter";
+import Login from "./components/Login";
+import Timer from "./components/Timer";
+
+// Socket.io setup
 const socket = io.connect("http://localhost:5000");
 
 function App() {
@@ -41,6 +46,7 @@ function App() {
   /**
    * Checks if the word given by the user is a valid answer to the category.
    * Initially, it only checks if the word starts with the chosen initial letter.
+   * 
    * @param {string} userInput value returned from category input tag.
    * @param {int}    id id of the category that has been interacted with.
    */
