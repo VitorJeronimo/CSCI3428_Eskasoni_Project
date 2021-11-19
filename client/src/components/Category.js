@@ -1,11 +1,8 @@
-const Category = ({ category, checkInput }) => {
+const Category = ({ category }) => {
   return (
     <div className="Category">
       <label className="CategoryTitle">{category.title}</label>
-      <input
-        type="text"
-        onBlur={(e) => checkInput(e.target.value, category.id)}
-      />
+      <input type="text"/>
     </div>
   );
 };

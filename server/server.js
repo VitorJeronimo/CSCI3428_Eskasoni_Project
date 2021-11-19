@@ -74,6 +74,7 @@ io.on("connection", (socket) => {
       
         // Only allow the game to start if the player is the room admin
         if (player === room.admin) {
+            rooms.updateRoom(room)
             io.to(room.roomName).emit(
             "update_client", 
             room.gameDuration, 
