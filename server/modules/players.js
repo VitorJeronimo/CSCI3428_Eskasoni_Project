@@ -28,11 +28,11 @@ function addPlayer(id, userName, roomName) {
 
 /**
  * Returns a player object whose id matches the id passed into the method.
- * Otherwise, returns nothing.
+ * Otherwise, returns null.
  * 
  * @param   {string} id The user's id provided by Socket.io
- * @returns {object}    (Optional) Player object whose id matches the
- *                      id passed to the method
+ * @returns {object}    Player object whose id matches the
+ *                      id passed to the method, or null
  */
 function getCurrentPlayer(id) {
   // Search player's index by its id
@@ -42,6 +42,8 @@ function getCurrentPlayer(id) {
   if (index !== -1) {
     return playersList[index];
   }
+
+  return null;
 }
 
 /**
