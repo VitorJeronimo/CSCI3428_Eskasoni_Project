@@ -65,7 +65,7 @@ function playerDisconnects(player) {
 
   // If the player was found, remove it from the players array
   if (index !==-1) {
-    playersList.splice(index);
+    playersList.splice(index, 1);
   }
 }
 
