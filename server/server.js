@@ -24,6 +24,9 @@ const io = new Server(server, {
     }
 });
 
+//===== FUNCTIONS =================================================================================
+
+
 //===== EVENT HANDLING ============================================================================
 
 // TODO: update room on reload
@@ -52,15 +55,20 @@ io.on("connection", (socket) => {
         if (!rooms.roomsList.some(room => room.roomName === roomName)) {
             rooms.createRoom(roomName, player);
         }
-        const { gameDuration, currentLetter, currentCategories } = rooms.getCurrentRoom(player.roomName);
-        
         socket.join(roomName);
-        // The "update_client" event sends all the required game state information to 
-        // the joining client to ensure that all players in a room have the same game
-        socket.emit("update_client", gameDuration, currentLetter, currentCategories);
+        // updateClient(socket.id);
 
         console.log(`User with ID: ${player.id} joined room: ${player.roomName}`);
     });
+
+    /**
+     * Handles the "load_game" event emitted by the client.
+     * 
+     * TODO: write the documentation for this event handler
+     */
+    socket.on("load_game", () => {
+        updateClient(socket.id);
+    })
 
     /**
      * Handles the "start_game" event emitted by the client.
@@ -107,6 +115,19 @@ io.on("connection", (socket) => {
 
         console.log("User disconnected", socket.id);
     });
+
+    /**
+     * TODO: write the documentation for the function
+     * 
+     * The "update_client" event sends all the required game state information to 
+     * the joining client to ensure that all players in a room have the same game
+     * @param {*} id 
+     */
+    function updateClient(id) {
+        const player = players.getCurrentPlayer(id);
+        const { gameDuration, currentLetter, currentCategories } = rooms.getCurrentRoom(player.roomName);
+        socket.emit("update_client", gameDuration, currentLetter, currentCategories);
+    }
 });
 
 //===== SERVER ====================================================================================
