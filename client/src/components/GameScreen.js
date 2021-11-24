@@ -1,0 +1,51 @@
+//===== IMPORTS ===================================================================================
+// Required imports
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+// Local imports
+// import Chat from "./Chat";
+import CategoryList from "./CategoryList";
+import CurrentLetter from "./CurrentLetter";
+import Timer from "./Timer";
+
+const GameScreen = ({ socket }) => {
+  //===== VARIABLES ===============================================================================
+  const MinSecs = {minutes: 0, seconds: 0}
+  const location = useLocation();
+
+  //===== STATES ==================================================================================
+  // Game states
+  const [roundDuration, setRoundDuration] = useState();
+  const [categories, setCategories] = useState([]);
+  const [currentLetter, setCurrentLetter] = useState("");
+
+  //===== EVENT EMISSION ==========================================================================
+  useEffect(() => {
+    socket.emit('load_game');
+    console.log('game loaded');
+    // NOTE: the server crashes when the page is reloaded because it no longer has the
+    // "userName" and "roomName" variables defined.
+  });
+
+  const startGame = () => {
+    socket.emit("start_game");
+  };
+
+  //===== EVENT HANDLING ==========================================================================
+  socket.on("update_client", (gameDuration, currentLetter, currentCategories) => {
+    setCurrentLetter(currentLetter);
+    setCategories(currentCategories);
+  });
+
+  return (
+    <>
+      <CurrentLetter currentLetter={currentLetter}/>
+      <Timer MinSecs={MinSecs} startGame={startGame}/>
+      <CategoryList categories={categories}/>
+      {/* <Chat socket={socket}/> */}
+    </>
+  );
+}
+
+export default GameScreen;
