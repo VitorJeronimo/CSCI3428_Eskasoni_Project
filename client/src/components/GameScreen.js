@@ -1,7 +1,7 @@
 //===== IMPORTS ===================================================================================
 // Required imports
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 // Local imports
 // import Chat from "./Chat";
@@ -12,6 +12,7 @@ import Timer from "./Timer";
 const GameScreen = ({ socket }) => {
   //===== VARIABLES ===============================================================================
   const MinSecs = {minutes: 0, seconds: 0}
+  const history = useHistory();
   const location = useLocation();
 
   //===== STATES ==================================================================================
@@ -37,6 +38,11 @@ const GameScreen = ({ socket }) => {
     setCurrentLetter(currentLetter);
     setCategories(currentCategories);
   });
+
+  socket.on("redirect_to_login", () => {
+    history.push("/");
+    window.alert("The server could not access your username and room ID. Please, log in again.");
+  })
 
   return (
     <>

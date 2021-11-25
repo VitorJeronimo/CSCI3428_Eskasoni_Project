@@ -56,7 +56,6 @@ io.on("connection", (socket) => {
             rooms.createRoom(roomName, player);
         }
         socket.join(roomName);
-        // updateClient(socket.id);
 
         console.log(`User with ID: ${player.id} joined room: ${player.roomName}`);
     });
@@ -124,11 +123,20 @@ io.on("connection", (socket) => {
      * @param {*} id 
      */
     function updateClient(id) {
-        const player = players.getCurrentPlayer(id);
-        const { gameDuration, currentLetter, currentCategories } = rooms.getCurrentRoom(player.roomName);
-        socket.emit("update_client", gameDuration, currentLetter, currentCategories);
+        try {
+            const player = players.getCurrentPlayer(id);
+            const { gameDuration, currentLetter, currentCategories } = rooms.getCurrentRoom(player.roomName);
+            socket.emit("update_client", gameDuration, currentLetter, currentCategories);
+        } catch (nullPlayerError) {
+            socket.emit("redirect_to_login");
+        }
     }
 });
 
 //===== SERVER ====================================================================================
 server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
+// When there are no players in a room, remove the room from the list
+// Add an alert to let the user know why they have been redirected
+// When the admin leaves a room, the player that joined after them is the new admin
+// Store user's username and room id in session storage

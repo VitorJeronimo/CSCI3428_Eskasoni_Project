@@ -1,6 +1,6 @@
 //===== IMPORTS ===================================================================================
 // Required imports
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import io from "socket.io-client";
 
 // Local imports
@@ -21,6 +21,7 @@ function App() {
         <Route exact path="/game">
           <GameScreen socket={socket}/>
         </Route>
+        <Route path="*" element={<Redirect to="/" />} />
       </Switch>
     </Router>
   );
