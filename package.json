@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+<<<<<<< HEAD
     "concurrently": "^6.3.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -11,6 +12,15 @@
     "react-dom": "^17.0.2",
     "react-scripts": "^4.0.3",
     "socket.io": "^4.3.1",
+=======
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "jquery": "^3.6.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "^4.0.3",
+>>>>>>> Tae_switch_tilde_to_schwa
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
