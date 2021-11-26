@@ -143,7 +143,5 @@ io.on("connection", (socket) => {
 server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 // When there are no players in a room, remove the room from the list
-// Add an alert to let the user know why they have been redirected
 // When the admin leaves a room, the player that joined after them is the new admin
 // Store user's username and room id in session storage
-// Add players list to rooms
