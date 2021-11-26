@@ -69,13 +69,24 @@ io.on("connection", (socket) => {
     });
 
     /**
+     * Author: Vitor Jeronimo
+     *
      * Handles the "request_client_update" event emitted by the client.
-     * 
-     * TODO: write the documentation for this event handler
+     *
+     * Emits an "update_client" event, which sends the required game state 
+     * information to the joining client to ensure that all players in a room 
+     * have the same game state.
      */
     socket.on("request_client_update", () => {
-        updateClient(socket.id, "player");
-    })
+        try {
+            const player = players.getCurrentPlayer(socket.id);
+            const gameState = rooms.getCurrentRoom(player.roomName);
+            socket.emit("update_client", gameState);
+        } catch (nullPlayerError) {
+            console.log(nullPlayerError);
+            socket.emit("redirect_to_login");
+        }
+    });
 
     /**
      * Handles the "start_game" event emitted by the client.
@@ -83,8 +94,15 @@ io.on("connection", (socket) => {
      * NOTE: THIS PART OF THE CODE IS GOING UNDER MODIFICATIONS. 
      */
     socket.on("start_game", () => {
-        rooms.updateRoom(room);
-        updateClient(socket.id, "room");
+        // Get info of the player that emitted the event
+        const player = players.getCurrentPlayer(socket.id);
+        const room = rooms.getCurrentRoom(player.roomName);
+      
+        // Only allow the game to start if the player is the room admin
+        if (player === room.admin) {
+            rooms.updateRoom(room)
+            io.to(room.roomName).emit("update_client", room);
+        }
     });
 
     /**
@@ -110,31 +128,6 @@ io.on("connection", (socket) => {
 
         console.log("User disconnected", socket.id);
     });
-
-    /**
-     * TODO: write the documentation for the function
-     * 
-     * The "update_client" event sends all the required game state information to 
-     * the joining client to ensure that all players in a room have the same game
-     * @param {string} id 
-     * @param {string} destination  
-     */
-    function updateClient(id, destination) {
-        try {
-            const player = players.getCurrentPlayer(id);
-            const gameState = rooms.getCurrentRoom(player.roomName);
-            if (destination === "player") {
-                socket.emit("update_client", gameState);
-            }
-            else if (destination === "room") {
-                io.to(player.roomName).emit("update_client", gameState);
-            }
-        } 
-        catch (nullPlayerError) {
-            console.log(nullPlayerError);
-            socket.emit("redirect_to_login");
-        }
-    }
 });
 
 //===== SERVER ====================================================================================
@@ -143,4 +136,3 @@ server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 // When there are no players in a room, remove the room from the list
 // When the admin leaves a room, the player that joined after them is the new admin
 // Store user's username and room id in session storage
-// Only the admin should be able to start the game
