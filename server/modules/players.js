@@ -3,7 +3,7 @@ const playersList = [];       // List of players currently on the server
 
 //===== METHODS ===================================================================================
 /**
- * Creates a Player object and adds it to the list of players in the server.
+ * Creates a Player object. 
  * 
  * @param   {string} id       The user's socket.id provided by Socket.io
  * @param   {string} userName Username provided by the user at login 
@@ -12,7 +12,7 @@ const playersList = [];       // List of players currently on the server
  *                            name, score, and a list of words entered during
  *                            the current round in the game.
  */
-function addPlayer(id, userName, roomName) {
+function createPlayer(id, userName, roomName) {
   const player = { 
     id, 
     userName, 
@@ -21,8 +21,6 @@ function addPlayer(id, userName, roomName) {
     words: []
   }
 
-  playersList.push(player);
-  
   return player;
 }
 
@@ -46,15 +44,6 @@ function getCurrentPlayer(id) {
 }
 
 /**
- * Returns the list of all players currently in the server.
- * 
- * @returns {object} Array of players that are connected to the server
- */
-function getPlayersList() {
-  return playersList;
-}
-
-/**
  * Removes the player from the players list.
  * 
  * @param {object} player The user's id provided by Socket.io
@@ -73,8 +62,7 @@ function playerDisconnects(player) {
 
 module.exports = {
   playersList,
-  addPlayer,
+  createPlayer,
   getCurrentPlayer,
-  getPlayersList,
   playerDisconnects
 }

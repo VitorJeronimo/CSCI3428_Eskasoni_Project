@@ -25,24 +25,25 @@ const categories = [
 
 //===== METHODS ===================================================================================
 /**
+ * Creates a Room object
  * 
- * @param {string} roomName Room ID provided by the user at login
- * @param {object} admin    Player object that reflects the first player
- *                          to join the current room
- * @returns                 Room object containing a room name, room admin,
- *                          and the game state variables (gameDuration,
- *                          currentLetter, currentCategories)
+ * @param {string} roomName     Room ID provided by the user at login
+ * @param {object} admin        Player object that reflects the first player
+ *                              to join the current room
+ * @param {object} playersList  Array containing all players currently in the room
+ * @returns                     Room object containing a room name, room admin,
+ *                              and the game state variables (gameDuration,
+ *                              currentLetter, currentCategories)
  */
-function createRoom(roomName, admin) {
+function createRoom(roomName, admin, playersList) {
   const room = {
     roomName,
     admin,
+    playersList,
     gameDuration: 120,
     currentLetter: "",
     currentCategories: []
   };
-
-  roomsList.push(room);
 
   // Generate new currentLetter and currentCategories
   updateRoom(room);

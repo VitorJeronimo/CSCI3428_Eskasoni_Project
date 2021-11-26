@@ -24,12 +24,7 @@ const io = new Server(server, {
     }
 });
 
-//===== FUNCTIONS =================================================================================
-
-
 //===== EVENT HANDLING ============================================================================
-
-// TODO: update room on reload
 
 io.on("connection", (socket) => {
     console.log(`User connected: ${socket.id}`);
@@ -48,16 +43,27 @@ io.on("connection", (socket) => {
      * @param {string} roomName Room ID provided by the user at login
      */
     socket.on("join_room", ({ userName, roomName }) => {
-        const player = players.addPlayer(socket.id, userName, roomName);
+        const player = players.createPlayer(socket.id, userName, roomName);
+        players.playersList.push(player);       
 
-        // If the room with the specified name does not exist, create it and
-        // set the first player to join to be the admin
+        // If the room with the specified name does not exist, create it,
+        // set the first player to join to be the admin, and add them to 
+        // the list of players in the room.
+        // Otherwise, just add the player to the list of players in the room.
         if (!rooms.roomsList.some(room => room.roomName === roomName)) {
-            rooms.createRoom(roomName, player);
+            const room = rooms.createRoom(roomName, player, [player]);
+            rooms.roomsList.push(room);
+
+            console.log(`Room created: ${room.roomName},    Admin: ${room.admin.userName}`);
+        }
+        else {
+            const room = rooms.getCurrentRoom(roomName);
+            room.playersList.push(player);
+            
+            console.log(`Room updated: ${room.roomName},    Joined: ${player.userName}`);
+            console.log(room.playersList);  //DELETE
         }
         socket.join(roomName);
-
-        console.log(`User with ID: ${player.id} joined room: ${player.roomName}`);
     });
 
     /**
@@ -140,3 +146,4 @@ server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 // Add an alert to let the user know why they have been redirected
 // When the admin leaves a room, the player that joined after them is the new admin
 // Store user's username and room id in session storage
+// Add players list to rooms
