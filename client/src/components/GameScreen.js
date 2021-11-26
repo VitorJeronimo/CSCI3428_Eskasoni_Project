@@ -23,7 +23,7 @@ const GameScreen = ({ socket }) => {
 
   //===== EVENT EMISSION ==========================================================================
   useEffect(() => {
-    socket.emit('load_game');
+    socket.emit('request_client_update');
     console.log('game loaded');
     // NOTE: the server crashes when the page is reloaded because it no longer has the
     // "userName" and "roomName" variables defined.
@@ -34,9 +34,9 @@ const GameScreen = ({ socket }) => {
   };
 
   //===== EVENT HANDLING ==========================================================================
-  socket.on("update_client", (gameDuration, currentLetter, currentCategories) => {
-    setCurrentLetter(currentLetter);
-    setCategories(currentCategories);
+  socket.on("update_client", gameState => {
+    setCurrentLetter(gameState.currentLetter);
+    setCategories(gameState.currentCategories);
   });
 
   socket.on("redirect_to_login", () => {

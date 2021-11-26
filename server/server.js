@@ -30,6 +30,8 @@ io.on("connection", (socket) => {
     console.log(`User connected: ${socket.id}`);
 
     /**
+     * Author: Gillom McNeil & Vitor Jeronimo
+     *
      * Handles the "join_room" event emitted by the client. 
      * 
      * It creates a new player object and adds it to the list of players in 
@@ -67,12 +69,12 @@ io.on("connection", (socket) => {
     });
 
     /**
-     * Handles the "load_game" event emitted by the client.
+     * Handles the "request_client_update" event emitted by the client.
      * 
      * TODO: write the documentation for this event handler
      */
-    socket.on("load_game", () => {
-        updateClient(socket.id);
+    socket.on("request_client_update", () => {
+        updateClient(socket.id, "player");
     })
 
     /**
@@ -81,20 +83,8 @@ io.on("connection", (socket) => {
      * NOTE: THIS PART OF THE CODE IS GOING UNDER MODIFICATIONS. 
      */
     socket.on("start_game", () => {
-        // Get info of the player that emitted the event
-        const player = players.getCurrentPlayer(socket.id);
-        const room = rooms.getCurrentRoom(player.roomName);
-      
-        // Only allow the game to start if the player is the room admin
-        if (player === room.admin) {
-            rooms.updateRoom(room)
-            io.to(room.roomName).emit(
-            "update_client", 
-            room.gameDuration, 
-            room.currentLetter, 
-            room.currentCategories
-            );
-        }
+        rooms.updateRoom(room);
+        updateClient(socket.id, "room");
     });
 
     /**
@@ -126,14 +116,22 @@ io.on("connection", (socket) => {
      * 
      * The "update_client" event sends all the required game state information to 
      * the joining client to ensure that all players in a room have the same game
-     * @param {*} id 
+     * @param {string} id 
+     * @param {string} destination  
      */
-    function updateClient(id) {
+    function updateClient(id, destination) {
         try {
             const player = players.getCurrentPlayer(id);
-            const { gameDuration, currentLetter, currentCategories } = rooms.getCurrentRoom(player.roomName);
-            socket.emit("update_client", gameDuration, currentLetter, currentCategories);
-        } catch (nullPlayerError) {
+            const gameState = rooms.getCurrentRoom(player.roomName);
+            if (destination === "player") {
+                socket.emit("update_client", gameState);
+            }
+            else if (destination === "room") {
+                io.to(player.roomName).emit("update_client", gameState);
+            }
+        } 
+        catch (nullPlayerError) {
+            console.log(nullPlayerError);
             socket.emit("redirect_to_login");
         }
     }
@@ -145,3 +143,4 @@ server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 // When there are no players in a room, remove the room from the list
 // When the admin leaves a room, the player that joined after them is the new admin
 // Store user's username and room id in session storage
+// Only the admin should be able to start the game
