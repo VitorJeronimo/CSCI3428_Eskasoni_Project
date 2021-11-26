@@ -1,7 +1,7 @@
 const Category = ({ category, onBlur }) => {
   function getData(val) {
-    if (val.target.value === "~") {
-      val.target.value = "ɨ";
+    if (val.target.value.charAt(val.target.value.length - 1) === "~") {
+      val.target.value = val.target.value.slice(0, -1) + "ɨ";
     }
   }
 
@@ -10,7 +10,7 @@ const Category = ({ category, onBlur }) => {
       <label className="CategoryTitle">{category.title}</label>
       <input
         type="text"
-        onInput={getData}
+        onChange={getData}
         onBlur={(e) => onBlur(e.target.value, category.id)}
       />
     </div>
