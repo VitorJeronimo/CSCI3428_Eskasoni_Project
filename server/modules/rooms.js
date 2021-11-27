@@ -1,7 +1,6 @@
 //===== IMPORTS ===================================================================================
 const { shuffle } = require("./utils")
 
-// Author: Vitor Jeronimo
 //===== VARIABLES =================================================================================
 const roomsList = []        // List of existing rooms on the server
 
@@ -25,12 +24,16 @@ const categories = [
 ];
 
 /**
+ * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+ *
  * Defines a Room object, that deals with room properties such as admins, list
  * of players in the room, and room ID. It also takes care of game state
  * objects that will be used to sync all players during the game.
  */
 class Room {
     /**
+     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     *
      * Instantiates Room object and updates the game state.
      *
      * @param {string} roomName     Room ID provided by the user at login
@@ -52,34 +55,53 @@ class Room {
     }
 
     /**
+     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     *
      * Getter method for "roomName" property.
+     *
+     * @returns {string} Current room ID
      */
     get roomName() {
         return this._roomName;
     }
 
     /**
+     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     *
      * Getter method for "admin" property.
+     *
+     * @returns {Player} First Player object to join the room
      */
     get admin() {
         return this._admin;
     }
 
     /**
+     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     *
      * Getter method for "playersList" property.
+     *
+     * @returns {object} Array of players in the current room
      */
     get playersList() {
         return this._playersList;
     }
 
     /**
+     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     *
      * Getter Method for "gameState" property.
+     *
+     * @returns {object} Game state object containing current letter,
+     *                   current categories and game duration
      */
     get gameState() {
         return this._gameState;
     }
 
     /**
+     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     *
      * Generates a new random initial letter and categories list, and
      * updates the information in the room passed into the method.
      */
@@ -89,6 +111,8 @@ class Room {
     }
 
     /**
+     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     *
      * Removes the player that is disconnecting from the players list and
      * adjusts the room admin if needed.
      * 
@@ -117,6 +141,8 @@ class Room {
     }
 
     /**
+     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     *
      * Returns a room object that matches the room name passed into the
      * method if it can be found. Otherwise, returns null.
      * 
@@ -136,6 +162,8 @@ class Room {
     }
 
     /**
+     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     *
      * Returns a new random initial letter from the list of possible letters.
      * 
      * @returns {string} Random letter to be used on the next round of the game
@@ -145,6 +173,8 @@ class Room {
     }
 
     /**
+     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     *
      * Returns a new categories list, containing six random categories chosen
      * from the list of possible categories.
      * 
