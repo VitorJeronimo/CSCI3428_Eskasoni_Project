@@ -6,7 +6,7 @@ const cors = require("cors");
 const { Server } = require("socket.io");
 
 // Local imports
-const players = require("./modules/players");
+const { playersList, Player } = require("./modules/players");
 const { roomsList, Room } = require("./modules/rooms");
 
 //===== SERVER SETUP ==============================================================================
@@ -30,7 +30,8 @@ io.on("connection", (socket) => {
     console.log(`User connected: ${socket.id}`);
 
     /**
-     * Author: Gillom McNeil & Vitor Jeronimo
+     * @author Gillom McNeil 
+     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
      *
      * Handles the "join_room" event emitted by the client. 
      * 
@@ -45,8 +46,8 @@ io.on("connection", (socket) => {
      * @param {string} roomName Room ID provided by the user at login
      */
     socket.on("join_room", ({ userName, roomName }) => {
-        const player = players.createPlayer(socket.id, userName, roomName);
-        players.playersList.push(player);       
+        const player = new Player(socket.id, userName, roomName);
+        playersList.push(player);       
 
         // If the room with the specified name does not exist, create it,
         // set the first player to join to be the admin, and add them to 
@@ -64,12 +65,13 @@ io.on("connection", (socket) => {
             
             console.log(`Room updated: ${room.roomName},    Joined: ${player.userName}`);
             console.log(room.playersList);  //DELETE
+            console.log(`Room ${room.roomName} admin: ${room.admin.userName}`); //DELETE
         }
         socket.join(roomName);
     });
 
     /**
-     * Author: Vitor Jeronimo
+     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
      *
      * Handles the "request_client_update" event emitted by the client.
      *
@@ -79,22 +81,23 @@ io.on("connection", (socket) => {
      */
     socket.on("request_client_update", () => {
         try {
-            const player = players.getCurrentPlayer(socket.id);
+            const player = Player.getCurrentPlayer(socket.id);
             const room = Room.getCurrentRoom(player.roomName);
             socket.emit("update_client", room.gameState);
         } catch (nullPlayerError) {
+            console.log(nullPlayerError);
             socket.emit("redirect_to_login");
         }
     });
 
     /**
+     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     *
      * Handles the "start_game" event emitted by the client.
-     * 
-     * NOTE: THIS PART OF THE CODE IS GOING UNDER MODIFICATIONS. 
      */
     socket.on("start_game", () => {
         // Get info of the player that emitted the event
-        const player = players.getCurrentPlayer(socket.id);
+        const player = Player.getCurrentPlayer(socket.id);
         const room = Room.getCurrentRoom(player.roomName);
       
         // Only allow the game to start if the player is the room admin
@@ -105,6 +108,8 @@ io.on("connection", (socket) => {
     });
 
     /**
+     * @author Gillom McNeil
+     *
      * IN PROGRESS
      */
     socket.on("send_message", (data) => {
@@ -112,19 +117,21 @@ io.on("connection", (socket) => {
     });
 
     /**
+     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     *
      * Handles the "disconnect" event emitted by the client.
      * 
      * Removes player from the players list in the server.
      */
     socket.on("disconnect", () => {
         // Get the room name of the player that's disconnecting
-        const player = players.getCurrentPlayer(socket.id);
+        const player = Player.getCurrentPlayer(socket.id);
         const room = Room.getCurrentRoom(player.roomName);
 
         // Remove the player from the players list in and disconnect them
         // from the server.
         room.removePlayer(socket.id);
-        players.playerDisconnects(player);
+        Player.playerDisconnects(socket.id);
         socket.leave(player.roomName);
 
         console.log("User disconnected", socket.id);
@@ -135,4 +142,3 @@ io.on("connection", (socket) => {
 server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 // TODO Store user's username and room id in session storage
-// TODO Maybe put the variables in rooms.js inside the Room class
