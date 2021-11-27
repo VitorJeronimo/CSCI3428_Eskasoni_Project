@@ -9,18 +9,18 @@ const letters = ["P","T","K","Q","J","S","L","M","N","W","Y","A","E","I","O","U"
 
 // List of possible categories for each game
 const categories = [
-  "Activity",
-  "Animals",
-  "Behaviour",
-  "Body Part",
-  "Cities",
-  "Clothing",
-  "Color",
-  "Food",
-  "Household",
-  "Name",
-  "Tree",
-  "Weather",
+    "Activity",
+    "Animals",
+    "Behaviour",
+    "Body Part",
+    "Cities",
+    "Clothing",
+    "Color",
+    "Food",
+    "Household",
+    "Name",
+    "Tree",
+    "Weather",
 ];
 
 /**
@@ -34,7 +34,7 @@ class Room {
     /**
      * @author Vitor Jeronimo <vitor.bently@hotmail.com>
      *
-     * Instantiates Room object and updates the game state.
+     * Instantiates a Room object and updates the game state.
      *
      * @param {string} roomName     Room ID provided by the user at login
      * @param {object} admin        Player object that reflects the first player
@@ -150,15 +150,15 @@ class Room {
      * @returns {object}          Room object or null
      */
     static getCurrentRoom(roomName) {
-      // Search for the room using room name
-      const index = roomsList.findIndex(room => room.roomName === roomName);
-      
-      // If the room was found, return it
-      if (index !== -1) {
-        return roomsList[index];
-      }
+        // Search for the room using room name
+        const index = roomsList.findIndex(room => room.roomName === roomName);
+        
+        // If the room was found, return it
+        if (index !== -1) {
+            return roomsList[index];
+        }   
 
-      return null;
+        return null;
     }
 
     /**
@@ -169,7 +169,7 @@ class Room {
      * @returns {string} Random letter to be used on the next round of the game
      */
     static generateNewLetter() {
-      return letters[Math.floor(Math.random()*16)];
+        return letters[Math.floor(Math.random()*16)];
     }
 
     /**
@@ -182,25 +182,24 @@ class Room {
      *                   round of the game
      */
     static generateCategoriesList() {
-      // Shuffles the categories list and store only the first 6 elements
-      const randomCategories = shuffle(categories).slice(0,6);
-      const newCategoriesList = [];
+        // Shuffles the categories list and store only the first 6 elements
+        const randomCategories = shuffle(categories).slice(0,6);
+        const newCategoriesList = [];
 
-      randomCategories.forEach((categoryTitle, index) => {
-        newCategoriesList.push({
-          id: index,
-          title: categoryTitle,
-        })
-      });
+        randomCategories.forEach((categoryTitle, index) => {
+            newCategoriesList.push({
+                id: index,
+                title: categoryTitle,
+            })
+        });
 
-      return newCategoriesList;
+        return newCategoriesList;
     }
-
 }
 
 //===== EXPORTS ===================================================================================
 
 module.exports = {
-  roomsList,
-  Room
+    roomsList,
+    Room
 }
