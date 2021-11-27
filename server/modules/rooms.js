@@ -1,6 +1,7 @@
 //===== IMPORTS ===================================================================================
 const { shuffle } = require("./utils")
 
+// Author: Vitor Jeronimo
 //===== VARIABLES =================================================================================
 const roomsList = []        // List of existing rooms on the server
 
@@ -23,101 +24,153 @@ const categories = [
   "Weather",
 ];
 
-//===== METHODS ===================================================================================
 /**
- * Creates a Room object
- * 
- * @param {string} roomName     Room ID provided by the user at login
- * @param {object} admin        Player object that reflects the first player
- *                              to join the current room
- * @param {object} playersList  Array containing all players currently in the room
- * @returns                     Room object containing a room name, room admin,
- *                              and the game state variables (gameDuration,
- *                              currentLetter, currentCategories)
+ * Defines a Room object, that deals with room properties such as admins, list
+ * of players in the room, and room ID. It also takes care of game state
+ * objects that will be used to sync all players during the game.
  */
-function createRoom(roomName, admin, playersList) {
-  const room = {
-    roomName,
-    admin,
-    playersList,
-    gameDuration: 120,
-    currentLetter: "",
-    currentCategories: []
-  };
+class Room {
+    /**
+     * Instantiates Room object and updates the game state.
+     *
+     * @param {string} roomName     Room ID provided by the user at login
+     * @param {object} admin        Player object that reflects the first player
+     *                              to join the current room
+     * @param {object} playersList  Array containing all players currently in the room
+     */
+    constructor(roomName, admin, playersList) {
+        this._roomName = roomName;
+        this._admin = admin;
+        this._playersList = playersList;
+        this._gameState = {
+            currentLetter: "",
+            currentCategories: [],
+            gameDuration: 120
+        }
 
-  // Generate new currentLetter and currentCategories
-  updateRoom(room);
+        this.updateRoom();
+    }
 
-  return room;
-}
+    /**
+     * Getter method for "roomName" property.
+     */
+    get roomName() {
+        return this._roomName;
+    }
 
-/**
- * Returns a room object that matches the room name passed into the
- * method if it can be found. Otherwise, returns null.
- * 
- * @param   {string} roomName Room ID provided by the user at login
- * @returns {object}          Room object or null
- */
-function getCurrentRoom(roomName) {
-  // Search for the room using room name
-  const index = roomsList.findIndex(room => room.roomName === roomName);
-  
-  // If the room was found, return it
-  if (index !== -1) {
-    return roomsList[index];
-  }
+    /**
+     * Getter method for "admin" property.
+     */
+    get admin() {
+        return this._admin;
+    }
 
-  return null;
-}
+    /**
+     * Getter method for "playersList" property.
+     */
+    get playersList() {
+        return this._playersList;
+    }
 
-/**
- * Generates a new random initial letter and categories list, and
- * updates the information in the room passed into the method.
- * 
- * @param {object} room Room object to be updated
- */
-function updateRoom (room) {
-  room.currentLetter = generateNewLetter();
-  room.currentCategories = generateCategoriesList();
-}
+    /**
+     * Getter Method for "gameState" property.
+     */
+    get gameState() {
+        return this._gameState;
+    }
 
-/**
- * Returns a new random initial letter from the list of possible letters.
- * 
- * @returns {string} Random letter to be used on the next round of the game
- */
-function generateNewLetter() {
-  return letters[Math.floor(Math.random()*16)];
-}
+    /**
+     * Generates a new random initial letter and categories list, and
+     * updates the information in the room passed into the method.
+     */
+    updateRoom() {
+        this._gameState.currentLetter = Room.generateNewLetter();
+        this._gameState.currentCategories = Room.generateCategoriesList();
+    }
 
-/**
- * Returns a new categories list, containing six random categories chosen
- * from the list of possible categories.
- * 
- * @returns {object} Array of randomly chosen categories to be used on the
- *                   round of the game
- */
-function generateCategoriesList() {
-  // Shuffles the categories list and store only the first 6 elements
-  const randomCategories = shuffle(categories).slice(0,6);
-  const newCategoriesList = [];
+    /**
+     * Removes the player that is disconnecting from the players list and
+     * adjusts the room admin if needed.
+     * 
+     * @param {string} id   User's id provided by socket.io
+     */
+    removePlayer(id) {
+        const index = this._playersList.findIndex(player => player.id === id);
 
-  randomCategories.forEach((categoryTitle, index) => {
-    newCategoriesList.push({
-      id: index,
-      title: categoryTitle,
-      completed: false
-    })
-  });
+        // If the player was found in the list, remove them
+        if (index !== -1) {
+            this._playersList.splice(index, 1);
 
-  return newCategoriesList;
+            // If the player was the admin and the list is not empty, set the
+            // next player as the new admin
+            if (index === 0 && this._playersList.length > 0) {
+                this._admin = this._playersList[0]
+            }
+        }
+
+        // If there are no players in the room, remove ir from the rooms list
+        if (this._playersList.length === 0) {
+            const index = roomsList.indexOf(this);
+            roomsList.splice(index, 1);
+        }
+
+    }
+
+    /**
+     * Returns a room object that matches the room name passed into the
+     * method if it can be found. Otherwise, returns null.
+     * 
+     * @param   {string} roomName Room ID provided by the user at login
+     * @returns {object}          Room object or null
+     */
+    static getCurrentRoom(roomName) {
+      // Search for the room using room name
+      const index = roomsList.findIndex(room => room.roomName === roomName);
+      
+      // If the room was found, return it
+      if (index !== -1) {
+        return roomsList[index];
+      }
+
+      return null;
+    }
+
+    /**
+     * Returns a new random initial letter from the list of possible letters.
+     * 
+     * @returns {string} Random letter to be used on the next round of the game
+     */
+    static generateNewLetter() {
+      return letters[Math.floor(Math.random()*16)];
+    }
+
+    /**
+     * Returns a new categories list, containing six random categories chosen
+     * from the list of possible categories.
+     * 
+     * @returns {object} Array of randomly chosen categories to be used on the
+     *                   round of the game
+     */
+    static generateCategoriesList() {
+      // Shuffles the categories list and store only the first 6 elements
+      const randomCategories = shuffle(categories).slice(0,6);
+      const newCategoriesList = [];
+
+      randomCategories.forEach((categoryTitle, index) => {
+        newCategoriesList.push({
+          id: index,
+          title: categoryTitle,
+        })
+      });
+
+      return newCategoriesList;
+    }
+
 }
 
 //===== EXPORTS ===================================================================================
 
 module.exports = {
   roomsList,
-  createRoom,
-  getCurrentRoom,
-  updateRoom
+  Room
 }

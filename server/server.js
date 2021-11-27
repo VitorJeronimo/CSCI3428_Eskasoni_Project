@@ -7,7 +7,7 @@ const { Server } = require("socket.io");
 
 // Local imports
 const players = require("./modules/players");
-const rooms = require("./modules/rooms");
+const { roomsList, Room } = require("./modules/rooms");
 
 //===== SERVER SETUP ==============================================================================
 
@@ -52,14 +52,14 @@ io.on("connection", (socket) => {
         // set the first player to join to be the admin, and add them to 
         // the list of players in the room.
         // Otherwise, just add the player to the list of players in the room.
-        if (!rooms.roomsList.some(room => room.roomName === roomName)) {
-            const room = rooms.createRoom(roomName, player, [player]);
-            rooms.roomsList.push(room);
+        if (!roomsList.some(room => room.roomName === roomName)) {
+            const room = new Room(roomName, player, [player]);
+            roomsList.push(room);
 
             console.log(`Room created: ${room.roomName},    Admin: ${room.admin.userName}`);
         }
         else {
-            const room = rooms.getCurrentRoom(roomName);
+            const room = Room.getCurrentRoom(roomName);
             room.playersList.push(player);
             
             console.log(`Room updated: ${room.roomName},    Joined: ${player.userName}`);
@@ -80,10 +80,9 @@ io.on("connection", (socket) => {
     socket.on("request_client_update", () => {
         try {
             const player = players.getCurrentPlayer(socket.id);
-            const gameState = rooms.getCurrentRoom(player.roomName);
-            socket.emit("update_client", gameState);
+            const room = Room.getCurrentRoom(player.roomName);
+            socket.emit("update_client", room.gameState);
         } catch (nullPlayerError) {
-            console.log(nullPlayerError);
             socket.emit("redirect_to_login");
         }
     });
@@ -96,12 +95,12 @@ io.on("connection", (socket) => {
     socket.on("start_game", () => {
         // Get info of the player that emitted the event
         const player = players.getCurrentPlayer(socket.id);
-        const room = rooms.getCurrentRoom(player.roomName);
+        const room = Room.getCurrentRoom(player.roomName);
       
         // Only allow the game to start if the player is the room admin
         if (player === room.admin) {
-            rooms.updateRoom(room)
-            io.to(room.roomName).emit("update_client", room);
+            room.updateRoom();
+            io.to(room.roomName).emit("update_client", room.gameState);
         }
     });
 
@@ -120,9 +119,11 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         // Get the room name of the player that's disconnecting
         const player = players.getCurrentPlayer(socket.id);
+        const room = Room.getCurrentRoom(player.roomName);
 
         // Remove the player from the players list in and disconnect them
         // from the server.
+        room.removePlayer(socket.id);
         players.playerDisconnects(player);
         socket.leave(player.roomName);
 
@@ -133,6 +134,6 @@ io.on("connection", (socket) => {
 //===== SERVER ====================================================================================
 server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
-// When there are no players in a room, remove the room from the list
-// When the admin leaves a room, the player that joined after them is the new admin
-// Store user's username and room id in session storage
+// TODO Store user's username and room id in session storage
+// TODO Test "removePlayer() method in rooms.js
+// TODO Maybe put the variables in rooms.js inside the Room class
