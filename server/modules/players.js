@@ -52,11 +52,11 @@ class Player {
      *
      * Removes the player from the players list.
      * 
-     * @param {object} player The user's id provided by Socket.io
+     * @param {object} id   The user's id provided by Socket.io
      */
-    static playerDisconnects(player) {
+    static playerDisconnects(id) {
         // Search the player's index by its id
-        const index = playersList.indexOf(player);
+        const index = playersList.findIndex(player => player.id === id);
 
         // If the player was found, remove it from the players array
         if (index !==-1) {
