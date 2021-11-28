@@ -47,6 +47,13 @@ io.on("connection", (socket) => {
      */
     socket.on("join_room", ({ userName, roomName }) => {
         const player = new Player(socket.id, userName, roomName);
+        
+        // If a player with the same socket ID already exists in the list, 
+        // remove them to avoid duplicates
+        const index = playersList.findIndex(player => player.id === socket.id);
+        if (index !== -1) {
+            playersList.splice(index, 1);
+        }
         playersList.push(player);       
 
         // If the room with the specified name does not exist, create it,
@@ -63,7 +70,7 @@ io.on("connection", (socket) => {
         else {
             const room = Room.getCurrentRoom(roomName);
             room.playersList.push(player);
-            
+
             console.log(`Room updated: ${room.roomName},    Joined: ${player.userName}`);
             console.log(room.playersList);  //DELETE
             console.log(`Room ${room.roomName} admin: ${room.admin.userName}`); //DELETE
@@ -155,6 +162,4 @@ io.on("connection", (socket) => {
 //===== SERVER ====================================================================================
 server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
-// TODO Don't allow duplicates in rooms (use ID)
-// TODO Remove player from list upon leaving /game
 // TODO Store user's username and room id in session storage
