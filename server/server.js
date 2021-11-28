@@ -123,6 +123,20 @@ io.on("connection", (socket) => {
     });
 
     /**
+     *  @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     *
+     *  Handles the "start_voting" event emitted by the client.
+     */
+    socket.on("start_voting", () => {
+        const player = Player.getCurrentPlayer(socket.id);
+        const room = Room.getCurrentRoom(player.roomName);
+
+        // Send the current round information to all players
+        // in the current room
+        io.to(room.roomName).emit("display_round_results", room);
+    }
+
+    /**
      * @author Gillom McNeil
      *
      * IN PROGRESS
