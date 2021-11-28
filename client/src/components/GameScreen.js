@@ -6,6 +6,7 @@ import { useLocation, useHistory } from "react-router-dom";
 // Local imports
 // import Chat from "./Chat";
 import CategoryList from "./CategoryList";
+import Chat from "./Chat";
 import CurrentLetter from "./CurrentLetter";
 import Timer from "./Timer";
 
@@ -45,12 +46,12 @@ const GameScreen = ({ socket }) => {
   })
 
   return (
-    <>
+    <div className="App">
       <CurrentLetter currentLetter={currentLetter}/>
       <Timer MinSecs={MinSecs} startGame={startGame}/>
       <CategoryList categories={categories}/>
-      {/* <Chat socket={socket}/> */}
-    </>
+      <Chat socket={socket}/> 
+    </div>
   );
 }
 
