@@ -2,7 +2,7 @@
 const { shuffle } = require("./utils")
 
 //===== VARIABLES =================================================================================
-const roomsList = []        // List of existing rooms on the server
+const roomsOnServer = []        // List of existing rooms on the server
 
 // List of letters that can be the first letter of Mi'kmaq words
 const letters = ["P","T","K","Q","J","S","L","M","N","W","Y","A","E","I","O","U"];
@@ -143,8 +143,8 @@ class Room {
 
         // If there are no players in the room, remove it from the rooms list
         if (this._playersList.length === 0) {
-            const index = roomsList.indexOf(this);
-            roomsList.splice(index, 1);
+            const index = roomsOnServer.indexOf(this);
+            roomsOnServer.splice(index, 1);
         }
 
     }
@@ -160,11 +160,11 @@ class Room {
      */
     static getCurrentRoom(roomName) {
         // Search for the room using room name
-        const index = roomsList.findIndex(room => room.roomName === roomName);
+        const index = roomsOnServer.findIndex(room => room.roomName === roomName);
         
         // If the room was found, return it
         if (index !== -1) {
-            return roomsList[index];
+            return roomsOnServer[index];
         }   
 
         return null;
@@ -209,6 +209,6 @@ class Room {
 //===== EXPORTS ===================================================================================
 
 module.exports = {
-    roomsList,
+    roomsOnServer,
     Room
 }

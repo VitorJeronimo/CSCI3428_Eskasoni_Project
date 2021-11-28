@@ -6,8 +6,8 @@ const cors = require("cors");
 const { Server } = require("socket.io");
 
 // Local imports
-const { playersList, Player } = require("./modules/players");
-const { roomsList, Room } = require("./modules/rooms");
+const { playersOnServer, Player } = require("./modules/players");
+const { roomsOnServer, Room } = require("./modules/rooms");
 
 //===== SERVER SETUP ==============================================================================
 
@@ -50,19 +50,19 @@ io.on("connection", (socket) => {
         
         // If a player with the same socket ID already exists in the list, 
         // remove them to avoid duplicates
-        const index = playersList.findIndex(player => player.id === socket.id);
+        const index = playersOnServer.findIndex(player => player.id === socket.id);
         if (index !== -1) {
-            playersList.splice(index, 1);
+            playersOnServer.splice(index, 1);
         }
-        playersList.push(player);       
+        playersOnServer.push(player);       
 
         // If the room with the specified name does not exist, create it,
         // set the first player to join to be the admin, and add them to 
         // the list of players in the room.
         // Otherwise, just add the player to the list of players in the room.
-        if (!roomsList.some(room => room.roomName === roomName)) {
+        if (!roomsOnServer.some(room => room.roomName === roomName)) {
             const room = new Room(roomName, player, [player]);
-            roomsList.push(room);
+            roomsOnServer.push(room);
 
             console.log(`Room created: ${room.roomName},    Admin: ${room.admin.userName}`);
             console.log();//DELETE
@@ -110,7 +110,7 @@ io.on("connection", (socket) => {
     socket.on("start_game", () => {
         // Get info of the player that emitted the event
         const player = Player.getCurrentPlayer(socket.id);
-        console.log(`start_game: player -> ${player}`);//DELETE
+        console.log(`start_game: player -> ${player.userName}`);//DELETE
         const room = Room.getCurrentRoom(player.roomName);
       
         console.log(`start_game: player -> ${player.userName}, room -> ${room.roomName}`);//DELETE
@@ -151,7 +151,7 @@ io.on("connection", (socket) => {
         Player.playerDisconnects(socket.id);
         socket.leave(player.roomName);
 
-        playersList.forEach((player, index) => {
+        playersOnServer.forEach((player, index) => {
             console.log(`${index}. Player -> ${player.userName}, ID -> ${player.id}`);
         })
 

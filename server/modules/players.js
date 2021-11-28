@@ -1,5 +1,5 @@
 //===== VARIABLES =================================================================================
-const playersList = [];       // List of players currently on the server
+const playersOnServer = [];       // List of players currently on the server
 
 /**
  * @author Vitor Jeronimo <vitor.bently@hotmail.com>
@@ -117,15 +117,15 @@ class Player {
     static getCurrentPlayer(id) {
         // Search player's index by its id
         console.log(`getCurrentPlayer(): looking for the ID ${id}`);//DELETE
-        playersList.forEach((player, index) => {
+        playersOnServer.forEach((player, index) => {
             console.log(`${index}. Player -> ${player.userName}, ID -> ${player.id}`);
         })
-        const index = playersList.findIndex(player => player._id === id);
+        const index = playersOnServer.findIndex(player => player._id === id);
         console.log(`getCurrentPlayer(): index -> ${index}`);//DELETE
 
         // If the player was found, return it
         if (index !== -1) {
-            return playersList[index];
+            return playersOnServer[index];
         }
 
         return null;
@@ -140,11 +140,11 @@ class Player {
      */
     static playerDisconnects(id) {
         // Search the player's index by its id
-        const index = playersList.findIndex(player => player._id === id);
+        const index = playersOnServer.findIndex(player => player._id === id);
 
         // If the player was found, remove it from the players array
         if (index !==-1) {
-            playersList.splice(index, 1);
+            playersOnServer.splice(index, 1);
         }
     }
 }
@@ -152,6 +152,6 @@ class Player {
 //===== EXPORTS ===================================================================================
 
 module.exports = {
-    playersList,
+    playersOnServer,
     Player
 }
