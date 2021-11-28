@@ -134,7 +134,7 @@ io.on("connection", (socket) => {
         // Send the current round information to all players
         // in the current room
         io.to(room.roomName).emit("display_round_results", room);
-    }
+    });
 
     /**
      * @author Gillom McNeil
