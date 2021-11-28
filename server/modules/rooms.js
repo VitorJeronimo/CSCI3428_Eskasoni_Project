@@ -120,19 +120,28 @@ class Room {
      */
     removePlayer(id) {
         const index = this._playersList.findIndex(player => player.id === id);
+        console.log(`removePlayer(): index -> ${index}`);//DELETE
+        console.log();//DELETE
 
         // If the player was found in the list, remove them
         if (index !== -1) {
             this._playersList.splice(index, 1);
+            console.log(`removePlayer() after splice: playersList`);//DELETE
+            this._playersList.forEach(player => {
+                console.log(`Player -> ${player.userName}`);
+            }) 
+            console.log()//DELETE
 
             // If the player was the admin and the list is not empty, set the
             // next player as the new admin
             if (index === 0 && this._playersList.length > 0) {
                 this._admin = this._playersList[0]
+                console.log(`removePlayer(): new admin -> ${this._admin.userName}`);//DELETE
+                console.log()//DELETE
             }
         }
 
-        // If there are no players in the room, remove ir from the rooms list
+        // If there are no players in the room, remove it from the rooms list
         if (this._playersList.length === 0) {
             const index = roomsList.indexOf(this);
             roomsList.splice(index, 1);

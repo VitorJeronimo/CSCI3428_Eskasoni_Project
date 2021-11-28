@@ -58,6 +58,7 @@ io.on("connection", (socket) => {
             roomsList.push(room);
 
             console.log(`Room created: ${room.roomName},    Admin: ${room.admin.userName}`);
+            console.log();//DELETE
         }
         else {
             const room = Room.getCurrentRoom(roomName);
@@ -66,6 +67,7 @@ io.on("connection", (socket) => {
             console.log(`Room updated: ${room.roomName},    Joined: ${player.userName}`);
             console.log(room.playersList);  //DELETE
             console.log(`Room ${room.roomName} admin: ${room.admin.userName}`); //DELETE
+            console.log();//DELETE
         }
         socket.join(roomName);
     });
@@ -83,6 +85,9 @@ io.on("connection", (socket) => {
         try {
             const player = Player.getCurrentPlayer(socket.id);
             const room = Room.getCurrentRoom(player.roomName);
+
+            console.log(`request_client_update: player -> ${player.userName}, room -> ${room.roomName}`);//DELETE
+            console.log();//DELETE
             socket.emit("update_client", room.gameState);
         } catch (nullPlayerError) {
             console.log(nullPlayerError);
@@ -98,8 +103,11 @@ io.on("connection", (socket) => {
     socket.on("start_game", () => {
         // Get info of the player that emitted the event
         const player = Player.getCurrentPlayer(socket.id);
+        console.log(`start_game: player -> ${player}`);//DELETE
         const room = Room.getCurrentRoom(player.roomName);
       
+        console.log(`start_game: player -> ${player.userName}, room -> ${room.roomName}`);//DELETE
+        console.log();//DELETE
         // Only allow the game to start if the player is the room admin
         if (player === room.admin) {
             room.updateRoom();
@@ -128,11 +136,17 @@ io.on("connection", (socket) => {
         const player = Player.getCurrentPlayer(socket.id);
         const room = Room.getCurrentRoom(player.roomName);
 
+        console.log(`disconnect: player -> ${player.userName}, room -> ${room.roomName}`);//DELETE
+        console.log();//DELETE
         // Remove the player from the players list in and disconnect them
         // from the server.
         room.removePlayer(socket.id);
         Player.playerDisconnects(socket.id);
         socket.leave(player.roomName);
+
+        playersList.forEach((player, index) => {
+            console.log(`${index}. Player -> ${player.userName}, ID -> ${player.id}`);
+        })
 
         console.log("User disconnected", socket.id);
     });
@@ -141,4 +155,6 @@ io.on("connection", (socket) => {
 //===== SERVER ====================================================================================
 server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
+// TODO Don't allow duplicates in rooms (use ID)
+// TODO Remove player from list upon leaving /game
 // TODO Store user's username and room id in session storage

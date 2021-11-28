@@ -116,7 +116,12 @@ class Player {
      */
     static getCurrentPlayer(id) {
         // Search player's index by its id
+        console.log(`getCurrentPlayer(): looking for the ID ${id}`);//DELETE
+        playersList.forEach((player, index) => {
+            console.log(`${index}. Player -> ${player.userName}, ID -> ${player.id}`);
+        })
         const index = playersList.findIndex(player => player._id === id);
+        console.log(`getCurrentPlayer(): index -> ${index}`);//DELETE
 
         // If the player was found, return it
         if (index !== -1) {
@@ -139,7 +144,7 @@ class Player {
 
         // If the player was found, remove it from the players array
         if (index !==-1) {
-            playersList.splice(index);
+            playersList.splice(index, 1);
         }
     }
 }

@@ -27,7 +27,7 @@ const GameScreen = ({ socket }) => {
     console.log('game loaded');
     // NOTE: the server crashes when the page is reloaded because it no longer has the
     // "userName" and "roomName" variables defined.
-  });
+  }, [location]);
 
   const startGame = () => {
     socket.emit("start_game");
