@@ -51,7 +51,7 @@ const GameScreen = ({ socket }) => {
     return (
         <div className="App">
             <CurrentLetter currentLetter={currentLetter}/>
-            <Timer MinSecs={MinSecs} startGame={startGame}/>
+            <Timer MinSecs={MinSecs} startGame={startGame} socket={socket}/>
             <CategoryList categories={categories}/>
             <Chat socket={socket}/> 
         </div>

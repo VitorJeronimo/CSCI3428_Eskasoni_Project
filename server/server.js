@@ -146,6 +146,20 @@ io.on("connection", (socket) => {
     });
 
     /**
+     * @author Gillom McNeil
+     * 
+     * Start all the timers in the same room as the admin who calls this
+     * 
+     */
+    socket.on("start_timers", () => {
+        const player = Player.getCurrentPlayer(socket.id);
+        const room = Room.getCurrentRoom(player.roomName);
+
+        //send the start signal to all timers in this room
+        io.to(room.roomName).emit("start_timer");
+    });
+
+    /**
      * @author Vitor Jeronimo <vitor.bently@hotmail.com>
      *
      * Handles the "disconnect" event emitted by the client.

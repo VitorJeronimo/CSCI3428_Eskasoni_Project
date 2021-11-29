@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import { Socket } from "socket.io";
 import styles from "./Timer.module.css";
 
-const Timer = ({ MinSecs, startGame }) => {
+const Timer = ({ MinSecs, startGame, socket}) => {
 
   const { minutes, seconds = 60 } = MinSecs;
   const [[mins, secs], setTime] = useState([minutes, seconds]);
@@ -19,9 +20,15 @@ const Timer = ({ MinSecs, startGame }) => {
 
   const handleStartClick = () => {
     startGame();
+    //setTime([2,30]);
+    //setActive(true);
+    socket.emit("start_timers");
+  }
+
+  socket.on("start_timer", () => {
     setTime([2,30]);
     setActive(true);
-  }
+  });
 
   const handleResetClick = () => {
     setTime([0,0]);
