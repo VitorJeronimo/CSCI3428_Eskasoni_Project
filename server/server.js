@@ -70,6 +70,7 @@ io.on("connection", (socket) => {
         else {
             const room = Room.getCurrentRoom(roomName);
             room.playersList.push(player);
+            socket.emit("hide_buttons");
 
             console.log(`Room updated: ${room.roomName},    Joined: ${player.userName}`);
             console.log(room.playersList);  //DELETE
