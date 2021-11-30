@@ -70,6 +70,7 @@ io.on("connection", (socket) => {
         else {
             const room = Room.getCurrentRoom(roomName);
             room.playersList.push(player);
+            socket.emit("hide_buttons");
 
             console.log(`Room updated: ${room.roomName},    Joined: ${player.userName}`);
             console.log(room.playersList);  //DELETE
@@ -143,6 +144,20 @@ io.on("connection", (socket) => {
      */
     socket.on("send_message", (data) => {
         socket.to(data.room).emit("receive_message", data);
+    });
+
+    /**
+     * @author Gillom McNeil
+     * 
+     * Start all the timers in the same room as the admin who calls this
+     * 
+     */
+    socket.on("start_timers", () => {
+        const player = Player.getCurrentPlayer(socket.id);
+        const room = Room.getCurrentRoom(player.roomName);
+
+        //send the start signal to all timers in this room
+        io.to(room.roomName).emit("start_timer");
     });
 
     /**
