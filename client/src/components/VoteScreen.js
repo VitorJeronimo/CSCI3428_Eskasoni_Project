@@ -21,18 +21,18 @@ const VoteScreen = ({socket}) => {
         setCurrentAnswers(answers.slice(1));
     });
 
-    socket.on("receive_updated_scores", (answers) => {
-        setCurrentAnswers(answers.slice(1));
-    });
+    // socket.on("receive_updated_scores", (answers) => {
+    //     setCurrentAnswers(answers.slice(1));
+    // });
 
     const handleNextCategory = () => {
         setCategoryNumber(categoryNumber + 1);
         socket.emit('request_category/answers', categoryNumber);
     };
 
-    const vote = (scoreDifference, player) => {
-        socket.emit("updateVoteScore", answers, player, scoreDifference);
-    };
+    // const vote = (scoreDifference, player) => {
+    //     socket.emit("updateVoteScore", answers, player, scoreDifference);
+    // };
 
     return (
         <div className="VoteScreen">

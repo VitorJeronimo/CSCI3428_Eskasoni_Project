@@ -191,14 +191,14 @@ io.on("connection", (socket) => {
         }
     });
 
-    socket.on("updateVoteScore", (answers, player, scoreDifference) => {
-        const user = Player.getCurrentPlayer(socket.id);
-        const room = Room.getCurrentRoom(user.roomName);
+    // socket.on("updateVoteScore", (answers, player, scoreDifference) => {
+    //     const user = Player.getCurrentPlayer(socket.id);
+    //     const room = Room.getCurrentRoom(user.roomName);
 
-        const index = answers.findIndex(obj => obj.userName == player);
-        answers[index].score += scoreDifference;
-        io.to(room.roomName).emit("receive_category/answers", answers);
-    });
+    //     const index = answers.findIndex(obj => obj.userName == player);
+    //     answers[index].score += scoreDifference;
+    //     io.to(room.roomName).emit("receive_category/answers", answers);
+    // });
 
     /**
      * @author Gillom McNeil
