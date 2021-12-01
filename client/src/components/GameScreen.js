@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 
 // Local imports
-// import Chat from "./Chat";
 import CategoryList from "./CategoryList";
 import Chat from "./Chat";
 import CurrentLetter from "./CurrentLetter";
@@ -15,6 +14,7 @@ const GameScreen = ({ socket }) => {
     const MinSecs = {minutes: 0, seconds: 0}
     const history = useHistory();
     const location = useLocation();
+    const categoryValues = {};
 
     const letters = [
         {character: "A'", audio: "./audio/A_long.mp3"}, 
@@ -41,8 +41,6 @@ const GameScreen = ({ socket }) => {
     ]
     //===== STATES ==================================================================================
     // Game states
-    const [roomState, setRoomState] = useState({});
-    const [roundDuration, setRoundDuration] = useState();
     const [categories, setCategories] = useState([]);
     const [currentLetter, setCurrentLetter] = useState({});
 
@@ -62,27 +60,28 @@ const GameScreen = ({ socket }) => {
         setCategories(gameState.currentCategories);
     });
 
-    socket.on("display_round_results", room => {
-        setRoomState(room);
-    });
+    // socket.on("display_round_results", room => {
+    //     setRoomState(room);
+    // });
 
     socket.on("redirect_to_login", () => {
         history.push("/");
         window.alert("The server could not access your username and room ID. Please, log in again.");
     });
 
-    console.log(__dirname);
-    const audio = new Audio(currentLetter.audio);
+    //===== FUNCTIONS ===============================================================================
+    const setCategoryValue = (userInput, category) => {
+        if (userInput != "") {
+            categoryValues[category] = userInput;
+        }
+    };
 
-    const start = () => {
-        audio.play();
-    }
     return (
         <div className="App">
-            <CurrentLetter currentLetter={currentLetter}/>
-            <Timer MinSecs={MinSecs} startGame={startGame} socket={socket} start={start}/>
-            <CategoryList categories={categories}/>
-            <Chat socket={socket}/> 
+            <CurrentLetter currentLetter={currentLetter} />
+            <Timer MinSecs={MinSecs} startGame={startGame} socket={socket} categoryValues={categoryValues} />
+            <CategoryList categories={categories} setCategoryValue={setCategoryValue} />
+            <Chat socket={socket} />
         </div>
     );
 }

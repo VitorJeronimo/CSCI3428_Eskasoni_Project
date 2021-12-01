@@ -1,17 +1,23 @@
-import { buildQueries } from "@testing-library/dom";
+import { useHistory } from "react-router";
 import { useState, useEffect } from "react";
-import { Socket } from "socket.io";
 
-const Timer = ({ MinSecs, startGame, socket, start }) => {
+const Timer = ({ MinSecs, startGame, socket, categoryValues}) => {
 
   const { minutes, seconds = 60 } = MinSecs;
   const [[mins, secs], setTime] = useState([minutes, seconds]);
   const [isActive, setActive] = useState(false);
 
+  const history = useHistory();
+
   const tick = () => {
-    if (mins === 0 && secs ===0)
-      reset()
-    else if (secs === 0) {
+    if (mins === 0 && secs ===0) {
+      //game ends
+      //add current answers to the players list of words
+      socket.emit("deliver_values", categoryValues);
+      //go to voting page
+      history.push('/vote');
+      reset();
+    } else if (secs === 0) {
       setTime([mins - 1, 59]);
     } else {
       setTime([mins, secs - 1]);
@@ -26,7 +32,7 @@ const Timer = ({ MinSecs, startGame, socket, start }) => {
   }
 
   socket.on("start_timer", () => {
-    setTime([2,30]);
+    setTime([0,5]);
     setActive(true);
   });
 
@@ -41,7 +47,7 @@ const Timer = ({ MinSecs, startGame, socket, start }) => {
 
   const reset = () => {
     setActive(false);
-    setTime([parseInt(minutes), parseInt(seconds)]);
+    setTime([0, 0]);
   }
 
   useEffect(() => {

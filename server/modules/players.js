@@ -13,19 +13,19 @@ class Player {
      * @author Vitor Jeronimo <vitor.bently@hotmail.com>
      *
      * Instantiates a Player object.
-     * 
+     *
      * @param   {string} id       The user's socket.id provided by Socket.io
-     * @param   {string} userName Username provided by the user at login 
-     * @param   {string} roomName Room ID provided by the user at login 
+     * @param   {string} userName Username provided by the user at login
+     * @param   {string} roomName Room ID provided by the user at login
      */
     constructor(id, userName, roomName) {
         this._id = id;
         this._userName = userName;
         this._roomName = roomName;
         this._score = 0;
-        this._words = [];
+        this._words = {};
     }
-    
+
     /**
      * @author Vitor Jeronimo <vitor.bently@hotmail.com>
      *
@@ -87,7 +87,7 @@ class Player {
      *
      * Setter method for "score" property.
      *
-     * @param {number} newScore New score for current player 
+     * @param {number} newScore New score for current player
      */
     set score(newScore) {
         if (newScore > 0) {
@@ -110,18 +110,18 @@ class Player {
      *
      * Returns a player object whose id matches the id passed into the method.
      * Otherwise, returns null.
-     * 
+     *
      * @param   {string} id The user's id provided by Socket.io
      * @returns {object}    Player object or null
      */
     static getCurrentPlayer(id) {
         // Search player's index by its id
-        console.log(`getCurrentPlayer(): looking for the ID ${id}`);//DELETE
-        playersOnServer.forEach((player, index) => {
-            console.log(`${index}. Player -> ${player.userName}, ID -> ${player.id}`);
-        })
+        // console.log(`getCurrentPlayer(): looking for the ID ${id}`);//DELETE
+        // playersOnServer.forEach((player, index) => {
+        //     console.log(`${index}. Player -> ${player.userName}, ID -> ${player.id}`);
+        // })
         const index = playersOnServer.findIndex(player => player._id === id);
-        console.log(`getCurrentPlayer(): index -> ${index}`);//DELETE
+        // console.log(`getCurrentPlayer(): index -> ${index}`);//DELETE
 
         // If the player was found, return it
         if (index !== -1) {
@@ -135,7 +135,7 @@ class Player {
      * @author Vitor Jeronimo <vitor.bently@hotmail.com>
      *
      * Removes the player from the players list.
-     * 
+     *
      * @param {object} id   The user's id provided by Socket.io
      */
     static playerDisconnects(id) {
