@@ -37,9 +37,9 @@ const GameScreen = ({ socket }) => {
         setCategories(gameState.currentCategories);
     });
 
-    socket.on("display_round_results", room => {
-        setRoomState(room);
-    });
+    // socket.on("display_round_results", room => {
+    //     setRoomState(room);
+    // });
 
     socket.on("redirect_to_login", () => {
         history.push("/");
@@ -55,10 +55,10 @@ const GameScreen = ({ socket }) => {
 
     return (
         <div className="App">
-            <CurrentLetter currentLetter={currentLetter}/>
-            <Timer MinSecs={MinSecs} startGame={startGame} socket={socket}/>
-            <CategoryList categories={categories} onblur={setCategoryValue}/>
-            <Chat socket={socket}/> 
+            <CurrentLetter currentLetter={currentLetter} />
+            <Timer MinSecs={MinSecs} startGame={startGame} socket={socket} categoryValues={categoryValues} />
+            <CategoryList categories={categories} setCategoryValue={setCategoryValue} />
+            <Chat socket={socket} />
         </div>
     );
 }

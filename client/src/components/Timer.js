@@ -1,20 +1,19 @@
-import { buildQueries } from "@testing-library/dom";
 import { useState, useEffect } from "react";
-import { Socket } from "socket.io";
 
-const Timer = ({ MinSecs, startGame, socket}) => {
+const Timer = ({ MinSecs, startGame, socket, categoryValues}) => {
 
   const { minutes, seconds = 60 } = MinSecs;
   const [[mins, secs], setTime] = useState([minutes, seconds]);
   const [isActive, setActive] = useState(false);
 
   const tick = () => {
-    if (mins === 0 && secs ===0)
+    if (mins === 0 && secs ===0) {
       //game ends
       //add current answers to the players list of words
+      socket.emit("deliver_values", categoryValues);
       //go to voting page
-      reset()
-    else if (secs === 0) {
+
+    } else if (secs === 0) {
       setTime([mins - 1, 59]);
     } else {
       setTime([mins, secs - 1]);
@@ -29,7 +28,7 @@ const Timer = ({ MinSecs, startGame, socket}) => {
   }
 
   socket.on("start_timer", () => {
-    setTime([2,30]);
+    setTime([0,30]);
     setActive(true);
   });
 
