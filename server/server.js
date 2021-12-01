@@ -166,6 +166,7 @@ io.on("connection", (socket) => {
     };
 
     socket.on("request_category/answers", (categoryNum) => {
+        console.log("req_cat/ans recieved");
         const player = Player.getCurrentPlayer(socket.id);
         const room = Room.getCurrentRoom(player.roomName);
 
