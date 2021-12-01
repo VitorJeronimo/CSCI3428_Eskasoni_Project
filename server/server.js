@@ -171,7 +171,6 @@ io.on("connection", (socket) => {
 
         if (categoryNum < 6) {
             const answers = getAllPlayerAnswers(categoryNum, room);
-            console.log(answers[1]);
             io.to(room.roomName).emit("recieve_category/answers", answers);
         } else {
             io.to(room.roomName).emit("go_to_results", room);
