@@ -1,11 +1,34 @@
 //===== IMPORTS ===================================================================================
-const { shuffle } = require("./utils")
+const path = require("path");
+const { shuffle } = require("./utils");
 
 //===== VARIABLES =================================================================================
 const roomsOnServer = []        // List of existing rooms on the server
 
 // List of letters that can be the first letter of Mi'kmaq words
-const letters = ["P","T","K","Q","J","S","L","M","N","W","Y","A","E","I","O","U"];
+const letters = [
+    {character: "A'", audio: path.join(__dirname, "../audio/A_long.mp3")}, 
+    {character: "A", audio: path.join(__dirname, "../audio/A.mp3")},
+    {character: "E'", audio: path.join(__dirname, "../audio/E_long.mp3")},
+    {character: "E", audio: path.join(__dirname, "../audio/E.mp3")},
+    {character: "I'", audio: path.join(__dirname, "../audio/I_long.mp3")},
+    {character: "I", audio: path.join(__dirname, "../audio/I.mp3")},
+    {character: "J", audio: path.join(__dirname, "../audio/J.mp3")},
+    {character: "K", audio: path.join(__dirname, "../audio/K.mp3")},
+    {character: "L", audio: path.join(__dirname, "../audio/L.mp3")},
+    {character: "M", audio: path.join(__dirname, "../audio/M.mp3")},
+    {character: "N", audio: path.join(__dirname, "../audio/N.mp3")},
+    {character: "O'", audio: path.join(__dirname, "../audio/O_long.mp3")},
+    {character: "O", audio: path.join(__dirname, "../audio/O.mp3")},
+    {character: "P", audio: path.join(__dirname, "../audio/P.mp3")},
+    {character: "Q", audio: path.join(__dirname, "../audio/Q.mp3")},
+    {character: "S", audio: path.join(__dirname, "../audio/S.mp3")},
+    {character: "A", audio: path.join(__dirname, "../audio/SCHWA.mp3")},
+    {character: "T", audio: path.join(__dirname, "../audio/T.mp3")},
+    {character: "U'", audio: path.join(__dirname, "../audio/U_long.mp3")},
+    {character: "U", audio: path.join(__dirname, "../audio/U.mp3")},
+    {character: "W", audio: path.join(__dirname, "../audio/W.mp3")},
+]
 
 // List of possible categories for each game
 const categories = [
@@ -46,7 +69,7 @@ class Room {
         this._admin = admin;
         this._playersList = playersList;
         this._gameState = {
-            currentLetter: "",
+            currentLetter: {},
             currentCategories: [],
             gameDuration: 120
         }
