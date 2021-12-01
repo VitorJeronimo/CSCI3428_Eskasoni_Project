@@ -3,7 +3,7 @@
 const CurrentLetter = ({currentLetter}) => {
   return (
     <section className="InitialLetter">
-      <h1>{ currentLetter }</h1>
+      <h1>{ currentLetter.character }</h1>
     </section>
   );
 }

@@ -21,7 +21,7 @@ const GameScreen = ({ socket }) => {
     const [roomState, setRoomState] = useState({});
     const [roundDuration, setRoundDuration] = useState();
     const [categories, setCategories] = useState([]);
-    const [currentLetter, setCurrentLetter] = useState("");
+    const [currentLetter, setCurrentLetter] = useState({});
 
     //===== EVENT EMISSION ==========================================================================
     useEffect(() => {
@@ -47,11 +47,15 @@ const GameScreen = ({ socket }) => {
         history.push("/");
         window.alert("The server could not access your username and room ID. Please, log in again.");
     });
+    const audio = new Audio(currentLetter.audio);
 
+    const start = () => {
+        audio.play();
+    }
     return (
         <div className="App">
             <CurrentLetter currentLetter={currentLetter}/>
-            <Timer MinSecs={MinSecs} startGame={startGame} socket={socket}/>
+            <Timer MinSecs={MinSecs} startGame={startGame} socket={socket} start={start}/>
             <CategoryList categories={categories}/>
             <Chat socket={socket}/> 
         </div>

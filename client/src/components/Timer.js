@@ -2,7 +2,7 @@ import { buildQueries } from "@testing-library/dom";
 import { useState, useEffect } from "react";
 import { Socket } from "socket.io";
 
-const Timer = ({ MinSecs, startGame, socket}) => {
+const Timer = ({ MinSecs, startGame, socket, start }) => {
 
   const { minutes, seconds = 60 } = MinSecs;
   const [[mins, secs], setTime] = useState([minutes, seconds]);
@@ -59,7 +59,7 @@ const Timer = ({ MinSecs, startGame, socket}) => {
       </div>
       <div className="timerButtons">
         <button className="button" onClick={handleStartClick}>START</button>
-        <button className="button" onClick={handleResetClick}>RESET</button>
+        <button className="button" onClick={start}>RESET</button>
       </div>
     </section>
   );
