@@ -18,13 +18,79 @@ body {
   width: 100vw;
 }
 
+/* Author: Vitor Jeronimo (A00431599) */
 .VoteScreen {
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
   border: 1px solid #777;
-  border-radius: .25rem;
+  border-radius: 5px;
   height: 90vh;
-  width: 70vw;
-  margin: auto;
+  width: 60%;
+  margin: 20px auto;
+}
+
+/* Author: Vitor Jeronimo (A00431599) */
+.VoteScreen > h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+/* Author: Vitor Jeronimo (A00431599) */
+.VoteScreen .WordList {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+  width: 80%;
+  /* border: 2px red solid; */
+}
+
+/* Author: Vitor Jeronimo (A00431599) */
+.WordList .Word {
+  /* border: green solid 1px; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.Word label, .Word button {
+  margin: 5px;
+}
+
+.Word .ContentLeft label {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.Word .ContentRight .PlayerLabel {
+  font-size: 18;
+  font-weight: 400;
+  color: #333;
+}
+
+.ContentRight .BtnVote {
+  border: none;
+  border-radius: 2px;
+  font-weight: 600;
+  padding: 8px 16px;
+}
+
+.ContentRight .BtnVote:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+.ContentRight .VoteYes {
+  background-color: #24bc16;
+}
+
+.ContentRight .VoteNo {
+  background-color: #f43030;
 }
 
 .InitialLetter {
@@ -53,7 +119,7 @@ body {
   background-color: rgba(255, 255, 255, 0.8);
   border: 3px solid rgba(0, 0, 0, 0.8);
   padding: 20px;
-  font-size: 30px;
+  font-size: 100px;
   text-align: center;
 }
 
@@ -86,7 +152,7 @@ body {
   font-size: 16px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
-.CategoryList, .WordList {
+.CategoryList {
   /* Grid placement properties */
   grid-column-start: 2;
   grid-column-end: 3;
@@ -98,7 +164,7 @@ body {
   width: 100%;
 }
 
-.CategoriesContainer, .WordContainers {
+.CategoriesContainer {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -148,13 +214,6 @@ body {
 input:focus {
   outline: none;
   background-color: #f5f5f5
-}
-
-.Timer {
-  /* background-color: #606358; */
-  border: 3px solid rgba(0, 0, 0, 0.8);
-  text-align: center;
-  font-size: 100px;
 }
 
 .time {
