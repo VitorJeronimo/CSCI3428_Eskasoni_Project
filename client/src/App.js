@@ -21,9 +21,9 @@ function App() {
         <Route exact path="/game">
           <GameScreen socket={socket}/>
         </Route>
-        <Route exact path="/vote">
+        {/* <Route exact path="/vote">
           <VoteScreen socket={socket}/>
-        </Route>
+        </Route> */}
         <Route path="*" element={<Redirect to="/" />} />
       </Switch>
     </Router>

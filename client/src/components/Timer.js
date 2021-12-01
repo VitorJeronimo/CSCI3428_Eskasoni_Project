@@ -10,6 +10,9 @@ const Timer = ({ MinSecs, startGame, socket}) => {
 
   const tick = () => {
     if (mins === 0 && secs ===0)
+      //game ends
+      //add current answers to the players list of words
+      //go to voting page
       reset()
     else if (secs === 0) {
       setTime([mins - 1, 59]);

@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 
 // Local imports
-// import Chat from "./Chat";
 import CategoryList from "./CategoryList";
 import Chat from "./Chat";
 import CurrentLetter from "./CurrentLetter";
@@ -15,11 +14,10 @@ const GameScreen = ({ socket }) => {
     const MinSecs = {minutes: 0, seconds: 0}
     const history = useHistory();
     const location = useLocation();
+    const categoryValues = {};
 
     //===== STATES ==================================================================================
     // Game states
-    const [roomState, setRoomState] = useState({});
-    const [roundDuration, setRoundDuration] = useState();
     const [categories, setCategories] = useState([]);
     const [currentLetter, setCurrentLetter] = useState("");
 
@@ -48,11 +46,18 @@ const GameScreen = ({ socket }) => {
         window.alert("The server could not access your username and room ID. Please, log in again.");
     });
 
+    //===== FUNCTIONS ===============================================================================
+    const setCategoryValue = (userInput, category) => {
+        if (userInput != "") {
+            categoryValues[category] = userInput;
+        }
+    };
+
     return (
         <div className="App">
             <CurrentLetter currentLetter={currentLetter}/>
             <Timer MinSecs={MinSecs} startGame={startGame} socket={socket}/>
-            <CategoryList categories={categories}/>
+            <CategoryList categories={categories} onblur={setCategoryValue}/>
             <Chat socket={socket}/> 
         </div>
     );

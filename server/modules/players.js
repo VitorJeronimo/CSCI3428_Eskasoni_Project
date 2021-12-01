@@ -23,7 +23,7 @@ class Player {
         this._userName = userName;
         this._roomName = roomName;
         this._score = 0;
-        this._words = [];
+        this._words = {};
     }
     
     /**

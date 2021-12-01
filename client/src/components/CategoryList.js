@@ -1,11 +1,15 @@
+import { useState } from "react";
 import Category from "./Category";
 
-const CategoryList = ({ categories }) => {
+const CategoryList = ({ categories, onBlur }) => {
+  
+  const [categoriesValues, setCategoriesValues] = useState({});
+
   return (
     <section className="CategoryList">
       <div className="CategoriesContainer">
         {categories.map((category) => (
-          <Category key={category.id} category={category}/>
+          <Category key={category.id} category={category} onBlur={onBlur}/>
         ))}
       </div>
     </section>
