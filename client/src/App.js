@@ -6,6 +6,7 @@ import io from "socket.io-client";
 // Local imports
 import GameScreen from "./components/GameScreen";
 import Login from "./components/Login";
+import VoteScreen from "./components/VoteScreen";
 
 // Socket.io setup
 const socket = io.connect("http://localhost:5000");
@@ -21,9 +22,9 @@ function App() {
         <Route exact path="/game">
           <GameScreen socket={socket}/>
         </Route>
-        {/* <Route exact path="/vote">
+        <Route exact path="/vote">
           <VoteScreen socket={socket}/>
-        </Route> */}
+        </Route>
         <Route path="*" element={<Redirect to="/" />} />
       </Switch>
     </Router>

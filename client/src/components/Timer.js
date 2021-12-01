@@ -1,3 +1,4 @@
+import { useHistory } from "react-router";
 import { useState, useEffect } from "react";
 
 const Timer = ({ MinSecs, startGame, socket, categoryValues}) => {
@@ -6,12 +7,15 @@ const Timer = ({ MinSecs, startGame, socket, categoryValues}) => {
   const [[mins, secs], setTime] = useState([minutes, seconds]);
   const [isActive, setActive] = useState(false);
 
+  const history = useHistory();
+
   const tick = () => {
     if (mins === 0 && secs ===0) {
       //game ends
       //add current answers to the players list of words
       socket.emit("deliver_values", categoryValues);
       //go to voting page
+      history.push('/vote');
       reset();
     } else if (secs === 0) {
       setTime([mins - 1, 59]);
@@ -28,7 +32,7 @@ const Timer = ({ MinSecs, startGame, socket, categoryValues}) => {
   }
 
   socket.on("start_timer", () => {
-    setTime([0,30]);
+    setTime([0,5]);
     setActive(true);
   });
 
