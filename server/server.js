@@ -14,7 +14,7 @@ const { roomsOnServer, Room } = require("./modules/rooms");
 
 // Server setup
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5014;
 
 const server = createServer(app);
 const io = new Server(server, {
