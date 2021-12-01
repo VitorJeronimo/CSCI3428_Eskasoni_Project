@@ -30,9 +30,9 @@ const VoteScreen = ({socket}) => {
         socket.emit('request_category/answers', categoryNumber);
     };
 
-    // const vote = (scoreDifference, player) => {
-    //     socket.emit("updateVoteScore", answers, player, scoreDifference);
-    // };
+    const vote = (scoreDifference, player) => {
+        //socket.emit("updateVoteScore", answers, player, scoreDifference);
+    };
 
     return (
         <div className="VoteScreen">
