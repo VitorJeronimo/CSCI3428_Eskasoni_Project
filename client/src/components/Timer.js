@@ -12,7 +12,7 @@ const Timer = ({ MinSecs, startGame, socket, categoryValues}) => {
       //add current answers to the players list of words
       socket.emit("deliver_values", categoryValues);
       //go to voting page
-
+      reset();
     } else if (secs === 0) {
       setTime([mins - 1, 59]);
     } else {
@@ -43,7 +43,7 @@ const Timer = ({ MinSecs, startGame, socket, categoryValues}) => {
 
   const reset = () => {
     setActive(false);
-    setTime([parseInt(minutes), parseInt(seconds)]);
+    setTime([0, 0]);
   }
 
   useEffect(() => {

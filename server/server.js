@@ -111,7 +111,6 @@ io.on("connection", (socket) => {
     socket.on("start_game", () => {
         // Get info of the player that emitted the event
         const player = Player.getCurrentPlayer(socket.id);
-        console.log(`start_game: player -> ${player.userName}`);//DELETE
         const room = Room.getCurrentRoom(player.roomName);
 
         console.log(`start_game: player -> ${player.userName}, room -> ${room.roomName}`);//DELETE
@@ -150,7 +149,7 @@ io.on("connection", (socket) => {
         console.log(data);
         const player = Player.getCurrentPlayer(socket.id);
         player.words = data;
-        console.log(`Player: ${player.username}, Answers: `);
+        console.log(`Player: ${player.userName}, Answers: `);
         for (var key in player.words) {
             console.log(`${key} : ${player.words[key]}`);
         }
