@@ -65,7 +65,7 @@ const Timer = ({ MinSecs, startGame, socket, categoryValues}) => {
       </div>
       <div className="timerButtons">
         <button className="button" onClick={handleStartClick}>START</button>
-        <button className="button" onClick={start}>RESET</button>
+        <button className="button" >RESET</button>
       </div>
     </section>
   );
