@@ -1,8 +1,9 @@
 //===== IMPORTS ===================================================================================
 // Required imports
 const express = require("express");
-const http = require("http");
+const path = require("path");
 const cors = require("cors");
+const { createServer } = require("http");
 const { Server } = require("socket.io");
 
 // Local imports
@@ -14,14 +15,23 @@ const { roomsOnServer, Room } = require("./modules/rooms");
 // Server setup
 const app = express();
 const PORT = process.env.PORT || 5000;
-app.use(cors());
 
-const server = http.createServer(app);
+const server = createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "http://ugdev.cs.smu.ca:5014",
         methods: ["GET", "POST"],
     }
+});
+
+// Middleware
+app.use(cors());
+
+app.use(express.static(path.join(__dirname, 'client', 'build')));
+
+// Routing
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname,'client', 'build', 'index.html'));
 });
 
 //===== EVENT HANDLING ============================================================================
@@ -199,23 +209,29 @@ io.on("connection", (socket) => {
      * Removes player from the players list in the server.
      */
     socket.on("disconnect", () => {
-        // Get the room name of the player that's disconnecting
-        const player = Player.getCurrentPlayer(socket.id);
-        const room = Room.getCurrentRoom(player.roomName);
+        try {
+            // Get the room name of the player that's disconnecting
+            const player = Player.getCurrentPlayer(socket.id);
+            const room = Room.getCurrentRoom(player.roomName);
 
-        console.log(`disconnect: player -> ${player.userName}, room -> ${room.roomName}`);//DELETE
-        console.log();//DELETE
-        // Remove the player from the players list in and disconnect them
-        // from the server.
-        room.removePlayer(socket.id);
-        Player.playerDisconnects(socket.id);
-        socket.leave(player.roomName);
+            console.log(`disconnect: player -> ${player.userName}, room -> ${room.roomName}`);//DELETE
+            console.log();//DELETE
+            // Remove the player from the players list in and disconnect them
+            // from the server.
+            room.removePlayer(socket.id);
+            Player.playerDisconnects(socket.id);
+            socket.leave(player.roomName);
 
-        playersOnServer.forEach((player, index) => {
-            console.log(`${index}. Player -> ${player.userName}, ID -> ${player.id}`);
-        })
+            playersOnServer.forEach((player, index) => {
+                console.log(`${index}. Player -> ${player.userName}, ID -> ${player.id}`);
+            })
 
-        console.log("User disconnected", socket.id);
+            console.log("User disconnected", socket.id);
+        }
+        catch (error) {
+            console.log(error);
+            socket.emit("redirect_to_login");
+        }
     });
 });
 
