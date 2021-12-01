@@ -1,8 +1,7 @@
-import { buildQueries } from "@testing-library/dom";
 import { useState, useEffect } from "react";
-import { Socket } from "socket.io";
+import styles from "./Timer.module.css";
 
-const Timer = ({ MinSecs, startGame, socket}) => {
+const Timer = ({ MinSecs, startGame }) => {
 
   const { minutes, seconds = 60 } = MinSecs;
   const [[mins, secs], setTime] = useState([minutes, seconds]);
@@ -20,19 +19,9 @@ const Timer = ({ MinSecs, startGame, socket}) => {
 
   const handleStartClick = () => {
     startGame();
-    //setTime([2,30]);
-    //setActive(true);
-    socket.emit("start_timers");
-  }
-
-  socket.on("start_timer", () => {
     setTime([2,30]);
     setActive(true);
-  });
-
-  socket.on("hide_buttons", () => {
-    document.getElementsByClassName("timerButtons")[0].style.display = "none";
-  });
+  }
 
   const handleResetClick = () => {
     setTime([0,0]);
@@ -52,14 +41,14 @@ const Timer = ({ MinSecs, startGame, socket}) => {
   });
 
   return (
-    <section className="Timer">
+    <section className={ styles.Timer }>
       <div>
-        <p className="time">{`${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`}
+        <p className={ styles.time }>{`${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`}
         </p>
       </div>
-      <div className="timerButtons">
-        <button className="button" onClick={handleStartClick}>START</button>
-        <button className="button" onClick={handleResetClick}>RESET</button>
+      <div className={ styles.timerButtons}>
+        <button className={ styles.button } onClick={handleStartClick}>START</button>
+        <button className={ styles.button } onClick={handleResetClick}>RESET</button>
       </div>
     </section>
   );

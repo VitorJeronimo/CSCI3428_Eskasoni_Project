@@ -6,8 +6,8 @@ const cors = require("cors");
 const { Server } = require("socket.io");
 
 // Local imports
-const { playersOnServer, Player } = require("./modules/players");
-const { roomsOnServer, Room } = require("./modules/rooms");
+const players = require("./modules/players");
+const rooms = require("./modules/rooms");
 
 //===== SERVER SETUP ==============================================================================
 
@@ -26,13 +26,12 @@ const io = new Server(server, {
 
 //===== EVENT HANDLING ============================================================================
 
+// TODO: update room on reload
+
 io.on("connection", (socket) => {
     console.log(`User connected: ${socket.id}`);
 
     /**
-     * @author Gillom McNeil 
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
-     *
      * Handles the "join_room" event emitted by the client. 
      * 
      * It creates a new player object and adds it to the list of players in 
@@ -46,100 +45,46 @@ io.on("connection", (socket) => {
      * @param {string} roomName Room ID provided by the user at login
      */
     socket.on("join_room", ({ userName, roomName }) => {
-        const player = new Player(socket.id, userName, roomName);
+        const player = players.addPlayer(socket.id, userName, roomName);
+
+        // If the room with the specified name does not exist, create it and
+        // set the first player to join to be the admin
+        if (!rooms.roomsList.some(room => room.roomName === roomName)) {
+            rooms.createRoom(roomName, player);
+        }
+        const { gameDuration, currentLetter, currentCategories } = rooms.getCurrentRoom(player.roomName);
         
-        // If a player with the same socket ID already exists in the list, 
-        // remove them to avoid duplicates
-        const index = playersOnServer.findIndex(player => player.id === socket.id);
-        if (index !== -1) {
-            playersOnServer.splice(index, 1);
-        }
-        playersOnServer.push(player);       
-
-        // If the room with the specified name does not exist, create it,
-        // set the first player to join to be the admin, and add them to 
-        // the list of players in the room.
-        // Otherwise, just add the player to the list of players in the room.
-        if (!roomsOnServer.some(room => room.roomName === roomName)) {
-            const room = new Room(roomName, player, [player]);
-            roomsOnServer.push(room);
-
-            console.log(`Room created: ${room.roomName},    Admin: ${room.admin.userName}`);
-            console.log();//DELETE
-        }
-        else {
-            const room = Room.getCurrentRoom(roomName);
-            room.playersList.push(player);
-            socket.emit("hide_buttons");
-
-            console.log(`Room updated: ${room.roomName},    Joined: ${player.userName}`);
-            console.log(room.playersList);  //DELETE
-            console.log(`Room ${room.roomName} admin: ${room.admin.userName}`); //DELETE
-            console.log();//DELETE
-        }
         socket.join(roomName);
+        // The "update_client" event sends all the required game state information to 
+        // the joining client to ensure that all players in a room have the same game
+        socket.emit("update_client", gameDuration, currentLetter, currentCategories);
+
+        console.log(`User with ID: ${player.id} joined room: ${player.roomName}`);
     });
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
-     *
-     * Handles the "request_client_update" event emitted by the client.
-     *
-     * Emits an "update_client" event, which sends the required game state 
-     * information to the joining client to ensure that all players in a room 
-     * have the same game state.
-     */
-    socket.on("request_client_update", () => {
-        try {
-            const player = Player.getCurrentPlayer(socket.id);
-            const room = Room.getCurrentRoom(player.roomName);
-
-            console.log(`request_client_update: player -> ${player.userName}, room -> ${room.roomName}`);//DELETE
-            console.log();//DELETE
-            socket.emit("update_client", room.gameState);
-        } catch (nullPlayerError) {
-            console.log(nullPlayerError);
-            socket.emit("redirect_to_login");
-        }
-    });
-
-    /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
-     *
      * Handles the "start_game" event emitted by the client.
+     * 
+     * NOTE: THIS PART OF THE CODE IS GOING UNDER MODIFICATIONS. 
      */
     socket.on("start_game", () => {
         // Get info of the player that emitted the event
-        const player = Player.getCurrentPlayer(socket.id);
-        console.log(`start_game: player -> ${player.userName}`);//DELETE
-        const room = Room.getCurrentRoom(player.roomName);
+        const player = players.getCurrentPlayer(socket.id);
+        const room = rooms.getCurrentRoom(player.roomName);
       
-        console.log(`start_game: player -> ${player.userName}, room -> ${room.roomName}`);//DELETE
-        console.log();//DELETE
         // Only allow the game to start if the player is the room admin
         if (player === room.admin) {
-            room.updateRoom();
-            io.to(room.roomName).emit("update_client", room.gameState);
+            rooms.updateRoom(room)
+            io.to(room.roomName).emit(
+            "update_client", 
+            room.gameDuration, 
+            room.currentLetter, 
+            room.currentCategories
+            );
         }
     });
 
     /**
-     *  @author Vitor Jeronimo <vitor.bently@hotmail.com>
-     *
-     *  Handles the "start_voting" event emitted by the client.
-     */
-    socket.on("start_voting", () => {
-        const player = Player.getCurrentPlayer(socket.id);
-        const room = Room.getCurrentRoom(player.roomName);
-
-        // Send the current round information to all players
-        // in the current room
-        io.to(room.roomName).emit("display_round_results", room);
-    });
-
-    /**
-     * @author Gillom McNeil
-     *
      * IN PROGRESS
      */
     socket.on("send_message", (data) => {
@@ -147,42 +92,18 @@ io.on("connection", (socket) => {
     });
 
     /**
-     * @author Gillom McNeil
-     * 
-     * Start all the timers in the same room as the admin who calls this
-     * 
-     */
-    socket.on("start_timers", () => {
-        const player = Player.getCurrentPlayer(socket.id);
-        const room = Room.getCurrentRoom(player.roomName);
-
-        //send the start signal to all timers in this room
-        io.to(room.roomName).emit("start_timer");
-    });
-
-    /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
-     *
      * Handles the "disconnect" event emitted by the client.
      * 
      * Removes player from the players list in the server.
      */
     socket.on("disconnect", () => {
         // Get the room name of the player that's disconnecting
-        const player = Player.getCurrentPlayer(socket.id);
-        const room = Room.getCurrentRoom(player.roomName);
+        const player = players.getCurrentPlayer(socket.id);
 
-        console.log(`disconnect: player -> ${player.userName}, room -> ${room.roomName}`);//DELETE
-        console.log();//DELETE
         // Remove the player from the players list in and disconnect them
         // from the server.
-        room.removePlayer(socket.id);
-        Player.playerDisconnects(socket.id);
+        players.playerDisconnects(player);
         socket.leave(player.roomName);
-
-        playersOnServer.forEach((player, index) => {
-            console.log(`${index}. Player -> ${player.userName}, ID -> ${player.id}`);
-        })
 
         console.log("User disconnected", socket.id);
     });
@@ -190,5 +111,3 @@ io.on("connection", (socket) => {
 
 //===== SERVER ====================================================================================
 server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
-
-// TODO Store user's username and room id in session storage
