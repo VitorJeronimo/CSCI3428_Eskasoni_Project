@@ -149,9 +149,32 @@ io.on("connection", (socket) => {
         console.log(data);
         const player = Player.getCurrentPlayer(socket.id);
         player.words = data;
-        console.log(`Player: ${player.userName}, Answers: `);
-        for (var key in player.words) {
-            console.log(`${key} : ${player.words[key]}`);
+    });
+
+    const getAllPlayerAnswers = (categoryIndex, room) => {
+        //the first element of answers is always the index and category
+        const category = room.gameState[currentCategories][categoryIndex];
+        const allAnswers = [{categoryIndex:category}]
+        room.playersList.forEach(player => {
+            if (category in player.words) {
+                //create object containing username and answer
+                const obj = {"userName":player.userName, "answer":player.words[category]};
+                allAnswers.push(obj);
+            }
+        });
+        return allAnswers;
+    };
+
+    socket.on("request_category/answers", (categoryNum) => {
+        const player = Player.getCurrentPlayer(socket.id);
+        const room = Room.getCurrentRoom(player.roomName);
+
+        if (categoryNum = 6) {
+            io.to(room.roomName).emit("go_to_results", room);
+        } else {
+            const answers = getAllPlayerAnswers(categoryNum, room);
+            console.log(`Emitting answers. Current category is: ${answers[0][0]}`)
+            io.to(room.roomName).emit("recieve_category/answers", answers);
         }
     });
 
