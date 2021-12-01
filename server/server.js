@@ -154,7 +154,7 @@ io.on("connection", (socket) => {
     const getAllPlayerAnswers = (categoryIndex, room) => {
         //the first element of answers is always the index and category
         const category = room.gameState.currentCategories[categoryIndex].title;
-        const allAnswers = [{categoryIndex:category}]
+        const allAnswers = [{"index":categoryIndex, "category":category}];
         room.playersList.forEach(player => {
             if (category in player.words) {
                 //create object containing username and answer
@@ -171,7 +171,7 @@ io.on("connection", (socket) => {
 
         if (categoryNum < 6) {
             const answers = getAllPlayerAnswers(categoryNum, room);
-            io.to(room.roomName).emit("recieve_category/answers", answers);
+            io.to(room.roomName).emit("receive_category/answers", answers);
         } else {
             io.to(room.roomName).emit("go_to_results", room);
         }

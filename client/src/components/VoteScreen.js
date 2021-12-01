@@ -17,8 +17,7 @@ const VoteScreen = ({socket}) => {
     //this will handle distributing the new category/ answers into the components
     socket.on("receive_category/answers", (answers) => {
         //set the new currentCategory
-        console.log("recieved answers");
-        setCurrentCategory(answers[0].categoryIndex);
+        setCurrentCategory(answers[0].category);
         setCurrentAnswers(answers.slice(1));
     });
 
