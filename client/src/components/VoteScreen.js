@@ -21,13 +21,26 @@ const VoteScreen = ({socket}) => {
         setCurrentAnswers(answers.slice(1));
     });
 
+    socket.on("receive_updated_scores", (answers) => {
+        setCurrentAnswers(answers.slice(1));
+    });
+
+    const handleNextCategory = () => {
+        setCategoryNumber(categoryNumber + 1);
+        socket.emit('request_category/answers', categoryNumber);
+    };
+
+    const vote = (scoreDifference, player) => {
+        socket.emit("updateVoteScore", answers, player, scoreDifference);
+    };
+
     return (
         <div className="VoteScreen">
             <div className="VoteCardTitle">
                 <h2>{currentCategory}</h2>
-                <button className="nextCategorybtn">Next</button>
+                <button className="nextCategorybtn" onClick={handleNextCategory}>Next</button>
             </div>
-            <WordList answers={answers}/>
+            <WordList answers={answers} vote={vote}/>
         </div>
     );
 }

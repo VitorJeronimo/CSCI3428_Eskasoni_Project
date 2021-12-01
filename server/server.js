@@ -169,7 +169,7 @@ io.on("connection", (socket) => {
         room.playersList.forEach(player => {
             if (category in player.words) {
                 //create object containing username and answer
-                const obj = {"userName":player.userName, "answer":player.words[category]};
+                const obj = {"userName":player.userName, "answer":player.words[category], "score":0};
                 allAnswers.push(obj);
             }
         });
@@ -189,6 +189,15 @@ io.on("connection", (socket) => {
         } else {
             io.to(room.roomName).emit("go_to_results", room);
         }
+    });
+
+    socket.on("updateVoteScore", (answers, player, scoreDifference) => {
+        const user = Player.getCurrentPlayer(socket.id);
+        const room = Room.getCurrentRoom(user.roomName);
+
+        const index = answers.findIndex(obj => obj.userName == player);
+        answers[index].score += scoreDifference;
+        io.to(room.roomName).emit("receive_category/answers", answers);
     });
 
     /**
