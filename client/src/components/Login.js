@@ -16,14 +16,14 @@ const Login = ({ socket }) => {
 
     //===== COMPONENT =============================================================================
     return (
-        <>
-            <h3>Join game</h3>
-            <input type="text" placeholder="Username" 
+        <div className="loginPage">
+            <div className="pageLogo">Aij...?</div>
+            <input className="uName" type="text" placeholder="Username" 
             onBlur={(event) => {setUserName(event.target.value)}}/>
-            <input type="text" placeholder="Room ID" 
+            <input className="rID" type="text" placeholder="Room ID" 
             onBlur={(event) => {setRoomName(event.target.value)}}/>
-            <Link to="/game" onClick={joinRoom}>Join</Link>
-        </>
+            <Link className="joinButton" to="/game" onClick={joinRoom}>Join</Link>
+        </div>
     );
 }
  
