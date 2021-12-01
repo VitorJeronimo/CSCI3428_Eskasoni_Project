@@ -153,7 +153,7 @@ io.on("connection", (socket) => {
 
     const getAllPlayerAnswers = (categoryIndex, room) => {
         //the first element of answers is always the index and category
-        const category = room.gameState[currentCategories][categoryIndex];
+        const category = room.gameState.currentCategories[categoryIndex].title;
         const allAnswers = [{categoryIndex:category}]
         room.playersList.forEach(player => {
             if (category in player.words) {
@@ -166,16 +166,15 @@ io.on("connection", (socket) => {
     };
 
     socket.on("request_category/answers", (categoryNum) => {
-        console.log("req_cat/ans recieved");
         const player = Player.getCurrentPlayer(socket.id);
         const room = Room.getCurrentRoom(player.roomName);
 
-        if (categoryNum = 6) {
-            io.to(room.roomName).emit("go_to_results", room);
-        } else {
+        if (categoryNum < 6) {
             const answers = getAllPlayerAnswers(categoryNum, room);
-            console.log(`Emitting answers. Current category is: ${answers[0][0]}`)
+            console.log(answers[1]);
             io.to(room.roomName).emit("recieve_category/answers", answers);
+        } else {
+            io.to(room.roomName).emit("go_to_results", room);
         }
     });
 
