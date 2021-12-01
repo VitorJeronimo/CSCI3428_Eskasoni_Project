@@ -31,6 +31,17 @@ body {
   margin: 20px auto;
 }
 
+.VoteCardTitle {
+  font-size: 32px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.nextCategorybtn {
+  margin-left: auto;
+}
+
 /* Author: Vitor Jeronimo (A00431599) */
 .VoteScreen > h2 {
   font-size: 32px;
@@ -43,7 +54,9 @@ body {
   flex-direction: column;
   justify-content: space-around;
   height: 100%;
+  max-height: 100%;
   width: 80%;
+  overflow: auto;
   /* border: 2px red solid; */
 }
 

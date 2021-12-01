@@ -23,7 +23,10 @@ const VoteScreen = ({socket}) => {
 
     return (
         <div className="VoteScreen">
-            <h2>{currentCategory}</h2>
+            <div className="VoteCardTitle">
+                <h2>{currentCategory}</h2>
+                <button className="nextCategorybtn">Next</button>
+            </div>
             <WordList answers={answers}/>
         </div>
     );

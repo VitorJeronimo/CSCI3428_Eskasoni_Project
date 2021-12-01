@@ -145,12 +145,23 @@ io.on("connection", (socket) => {
         socket.to(data.room).emit("receive_message", data);
     });
 
+    /**
+     * @author Gillom McNeil
+     */
     socket.on("deliver_values", (data) => {
         console.log(data);
         const player = Player.getCurrentPlayer(socket.id);
         player.words = data;
     });
 
+    /**
+     * @author Gillom McNeil
+     *
+     * @param {number} categoryIndex
+     * @param {Room} room
+     * @returns List of objects, the first object contains the category index and title,
+     * the rest of the objects contain the username and answer.
+     */
     const getAllPlayerAnswers = (categoryIndex, room) => {
         //the first element of answers is always the index and category
         const category = room.gameState.currentCategories[categoryIndex].title;
@@ -165,6 +176,9 @@ io.on("connection", (socket) => {
         return allAnswers;
     };
 
+    /**
+     * @author Gillom McNeil
+     */
     socket.on("request_category/answers", (categoryNum) => {
         const player = Player.getCurrentPlayer(socket.id);
         const room = Room.getCurrentRoom(player.roomName);
