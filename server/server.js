@@ -14,7 +14,7 @@ const { roomsOnServer, Room } = require("./modules/rooms");
 
 // Server setup
 const app = express();
-const PORT = process.env.PORT || 5010;
+const PORT = process.env.PORT || 5014;
 
 const server = createServer(app);
 const io = new Server(server, {
@@ -26,7 +26,6 @@ const io = new Server(server, {
 
 // Middleware
 app.use(cors());
-
 app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 
 // Routing
@@ -40,8 +39,8 @@ io.on("connection", (socket) => {
     console.log(`User connected: ${socket.id}`);
 
     /**
-     * @author Gillom McNeil
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Gillom McNeil    TODO: Write A number
+     * @author Vitor Jeronimo (A00431599)
      *
      * Handles the "join_room" event emitted by the client.
      *
@@ -87,7 +86,7 @@ io.on("connection", (socket) => {
     });
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Handles the "request_client_update" event emitted by the client.
      *
@@ -108,7 +107,7 @@ io.on("connection", (socket) => {
 //    });
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Handles the "start_game" event emitted by the client.
      */
@@ -130,7 +129,7 @@ io.on("connection", (socket) => {
     });
 
     /**
-     *  @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     *  @author Vitor Jeronimo (A00431599)
      *
      *  Handles the "start_voting" event emitted by the client.
      */
@@ -144,7 +143,7 @@ io.on("connection", (socket) => {
     });
 
     /**
-     * @author Gillom McNeil
+     * @author Gillom McNeil    TODO: Write A number
      *
      * IN PROGRESS
      */
@@ -185,7 +184,7 @@ io.on("connection", (socket) => {
     });
 
     /**
-     * @author Gillom McNeil
+     * @author Gillom McNeil    TODO: Write A number
      *
      * Start all the timers in the same room as the admin who calls this
      *
@@ -199,7 +198,7 @@ io.on("connection", (socket) => {
     });
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Handles the "disconnect" event emitted by the client.
      *
