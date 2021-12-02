@@ -55,10 +55,11 @@ const GameScreen = ({ socket }) => {
 
     //===== EVENT HANDLING ==========================================================================
     socket.on("update_client", gameState => {
+        console.log("client#update_client: gameState -> ", gameState);//DELETE
         setCurrentLetter(gameState.currentLetter);
         setCategories(gameState.currentCategories);
 
-        console.log("client#update_client: currentLetter -> ", currentLetter.character);//DELETE
+        console.log("client#update_client: currentLetter -> ", currentLetter);//DELETE
 
         if (gameState.gameStarted) {
             const audio = new Audio(currentLetter.audio);
