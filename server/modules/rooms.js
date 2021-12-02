@@ -71,7 +71,7 @@ class Room {
             currentLetter: {},
             currentCategories: [],
             gameDuration: 120,
-            gameStarted = false
+            gameStarted: false
         }
 
         this.updateRoom();
