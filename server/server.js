@@ -14,12 +14,12 @@ const { roomsOnServer, Room } = require("./modules/rooms");
 
 // Server setup
 const app = express();
-const PORT = process.env.PORT || 5014;
+const PORT = process.env.PORT || 5010;
 
 const server = createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://ugdev.cs.smu.ca:5014",
+        origin: `http://ugdev.cs.smu.ca:${PORT}`,
         methods: ["GET", "POST"],
     }
 });
