@@ -58,8 +58,10 @@ const GameScreen = ({ socket }) => {
         setCurrentLetter(gameState.currentLetter);
         setCategories(gameState.currentCategories);
 
-        const audio = new Audio(currentLetter.audio);
-        audio.play();
+        if (gameState.gameStarted) {
+            const audio = new Audio(currentLetter.audio);
+            audio.play();
+        }
     });
 
     // socket.on("display_round_results", room => {

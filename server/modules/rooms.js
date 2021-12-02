@@ -131,8 +131,8 @@ class Room {
         console.log();
         console.log("startGame()#before", this._gameState); //DELETE
         this._gameState = {
-            ...info,
-            gameStarted: true
+            gameStarted: true,
+            ...rest
         }
         console.log("startGame()#after", this._gameState); //DELETE
         console.log();
