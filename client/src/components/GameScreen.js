@@ -61,7 +61,7 @@ const GameScreen = ({ socket }) => {
         setCategories(gameState.currentCategories);
 
         console.log("client#update_client: currentLetter -> ", currentLetter);//DELETE
-        console.log("client#update_client: currentCategories -> ", currentCategories);//DELETE
+        console.log("client#update_client: currentCategories -> ", categories);//DELETE
 
         if (gameState.gameStarted) {
             const audio = new Audio(currentLetter.audio);
