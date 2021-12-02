@@ -57,7 +57,10 @@ const GameScreen = ({ socket }) => {
     socket.on("update_client", gameState => {
         console.log("client#update_client: gameState -> ", gameState);//DELETE
         console.log("client#update_client: gameState.currentLetter -> ", gameState.currentLetter);//DELETE
-        setCurrentLetter(gameState.currentLetter, console.log("updated currentLetter"));
+        setCurrentLetter(gameState.currentLetter, console.log("currentLetter: ", currentLetter));
+        setCategories(gameState.currentCategories);
+
+        setCurrentLetter(gameState.currentLetter, console.log("currentLetter: ", currentLetter));
         setCategories(gameState.currentCategories);
 
         console.log("client#update_client: currentLetter -> ", currentLetter);//DELETE
