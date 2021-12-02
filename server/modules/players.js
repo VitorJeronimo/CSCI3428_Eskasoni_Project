@@ -2,7 +2,7 @@
 const playersOnServer = [];       // List of players currently on the server
 
 /**
- * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+ * @author Vitor Jeronimo (A00431599)
  *
  * Defines a Player object, which holds an user id, username, room name, score
  * and an array of words entered by the player during the current round of
@@ -10,7 +10,7 @@ const playersOnServer = [];       // List of players currently on the server
  */
 class Player {
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Instantiates a Player object.
      *
@@ -27,7 +27,7 @@ class Player {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Getter method for "id" property.
      *
@@ -38,7 +38,7 @@ class Player {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Getter method for "userName" property.
      *
@@ -49,7 +49,7 @@ class Player {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Getter method for "roomName" property.
      *
@@ -60,7 +60,7 @@ class Player {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Getter method for "score" property.
      *
@@ -71,7 +71,7 @@ class Player {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Getter method for "words" property.
      *
@@ -83,16 +83,14 @@ class Player {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Setter method for "score" property.
      *
      * @param {number} newScore New score for current player
      */
     set score(newScore) {
-        if (newScore > 0) {
-            this._score = newScore;
-        }
+        this._score = newScore;
     }
 
     /**
@@ -106,7 +104,7 @@ class Player {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Returns a player object whose id matches the id passed into the method.
      * Otherwise, returns null.
@@ -116,23 +114,19 @@ class Player {
      */
     static getCurrentPlayer(id) {
         // Search player's index by its id
-        // console.log(`getCurrentPlayer(): looking for the ID ${id}`);//DELETE
-        // playersOnServer.forEach((player, index) => {
-        //     console.log(`${index}. Player -> ${player.userName}, ID -> ${player.id}`);
-        // })
         const index = playersOnServer.findIndex(player => player._id === id);
-        // console.log(`getCurrentPlayer(): index -> ${index}`);//DELETE
 
         // If the player was found, return it
         if (index !== -1) {
             return playersOnServer[index];
         }
 
+        //TODO: Return an empty Player object and handle the error on the server
         return null;
         }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Removes the player from the players list.
      *
@@ -150,7 +144,6 @@ class Player {
 }
 
 //===== EXPORTS ===================================================================================
-
 module.exports = {
     playersOnServer,
     Player
