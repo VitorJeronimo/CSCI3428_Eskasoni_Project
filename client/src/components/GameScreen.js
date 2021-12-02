@@ -57,19 +57,20 @@ const GameScreen = ({ socket }) => {
     socket.on("update_client", gameState => {
         console.log("client#update_client: gameState -> ", gameState);//DELETE
         console.log("client#update_client: gameState.currentLetter -> ", gameState.currentLetter);//DELETE
-        setCurrentLetter(gameState.currentLetter, console.log("currentLetter: ", currentLetter));
-        setCategories(gameState.currentCategories);
-
-        setCurrentLetter(gameState.currentLetter, console.log("currentLetter: ", currentLetter));
+        setCurrentLetter(gameState.currentLetter);
         setCategories(gameState.currentCategories);
 
         console.log("client#update_client: currentLetter -> ", currentLetter);//DELETE
         console.log("client#update_client: currentCategories -> ", categories);//DELETE
 
-        if (gameState.gameStarted) {
-            const audio = new Audio(currentLetter.audio);
-            audio.play();
-        }
+        useEffect(() => {
+        console.log("client#update_client#useEffect: currentLetter -> ", currentLetter);//DELETE
+        console.log("client#update_client#useEffect: currentCategories -> ", categories);//DELETE
+            if (gameState.gameStarted) {
+                const audio = new Audio(currentLetter.audio);
+                audio.play();
+            }
+        }, [currentLetter]);
     });
 
     // socket.on("display_round_results", room => {
