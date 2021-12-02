@@ -74,7 +74,7 @@ class Room {
             gameStarted: false
         }
 
-        this.updateRoom();
+//        this.updateRoom();
     }
 
     /**

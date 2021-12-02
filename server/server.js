@@ -117,6 +117,8 @@ io.on("connection", (socket) => {
         const player = Player.getCurrentPlayer(socket.id);
         const room = Room.getCurrentRoom(player.roomName);
 
+        console.log("! Debugging => client/startGame() -> server/start_game -> room/updateRoom()");
+        console.log("\t-> room/startGame() -> client/update_client");
         console.log("start_game: player -> ", player.userName);//DELETE 
 
         // Only allow the game to start if the player is the room admin
