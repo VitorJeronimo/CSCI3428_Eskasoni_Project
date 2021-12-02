@@ -45,9 +45,9 @@ const GameScreen = ({ socket }) => {
     const [currentLetter, setCurrentLetter] = useState({});
 
     //===== EVENT EMISSION ==========================================================================
-    useEffect(() => {
-        socket.emit('request_client_update');
-    }, [location]);
+    //useEffect(() => {
+    //    socket.emit('request_client_update');
+    //}, [location]);
 
     const startGame = () => {
         socket.emit("start_game");
@@ -57,6 +57,8 @@ const GameScreen = ({ socket }) => {
     socket.on("update_client", gameState => {
         setCurrentLetter(gameState.currentLetter);
         setCategories(gameState.currentCategories);
+
+        console.log("client#update_client: currentLetter -> ", currentLetter.character);//DELETE
 
         if (gameState.gameStarted) {
             const audio = new Audio(currentLetter.audio);

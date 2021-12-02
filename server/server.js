@@ -75,7 +75,6 @@ io.on("connection", (socket) => {
             roomsOnServer.push(room);
 
             console.log(`Room created: ${room.roomName},    Admin: ${room.admin.userName}`);
-            console.log();//DELETE
         }
         else {
             const room = Room.getCurrentRoom(roomName);
@@ -83,9 +82,6 @@ io.on("connection", (socket) => {
             socket.emit("hide_buttons");
 
             console.log(`Room updated: ${room.roomName},    Joined: ${player.userName}`);
-            console.log(room.playersList);  //DELETE
-            console.log(`Room ${room.roomName} admin: ${room.admin.userName}`); //DELETE
-            console.log();//DELETE
         }
         socket.join(roomName);
     });
@@ -99,19 +95,17 @@ io.on("connection", (socket) => {
      * information to the joining client to ensure that all players in a room
      * have the same game state.
      */
-    socket.on("request_client_update", () => {
-        try {
-            const player = Player.getCurrentPlayer(socket.id);
-            const room = Room.getCurrentRoom(player.roomName);
-
-            console.log(`request_client_update: player -> ${player.userName}, room -> ${room.roomName}`);//DELETE
-            console.log();//DELETE
-            socket.emit("update_client", room.gameState);
-        } catch (nullPlayerError) {
-            console.log(nullPlayerError);
-            socket.emit("redirect_to_login");
-        }
-    });
+//    socket.on("request_client_update", () => {
+//        try {
+//            const player = Player.getCurrentPlayer(socket.id);
+//            const room = Room.getCurrentRoom(player.roomName);
+//
+//            socket.emit("update_client", room.gameState);
+//        } catch (nullPlayerError) {
+//            console.log(nullPlayerError);
+//            socket.emit("redirect_to_login");
+//        }
+//    });
 
     /**
      * @author Vitor Jeronimo <vitor.bently@hotmail.com>
@@ -123,12 +117,12 @@ io.on("connection", (socket) => {
         const player = Player.getCurrentPlayer(socket.id);
         const room = Room.getCurrentRoom(player.roomName);
 
-        console.log(`start_game: player -> ${player.userName}, room -> ${room.roomName}`);//DELETE
-        console.log();//DELETE
+        console.log("start_game: player -> ", player.userName);//DELETE 
+
         // Only allow the game to start if the player is the room admin
         if (player === room.admin) {
-            room.startGame();
             room.updateRoom();
+            room.startGame();
             io.to(room.roomName).emit("update_client", room.gameState);
         }
     });
@@ -215,8 +209,6 @@ io.on("connection", (socket) => {
             const player = Player.getCurrentPlayer(socket.id);
             const room = Room.getCurrentRoom(player.roomName);
 
-            console.log(`disconnect: player -> ${player.userName}, room -> ${room.roomName}`);//DELETE
-            console.log();//DELETE
             // Remove the player from the players list in and disconnect them
             // from the server.
             room.removePlayer(socket.id);
