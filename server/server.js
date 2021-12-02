@@ -127,6 +127,7 @@ io.on("connection", (socket) => {
         console.log();//DELETE
         // Only allow the game to start if the player is the room admin
         if (player === room.admin) {
+            room.startGame();
             room.updateRoom();
             io.to(room.roomName).emit("update_client", room.gameState);
         }

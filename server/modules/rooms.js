@@ -1,5 +1,4 @@
 //===== IMPORTS ===================================================================================
-const path = require("path");
 const { shuffle } = require("./utils");
 
 //===== VARIABLES =================================================================================
@@ -47,7 +46,7 @@ const categories = [
 ];
 
 /**
- * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+ * @author Vitor Jeronimo (A00431599)
  *
  * Defines a Room object, that deals with room properties such as admins, list
  * of players in the room, and room ID. It also takes care of game state
@@ -55,7 +54,7 @@ const categories = [
  */
 class Room {
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Instantiates a Room object and updates the game state.
      *
@@ -72,15 +71,16 @@ class Room {
             currentLetter: {},
             currentCategories: [],
             gameDuration: 120
+            gameStarted = false;
         }
 
         this.updateRoom();
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
-     * Getter method for "roomName" property.
+     * Getter method for the "roomName" property.
      *
      * @returns {string} Current room ID
      */
@@ -89,9 +89,9 @@ class Room {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
-     * Getter method for "admin" property.
+     * Getter method for the "admin" property.
      *
      * @returns {Player} First Player object to join the room
      */
@@ -100,9 +100,9 @@ class Room {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
-     * Getter method for "playersList" property.
+     * Getter method for the "playersList" property.
      *
      * @returns {object} Array of players in the current room
      */
@@ -111,9 +111,9 @@ class Room {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
-     * Getter Method for "gameState" property.
+     * Getter method for the "gameState" property.
      *
      * @returns {object} Game state object containing current letter,
      *                   current categories and game duration
@@ -123,7 +123,23 @@ class Room {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
+     *
+     * Sets the "gameStarted" property to true.
+     */
+    startGame() {
+        console.log();
+        console.log("startGame()#before", this._gameState); //DELETE
+        this._gameState = {
+            ...info,
+            gameStarted: true
+        }
+        console.log("startGame()#after", this._gameState); //DELETE
+        console.log();
+    }
+
+    /**
+     * @author Vitor Jeronimo (A00431599)
      *
      * Generates a new random initial letter and categories list, and
      * updates the information in the room passed into the method.
@@ -134,7 +150,7 @@ class Room {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Removes the player that is disconnecting from the players list and
      * adjusts the room admin if needed.
@@ -173,7 +189,7 @@ class Room {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Returns a room object that matches the room name passed into the
      * method if it can be found. Otherwise, returns null.
@@ -194,7 +210,7 @@ class Room {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Returns a new random initial letter from the list of possible letters.
      * 
@@ -205,7 +221,7 @@ class Room {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Returns a new categories list, containing six random categories chosen
      * from the list of possible categories.

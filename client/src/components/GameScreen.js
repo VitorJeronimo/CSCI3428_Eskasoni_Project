@@ -47,7 +47,6 @@ const GameScreen = ({ socket }) => {
     //===== EVENT EMISSION ==========================================================================
     useEffect(() => {
         socket.emit('request_client_update');
-        console.log('game loaded');
     }, [location]);
 
     const startGame = () => {
@@ -58,6 +57,9 @@ const GameScreen = ({ socket }) => {
     socket.on("update_client", gameState => {
         setCurrentLetter(gameState.currentLetter);
         setCategories(gameState.currentCategories);
+
+        const audio = new Audio(currentLetter.audio);
+        audio.play();
     });
 
     // socket.on("display_round_results", room => {
