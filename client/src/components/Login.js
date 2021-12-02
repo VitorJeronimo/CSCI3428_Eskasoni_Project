@@ -17,7 +17,7 @@ const Login = ({ socket }) => {
     //===== COMPONENT =============================================================================
     return (
         <div className="loginPage">
-            <div className="pageLogo">Aij...?</div>
+            <div className="pageLogo">Aij?</div>
             <input className="uName" type="text" placeholder="Username" 
             onBlur={(event) => {setUserName(event.target.value)}}/>
             <input className="rID" type="text" placeholder="Room ID" 
