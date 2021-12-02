@@ -69,10 +69,9 @@ const GameScreen = ({ socket }) => {
     useEffect(() => {
         console.log("client#useEffect: currentLetter -> ", currentLetter);//DELETE
         console.log("client#useEffect: currentCategories -> ", categories);//DELETE
-        if (gameState.gameStarted) {
-            const audio = new Audio(currentLetter.audio);
-            audio.play();
-        }
+        
+        const audio = new Audio(currentLetter.audio);
+        audio.play();
     }, [currentLetter]);
 
     // socket.on("display_round_results", room => {
