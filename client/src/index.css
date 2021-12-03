@@ -1,3 +1,18 @@
+/* ===== VARIABLES ========================================================= */
+:root {
+    --color-background: rgba(144, 156, 164, 0.7);
+    --color-background-overlay: rgba(0, 0, 0, 0.3);
+
+    --color-login-input: rgb(255, 255, 255, 0.9);
+
+    --color-text: rgb(10, 10, 10);
+    --color-text-alternate: rgb(255, 255, 255);
+
+    --color-button: rgb(10, 10 ,10);
+    --color-border: rgb(10, 10, 10);
+}
+
+/* ===== GENERAL STYLING =================================================== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,12 +21,79 @@
 
 body {
   font-family: 'Nunito';
-  background-color:#909ca4;
-  background-image: url(./img/background.jpg);
-  background-size: cover;
-  overflow-x: hidden;
+  background: center/cover no-repeat url(./img/background.jpg);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+.Btn {
+  background: var(--color-button);
+  color: var(--color-text-alternate);
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 12px 28px;
+  text-decoration: none;
 }
 
+.Btn:hover {
+  opacity: 0.8;
+}
+
+/* ===== LOGIN PAGE ======================================================== */
+.LoginPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.LoginCard {
+  background-color: var(--color-background);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60%;
+  width: 50%;
+  max-height: 600px;
+  max-width: 500px;
+}
+
+/* This styling is a background overlay, to make the bg image darker */
+.LoginPage::before {
+    background-color: var(--color-background-overlay);
+    content: "";
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+}
+
+.LoginCard .Logo {
+  color: var(--color-text);
+  font-size: 150px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.LoginCard .LoginInput {
+    background-color: var(--color-login-input);
+    border: 2px solid var(--color-border); 
+    border-radius: 5px;
+    text-align: center;
+    height: 36px;
+    width: 200px;
+    margin-bottom: 10px;
+    resize:none;
+}
+
+/* ===== GAME SCREEN ======================================================= */
 .App {
   display: grid;
   grid-template-columns: 30% 70%;
@@ -219,69 +301,8 @@ input:focus {
   background-color: rgba(144, 156, 164, 0.9);
 }
 
-.loginPage{
-  position: absolute;
-  left: 18vw;
-  height: 600px;
-  width: 800px;
-  margin-top: 80px;
-  border: rgba(0, 0, 0, 0.8);
-  background-color: rgba(144, 156, 164, 0.7);
-}
-
-.pageLogo{
-  position: absolute;
-  left: 18%;
-  top: 15%;
-  font-size: 10em;
-  font-weight:bold;
-  background-color: rgba(0, 0, 0, 0);
-}
-.uName{
-    position: absolute;
-    text-align: center;
-    right: 24vw;
-    top: 50vh;
-    height: 40px;
-    width:170px;
-    resize:none;
-    background-color: rgba(255, 255, 255, 1);
-    border: 3px solid rgba(0, 0, 0, 0.8);
-}
-.uName:focus{
-  background-color:white;
-}
-.rID{
-    position: absolute;
-    text-align: center;
-    right: 24vw;
-    top: 56vh;
-    height:40px;
-    width:170px;
-    border: 3px solid rgba(0, 0, 0, 0.8);
-}
-.rID:focus{
-  background-color:white;
-}
-.joinButton{
-    position: absolute;
-    right: 24vw;
-    top: 62vh;
-    text-align: center;
-    text-decoration: none;
-    color: white;
-    background-color: black;
-    height:40px;
-    width:170px;
-    border: 3px solid rgba(0, 0, 0, 0.8);
-}
-.joinButton:hover{
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-}
-
 
 .openButton {
-  position:absolute;
   top:20px;
   left:45px;
   font-size:60px;
@@ -311,7 +332,6 @@ input:focus {
 
 
 .overlay .closebtn {
-  position: absolute;
   top: 20px;
   left: 45px;
   font-size: 60px;

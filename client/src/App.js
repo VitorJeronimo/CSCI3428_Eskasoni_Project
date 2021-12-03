@@ -9,7 +9,8 @@ import Login from "./components/Login";
 import VoteScreen from "./components/VoteScreen";
 
 // Socket.io setup
-const socket = io.connect("http://ugdev.cs.smu.ca:5014");
+//const socket = io.connect("http://ugdev.cs.smu.ca:5014");
+const socket = io.connect("http://localhost:5014");
 
 //===== APP =======================================================================================
 function App() {

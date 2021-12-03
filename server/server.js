@@ -19,19 +19,20 @@ const PORT = process.env.PORT || 5014;
 const server = createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: `http://ugdev.cs.smu.ca:${PORT}`,
+//      origin: `http://ugdev.cs.smu.ca:${PORT}`,
+        origin: `http://localhost:3000`,
         methods: ["GET", "POST"],
     }
 });
 
 // Middleware
 app.use(cors());
-app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
+//app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 
 // Routing
-app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname,'client', '..', 'build', 'index.html'));
-});
+//app.get('/*', (req, res) => {
+//    res.sendFile(path.join(__dirname,'client', '..', 'build', 'index.html'));
+//});
 
 //===== EVENT HANDLING ============================================================================
 
