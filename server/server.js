@@ -39,7 +39,7 @@ io.on("connection", (socket) => {
     console.log(`User connected: ${socket.id}`);
 
     /**
-     * @author Gillom McNeil    TODO: Write A number
+     * @author Gillom McNeil  (A00450414)
      * @author Vitor Jeronimo (A00431599)
      *
      * Handles the "join_room" event emitted by the client.
@@ -108,7 +108,7 @@ io.on("connection", (socket) => {
 
     /**
      *  @author Vitor Jeronimo (A00431599)
-     *  @author Gillom McNeil   TODO: Write A number
+     *  @author Gillom McNeil  (A00450414)
      *
      *  Handles the "start_voting" event emitted by the client.
      *
@@ -122,30 +122,46 @@ io.on("connection", (socket) => {
     });
 
     /**
-     * @author Gillom McNeil    TODO: Write A number
+     * @author Gillom McNeil (A00450414)
      *
-     * TODO: Write the documentation for this function
+     * Handles the "send_message" event emitted by the client after clicking 
+     * send on a message.
+     * 
+     * Send the message sent by one client to all clients in the room
      */
     socket.on("send_message", (data) => {
         socket.to(data.room).emit("receive_message", data);
     });
 
     /**
-     * @author Gillom McNeil    TODO: Write A number
+     * @author Gillom McNeil (A00450414)
      *
-     * TODO: Write the documentation for this function
+     * Handles the "deliver_values" event emitted by a client after the timer runs out.
+     * 
+     * Takes the users submitted answers and assigns it to their respective player object.
+     * 
+     * @param {List} data the list of answers as strings
      *
      */
     socket.on("deliver_values", (data) => {
-        console.log(data);
         const player = Player.getCurrentPlayer(socket.id);
         player.words = data;
     });
 
     /**
-     * @author Gillom McNeil    TODO: Write A number
+     * @author Gillom McNeil (A00450414)
      *
-     * TODO: Write the documentation for this function
+     * @param {number} categoryNum the index of the current category to be voted on
+     * 
+     * collect all the answers corresponding to the category at index categoryNum
+     * from all clients in the current room
+     * 
+     * emit an event called "receive_category/answers" to all clients in same room
+     * along with a list of objects called "answers". The first object in the list
+     * is always the category number as a key and the title as the value.
+     * 
+     * If the client is seeking a category with an index out of bounds, the voting
+     * stage is over. Emit an event to enter the results page. 
      *
      */
     socket.on("request_category/answers", (categoryNum) => {
@@ -161,7 +177,7 @@ io.on("connection", (socket) => {
     });
 
     /**
-     * @author Gillom McNeil    TODO: Write A number
+     * @author Gillom McNeil (A00450414)
      *
      * Start all the timers in the same room as the admin who calls this
      *
@@ -204,9 +220,15 @@ io.on("connection", (socket) => {
 
 //===== FUNCTIONS =================================================================================
 /**
- * @author Gillom McNeil    TODO: write A number
+ * @author Gillom McNeil (A00450414)
  *
- * TODO: Write the documentation for this function
+ * @param {number} categoryIndex the index of the current category being requested
+ * @param {Room} room the room object containing all the players
+ * @returns {List[object]} allAnsers will always have the first object as the category
+ * index and title. Additional objects contain the username and their guess
+ * 
+ * collect all answers from the players currently in room, return in a list of objects
+ *  
  */
 const getAllPlayerAnswers = (categoryIndex, room) => {
     //the first element of answers is always the index and category

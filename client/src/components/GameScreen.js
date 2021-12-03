@@ -21,8 +21,11 @@ const GameScreen = ({ socket }) => {
 
     //===== EVENT EMISSION ==========================================================================
     /**
-     * @author Gillom McNeil (A00000000)    TODO: Change A number
+     * @author Gillom McNeil (A00450414)
      *
+     * Emits a startGame event alerting the server to start the 
+     * game for all users in that room. Called when the start
+     * button is pressed.
      */
     const startGame = () => {
         socket.emit("start_game");
@@ -67,9 +70,13 @@ const GameScreen = ({ socket }) => {
 
     //===== FUNCTIONS ===============================================================================
     /**
-     * @author Gillom McNeil (A00000000)    TODO: Change A number
+     * @author Gillom McNeil (A00450414)
+     * 
+     * Update the object categoryValues to be sent to the server. Contains the 
+     * categories as keys and the user input as values.
      *
-     * TODO: Write documentation for this function
+     * @param {string} userInput taken from the input field corresponding to a particular category
+     * @param {string} category the name of the category
      */
     const setCategoryValue = (userInput, category) => {
         if (userInput != "") {
