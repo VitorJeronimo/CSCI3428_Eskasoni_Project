@@ -6,9 +6,12 @@
     --color-login-input: rgb(255, 255, 255, 0.9);
 
     --color-text: rgb(10, 10, 10);
+    --color-text-faint: rgb(30, 30, 30);
     --color-text-alternate: rgb(255, 255, 255);
+
     --color-button: rgb(10, 10 ,10);
     --color-button-hover: rgb(30, 30, 30);
+
     --color-border: rgb(10, 10, 10);
     --color-border-alternate: rgb(80, 80, 80);
 }
@@ -43,6 +46,20 @@ body {
   cursor: pointer;
 }
 
+/* This styling is a background overlay, to make the bg image darker */
+.App::before, 
+.LoginPage::before,
+.VoteScreen::before {
+    background-color: var(--color-background-overlay);
+    content: "";
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    z-index: -1;
+}
+
 /* ===== LOGIN PAGE ======================================================== */
 .LoginPage {
   display: flex;
@@ -64,18 +81,6 @@ body {
   width: 50%;
   max-height: 600px;
   max-width: 500px;
-}
-
-/* This styling is a background overlay, to make the bg image darker */
-.LoginPage::before {
-    background-color: var(--color-background-overlay);
-    content: "";
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    z-index: -1;
 }
 
 .LoginCard .Logo {
@@ -235,46 +240,49 @@ input:focus {
   border-color: var(--color-border-alternate);
 }
 
-/* ===== VOTE SCREEN
-
-/* Author: Vitor Jeronimo (A00431599) */
+/* ===== VOTE SCREEN ======================================================= */
 .VoteScreen {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px;
-  border: 1px solid #777;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.VoteCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-background);
   border-radius: 5px;
-  height: 90vh;
-  width: 60%;
-  margin: 20px auto;
+  height: 80%;
+  width: 80%;
+  padding: 30px;
+  overflow-y: auto;
 }
 
-/* Author: Vitor Jeronimo (A00431599) */
-.VoteScreen > h2 {
-  font-size: 32px;
-  margin-bottom: 20px;
+.VoteCard .CategoryTitle {
+  font-size: 48px;
+  margin-bottom: 30px;
 }
 
-/* Author: Vitor Jeronimo (A00431599) */
 .VoteScreen .WordList {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   height: 100%;
   width: 80%;
-  /* border: 2px red solid; */
 }
 
-/* Author: Vitor Jeronimo (A00431599) */
 .WordList .Word {
-  /* border: green solid 1px; */
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding: 10px;
   margin-bottom: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 2px solid var(--color-border-alternate);
 }
 
 .Word label, .Word button {
@@ -282,14 +290,15 @@ input:focus {
 }
 
 .Word .ContentLeft label {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 600;
+  overflow: hidden;
 }
 
 .Word .ContentRight .PlayerLabel {
   font-size: 18;
   font-weight: 400;
-  color: #333;
+  color: var(--color-text-faint);
 }
 
 .ContentRight .BtnVote {

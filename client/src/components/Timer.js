@@ -16,7 +16,7 @@ const Timer = ({ minSecs, startGame, socket, categoryValues }) => {
       //add current answers to the players list of words
       socket.emit("deliver_values", categoryValues);
       //go to voting page
-//      history.push('/vote'); UNCOMMENT
+      history.push('/vote'); 
       reset();
     } else if (secs === 0) {
       setTime([mins - 1, 59]);
