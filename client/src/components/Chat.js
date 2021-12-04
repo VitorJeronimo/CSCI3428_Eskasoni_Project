@@ -27,16 +27,18 @@ const Chat = ({socket, userName, roomName}) => {
 
     return (
         <div className = "Chat">
-            <div className = "ChatWindow">
+            <p className="ChatNotification">
+                The Chat will be available soon...
+            </p>
             <div className = "ChatBody">
                 {messageList.map((messageContent) => {
                     return (
-                    <div className="message">
+                    <div className="Message">
                         <div>
-                            <div className="message_content">
+                            <div className="MessageContent">
                                 <p>{messageContent.message}</p>
                             </div>
-                            <div className="message_meta">
+                            <div className="MessageMeta">
                                 <p>{messageContent.time}</p>
                                 <p>{messageContent.author}</p>
                             </div>
@@ -46,12 +48,11 @@ const Chat = ({socket, userName, roomName}) => {
                 })}
             </div>
             <div className = "ChatFooter">
-                <input type="text" placeholder="hey.."
+                <input type="Text" placeholder="hey.."
                 onClick={(event) => {
                     setCurrentMessage(event.target.value);
                 }}/>
                 <button onClick={sendMessage}>&#9658;</button>
-            </div>
             </div>
         </div>
     );
