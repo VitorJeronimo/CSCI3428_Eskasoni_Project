@@ -1,9 +1,11 @@
-// import styles from "./CurrentLetter.module.css"
-
-const CurrentLetter = ({currentLetter}) => {
+const CurrentLetter = ({ currentLetter, gameStarted, playSound }) => {
   return (
     <section className="InitialLetter">
-      <button className="Btn LetterSound">🔊</button>
+    {
+        gameStarted 
+        ? <button className="Btn LetterSound" onClick={playSound}>🔊</button> 
+        : null
+    }
       <div className="LetterContainer">
           <h1>{ currentLetter.character }</h1>
       </div>

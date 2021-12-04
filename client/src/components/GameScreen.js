@@ -16,6 +16,7 @@ const GameScreen = ({ socket }) => {
     const history = useHistory();
 
     //===== STATES ==================================================================================
+    const [gameStarted, setGameStarted] = useState(false);
     const [categories, setCategories] = useState([]);
     const [currentLetter, setCurrentLetter] = useState({});
 
@@ -39,6 +40,10 @@ const GameScreen = ({ socket }) => {
     socket.on("update_client", gameState => {
         setCurrentLetter(gameState.currentLetter);
         setCategories(gameState.currentCategories);
+
+        if (!gameStarted) {
+            setGameStarted(true);
+        }
     });
 
     /**
@@ -77,10 +82,23 @@ const GameScreen = ({ socket }) => {
         }
     };
 
+    /**
+     * @author Vitor Jeronimo (A00431599)
+     *
+     * Plays the current letter sound.
+     */
+    const playSound = () => {
+        //TODO Implement the logic for the button 
+    }
+
     //===== COMPONENT =============================================================================
     return (
         <div className="App">
-            <CurrentLetter currentLetter={currentLetter} />
+            <CurrentLetter 
+                currentLetter={currentLetter} 
+                gameStarted={gameStarted}
+                playSound={playSound}
+            />
             <Timer minSecs={minSecs} startGame={startGame} socket={socket} categoryValues={categoryValues} />
             <CategoryList categories={categories} setCategoryValue={setCategoryValue} />
             <Chat socket={socket} />
