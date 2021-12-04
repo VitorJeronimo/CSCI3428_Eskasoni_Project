@@ -1,11 +1,12 @@
 import { useHistory } from "react-router";
 import { useState, useEffect } from "react";
 
-const Timer = ({ minSecs, startGame, socket, categoryValues}) => {
+const Timer = ({ minSecs, startGame, socket, categoryValues }) => {
 
   const { minutes, seconds = 60 } = minSecs;
   const [[mins, secs], setTime] = useState([minutes, seconds]);
   const [isActive, setActive] = useState(false);
+  const [hideButton, setHideButton] = useState(false);
 
   const history = useHistory();
 
@@ -37,13 +38,8 @@ const Timer = ({ minSecs, startGame, socket, categoryValues}) => {
   });
 
   socket.on("hide_buttons", () => {
-    document.getElementsByClassName("timerButtons")[0].style.display = "none";
+    setHideButton(true);
   });
-
-  const handleResetClick = () => {
-    setTime([0,0]);
-    setActive(false);
-  }
 
   const reset = () => {
     setActive(false);
@@ -60,13 +56,15 @@ const Timer = ({ minSecs, startGame, socket, categoryValues}) => {
   return (
     <section className="Timer">
       <div>
-        <p className="time">{`${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`}
+        <p 
+          className="Time">{`${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`}
         </p>
       </div>
-      <div className="timerButtons">
-        <button className="button" onClick={handleStartClick}>START</button>
-        <button className="button" >RESET</button>
-      </div>
+      {
+          hideButton
+          ? null
+          : <button className="Btn" onClick={handleStartClick}>START</button>
+      }
     </section>
   );
 }

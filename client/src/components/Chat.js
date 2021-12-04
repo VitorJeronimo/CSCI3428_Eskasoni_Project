@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import styles from "./Chat.module.css";
 
 const Chat = ({socket, userName, roomName}) => {
     const [currentMessage, setCurrentMessage] = useState("");
@@ -28,8 +27,8 @@ const Chat = ({socket, userName, roomName}) => {
 
     return (
         <div className = "Chat">
-            <div className = {styles.chat_window}>
-            <div className = {styles.chat_body}>
+            <div className = "ChatWindow">
+            <div className = "ChatBody">
                 {messageList.map((messageContent) => {
                     return (
                     <div className="message">
@@ -46,7 +45,7 @@ const Chat = ({socket, userName, roomName}) => {
                     );
                 })}
             </div>
-            <div className = {styles.chat_footer}>
+            <div className = "ChatFooter">
                 <input type="text" placeholder="hey.."
                 onClick={(event) => {
                     setCurrentMessage(event.target.value);

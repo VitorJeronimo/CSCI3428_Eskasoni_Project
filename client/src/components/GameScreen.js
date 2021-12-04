@@ -99,8 +99,16 @@ const GameScreen = ({ socket }) => {
                 gameStarted={gameStarted}
                 playSound={playSound}
             />
-            <Timer minSecs={minSecs} startGame={startGame} socket={socket} categoryValues={categoryValues} />
-            <CategoryList categories={categories} setCategoryValue={setCategoryValue} />
+            <Timer 
+                minSecs={minSecs} 
+                startGame={startGame} 
+                socket={socket} 
+                categoryValues={categoryValues} 
+            />
+            <CategoryList 
+                categories={categories} 
+                setCategoryValue={setCategoryValue} 
+            />
             <Chat socket={socket} />
         </div>
     );
