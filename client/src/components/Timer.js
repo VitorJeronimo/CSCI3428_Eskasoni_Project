@@ -33,7 +33,7 @@ const Timer = ({ minSecs, startGame, socket, categoryValues }) => {
   }
 
   socket.on("start_timer", () => {
-    setTime([0,5]);
+    setTime([0,20]);
     setActive(true);
   });
 

@@ -262,9 +262,15 @@ input:focus {
   overflow-y: auto;
 }
 
-.VoteCard .CategoryTitle {
-  font-size: 48px;
-  margin-bottom: 30px;
+.VoteCardTitle {
+  font-size: 32px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.NextCategorybtn {
+  margin-left: auto;
 }
 
 .VoteScreen .WordList {
@@ -272,7 +278,9 @@ input:focus {
   flex-direction: column;
   justify-content: space-around;
   height: 100%;
+  max-height: 100%;
   width: 80%;
+  overflow: auto;
 }
 
 .WordList .Word {
@@ -320,8 +328,6 @@ input:focus {
 .ContentRight .VoteNo {
   background-color: #f43030;
 }
-
-
 
 .ActionButtons {
   /* Button positioning properties */

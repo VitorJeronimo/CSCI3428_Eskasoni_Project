@@ -151,18 +151,38 @@ io.on("connection", (socket) => {
     /**
      * @author Gillom McNeil (A00450414)
      *
-     * @param {number} categoryNum the index of the current category to be voted on
+     * Collects all the answers corresponding to the category at index categoryNum
+     * from all clients in the current room.
      * 
-     * collect all the answers corresponding to the category at index categoryNum
-     * from all clients in the current room
-     * 
-     * emit an event called "receive_category/answers" to all clients in same room
+     * Emits an event called "receive_category/answers" to all clients in same room
      * along with a list of objects called "answers". The first object in the list
      * is always the category number as a key and the title as the value.
      * 
      * If the client is seeking a category with an index out of bounds, the voting
-     * stage is over. Emit an event to enter the results page. 
+     * stage is over. Emits an event to enter the results page. 
      *
+     * @param {number} categoryIndex
+     * @param {Room} room
+     * @returns List of objects, the first object contains the category index and title,
+     * the rest of the objects contain the username and answer.
+     *
+     */
+    const getAllPlayerAnswers = (categoryIndex, room) => {
+        //the first element of answers is always the index and category
+        const category = room.gameState.currentCategories[categoryIndex].title;
+        const allAnswers = [{"index":categoryIndex, "category":category}];
+        room.playersList.forEach(player => {
+            if (category in player.words) {
+                //create object containing username and answer
+                const obj = {"userName":player.userName, "answer":player.words[category], "score":0};
+                allAnswers.push(obj);
+            }
+        });
+        return allAnswers;
+    };
+
+    /**
+     * @author Gillom McNeil (A00450414)
      */
     socket.on("request_category/answers", (categoryNum) => {
         const player = Player.getCurrentPlayer(socket.id);
@@ -175,6 +195,15 @@ io.on("connection", (socket) => {
             io.to(room.roomName).emit("go_to_results", room);
         }
     });
+
+    // socket.on("updateVoteScore", (answers, player, scoreDifference) => {
+    //     const user = Player.getCurrentPlayer(socket.id);
+    //     const room = Room.getCurrentRoom(user.roomName);
+
+    //     const index = answers.findIndex(obj => obj.userName == player);
+    //     answers[index].score += scoreDifference;
+    //     io.to(room.roomName).emit("receive_category/answers", answers);
+    // });
 
     /**
      * @author Gillom McNeil (A00450414)

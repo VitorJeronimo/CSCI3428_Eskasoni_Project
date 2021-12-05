@@ -1,11 +1,10 @@
 import Word from "./Word";
 
-const WordList = () => {
-    const answers = ["guess#1", "guess2", "g3", "long_guess_answer#12343455", 'g5', 'g6']
+const WordList = ({answers, vote}) => {
     return (
         <div className="WordList">
             {answers.map((word) => (
-            <Word word={word}/>))}
+            <Word word={word.answer} player={word.userName} score={word.score} vote={vote}/>))}
         </div>
     );
 }
