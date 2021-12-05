@@ -1,9 +1,9 @@
 import { useHistory } from "react-router";
 import { useState, useEffect } from "react";
 
-const Timer = ({ MinSecs, startGame, socket, categoryValues}) => {
+const Timer = ({ minSecs, startGame, socket, categoryValues}) => {
 
-  const { minutes, seconds = 60 } = MinSecs;
+  const { minutes, seconds = 60 } = minSecs;
   const [[mins, secs], setTime] = useState([minutes, seconds]);
   const [isActive, setActive] = useState(false);
 

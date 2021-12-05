@@ -1,11 +1,33 @@
 //===== IMPORTS ===================================================================================
-const { shuffle } = require("./utils")
+const { shuffle } = require("./utils");
 
 //===== VARIABLES =================================================================================
 const roomsOnServer = []        // List of existing rooms on the server
 
 // List of letters that can be the first letter of Mi'kmaq words
-const letters = ["P","T","K","Q","J","S","L","M","N","W","Y","A","E","I","O","U"];
+const letters = [
+    {character: "A'", audio: "./audio/A_long.mp3"}, 
+    {character: "A", audio: "./audio/A.mp3"},
+    {character: "E'", audio: "./audio/E_long.mp3"},
+    {character: "E", audio: "./audio/E.mp3"},
+    {character: "I'", audio: "./audio/I_long.mp3"},
+    {character: "I", audio: "./audio/I.mp3"},
+    {character: "J", audio: "./audio/J.mp3"},
+    {character: "K", audio: "./audio/K.mp3"},
+    {character: "L", audio: "./audio/L.mp3"},
+    {character: "M", audio: "./audio/M.mp3"},
+    {character: "N", audio: "./audio/N.mp3"},
+    {character: "O'", audio: "./audio/O_long.mp3"},
+    {character: "O", audio: "./audio/O.mp3"},
+    {character: "P", audio: "./audio/P.mp3"},
+    {character: "Q", audio: "./audio/Q.mp3"},
+    {character: "S", audio: "./audio/S.mp3"},
+    {character: "A", audio: "./audio/SCHWA.mp3"},
+    {character: "T", audio: "./audio/T.mp3"},
+    {character: "U'", audio: "./audio/U_long.mp3"},
+    {character: "U", audio: "./audio/U.mp3"},
+    {character: "W", audio: "./audio/W.mp3"},
+]
 
 // List of possible categories for each game
 const categories = [
@@ -24,7 +46,7 @@ const categories = [
 ];
 
 /**
- * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+ * @author Vitor Jeronimo (A00431599)
  *
  * Defines a Room object, that deals with room properties such as admins, list
  * of players in the room, and room ID. It also takes care of game state
@@ -32,7 +54,7 @@ const categories = [
  */
 class Room {
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Instantiates a Room object and updates the game state.
      *
@@ -46,18 +68,19 @@ class Room {
         this._admin = admin;
         this._playersList = playersList;
         this._gameState = {
-            currentLetter: "",
+            currentLetter: {},
             currentCategories: [],
-            gameDuration: 120
+            gameDuration: 120,
+            gameStarted: false
         }
 
-        this.updateRoom();
+//        this.updateRoom();
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
-     * Getter method for "roomName" property.
+     * Getter method for the "roomName" property.
      *
      * @returns {string} Current room ID
      */
@@ -66,9 +89,9 @@ class Room {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
-     * Getter method for "admin" property.
+     * Getter method for the "admin" property.
      *
      * @returns {Player} First Player object to join the room
      */
@@ -77,9 +100,9 @@ class Room {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
-     * Getter method for "playersList" property.
+     * Getter method for the "playersList" property.
      *
      * @returns {object} Array of players in the current room
      */
@@ -88,9 +111,9 @@ class Room {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
-     * Getter Method for "gameState" property.
+     * Getter method for the "gameState" property.
      *
      * @returns {object} Game state object containing current letter,
      *                   current categories and game duration
@@ -100,7 +123,23 @@ class Room {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
+     *
+     * Sets the "gameStarted" property to true.
+     */
+    startGame() {
+        console.log();
+        console.log("startGame()#before", this._gameState); //DELETE
+        this._gameState = {
+            ...this._gameState,
+            gameStarted: true
+        }
+        console.log("startGame()#after", this._gameState); //DELETE
+        console.log();
+    }
+
+    /**
+     * @author Vitor Jeronimo (A00431599)
      *
      * Generates a new random initial letter and categories list, and
      * updates the information in the room passed into the method.
@@ -108,10 +147,12 @@ class Room {
     updateRoom() {
         this._gameState.currentLetter = Room.generateNewLetter();
         this._gameState.currentCategories = Room.generateCategoriesList();
+
+        console.log("updateRoom(): currentLetter -> ", this._gameState.currentLetter.character);//DELETE
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Removes the player that is disconnecting from the players list and
      * adjusts the room admin if needed.
@@ -120,24 +161,18 @@ class Room {
      */
     removePlayer(id) {
         const index = this._playersList.findIndex(player => player.id === id);
-        console.log(`removePlayer(): index -> ${index}`);//DELETE
-        console.log();//DELETE
 
         // If the player was found in the list, remove them
         if (index !== -1) {
             this._playersList.splice(index, 1);
-            console.log(`removePlayer() after splice: playersList`);//DELETE
             this._playersList.forEach(player => {
                 console.log(`Player -> ${player.userName}`);
             }) 
-            console.log()//DELETE
 
             // If the player was the admin and the list is not empty, set the
             // next player as the new admin
             if (index === 0 && this._playersList.length > 0) {
                 this._admin = this._playersList[0]
-                console.log(`removePlayer(): new admin -> ${this._admin.userName}`);//DELETE
-                console.log()//DELETE
             }
         }
 
@@ -150,7 +185,7 @@ class Room {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Returns a room object that matches the room name passed into the
      * method if it can be found. Otherwise, returns null.
@@ -171,7 +206,7 @@ class Room {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Returns a new random initial letter from the list of possible letters.
      * 
@@ -182,7 +217,7 @@ class Room {
     }
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Returns a new categories list, containing six random categories chosen
      * from the list of possible categories.

@@ -1,8 +1,9 @@
 //===== IMPORTS ===================================================================================
 // Required imports
 const express = require("express");
-const http = require("http");
+const path = require("path");
 const cors = require("cors");
+const { createServer } = require("http");
 const { Server } = require("socket.io");
 
 // Local imports
@@ -13,15 +14,23 @@ const { roomsOnServer, Room } = require("./modules/rooms");
 
 // Server setup
 const app = express();
-const PORT = process.env.PORT || 5000;
-app.use(cors());
+const PORT = process.env.PORT || 5014;
 
-const server = http.createServer(app);
+const server = createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: `http://ugdev.cs.smu.ca:${PORT}`,
         methods: ["GET", "POST"],
     }
+});
+
+// Middleware
+app.use(cors());
+app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
+
+// Routing
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname,'client', '..', 'build', 'index.html'));
 });
 
 //===== EVENT HANDLING ============================================================================
@@ -30,8 +39,8 @@ io.on("connection", (socket) => {
     console.log(`User connected: ${socket.id}`);
 
     /**
-     * @author Gillom McNeil
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Gillom McNeil  (A00450414)
+     * @author Vitor Jeronimo (A00431599)
      *
      * Handles the "join_room" event emitted by the client.
      *
@@ -65,7 +74,6 @@ io.on("connection", (socket) => {
             roomsOnServer.push(room);
 
             console.log(`Room created: ${room.roomName},    Admin: ${room.admin.userName}`);
-            console.log();//DELETE
         }
         else {
             const room = Room.getCurrentRoom(roomName);
@@ -73,111 +81,88 @@ io.on("connection", (socket) => {
             socket.emit("hide_buttons");
 
             console.log(`Room updated: ${room.roomName},    Joined: ${player.userName}`);
-            console.log(room.playersList);  //DELETE
-            console.log(`Room ${room.roomName} admin: ${room.admin.userName}`); //DELETE
-            console.log();//DELETE
         }
         socket.join(roomName);
     });
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
-     *
-     * Handles the "request_client_update" event emitted by the client.
-     *
-     * Emits an "update_client" event, which sends the required game state
-     * information to the joining client to ensure that all players in a room
-     * have the same game state.
-     */
-    socket.on("request_client_update", () => {
-        try {
-            const player = Player.getCurrentPlayer(socket.id);
-            const room = Room.getCurrentRoom(player.roomName);
-
-            console.log(`request_client_update: player -> ${player.userName}, room -> ${room.roomName}`);//DELETE
-            console.log();//DELETE
-            socket.emit("update_client", room.gameState);
-        } catch (nullPlayerError) {
-            console.log(nullPlayerError);
-            socket.emit("redirect_to_login");
-        }
-    });
-
-    /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Handles the "start_game" event emitted by the client.
+     *
+     * Sends the required game state information to all clients
+     * in the current room.
      */
     socket.on("start_game", () => {
         // Get info of the player that emitted the event
         const player = Player.getCurrentPlayer(socket.id);
         const room = Room.getCurrentRoom(player.roomName);
 
-        console.log(`start_game: player -> ${player.userName}, room -> ${room.roomName}`);//DELETE
-        console.log();//DELETE
         // Only allow the game to start if the player is the room admin
         if (player === room.admin) {
             room.updateRoom();
+            room.startGame();
             io.to(room.roomName).emit("update_client", room.gameState);
         }
     });
 
     /**
-     *  @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     *  @author Vitor Jeronimo (A00431599)
+     *  @author Gillom McNeil  (A00450414)
      *
      *  Handles the "start_voting" event emitted by the client.
+     *
+     *  Sends the round results to all clients in the current room.
      */
     socket.on("start_voting", () => {
         const player = Player.getCurrentPlayer(socket.id);
         const room = Room.getCurrentRoom(player.roomName);
 
-        // Send the current round information to all players
-        // in the current room
         io.to(room.roomName).emit("display_round_results", room);
     });
 
     /**
-     * @author Gillom McNeil
+     * @author Gillom McNeil (A00450414)
      *
-     * IN PROGRESS
+     * Handles the "send_message" event emitted by the client after clicking 
+     * send on a message.
+     * 
+     * Send the message sent by one client to all clients in the room
      */
     socket.on("send_message", (data) => {
         socket.to(data.room).emit("receive_message", data);
     });
 
     /**
-     * @author Gillom McNeil
+     * @author Gillom McNeil (A00450414)
+     *
+     * Handles the "deliver_values" event emitted by a client after the timer runs out.
+     * 
+     * Takes the users submitted answers and assigns it to their respective player object.
+     * 
+     * @param {List} data the list of answers as strings
+     *
      */
     socket.on("deliver_values", (data) => {
-        console.log(data);
         const player = Player.getCurrentPlayer(socket.id);
         player.words = data;
     });
 
     /**
-     * @author Gillom McNeil
+     * @author Gillom McNeil (A00450414)
      *
-     * @param {number} categoryIndex
-     * @param {Room} room
-     * @returns List of objects, the first object contains the category index and title,
-     * the rest of the objects contain the username and answer.
-     */
-    const getAllPlayerAnswers = (categoryIndex, room) => {
-        //the first element of answers is always the index and category
-        const category = room.gameState.currentCategories[categoryIndex].title;
-        const allAnswers = [{"index":categoryIndex, "category":category}];
-        room.playersList.forEach(player => {
-            if (category in player.words) {
-                //create object containing username and answer
-                const obj = {"userName":player.userName, "answer":player.words[category], "score":0};
-                allAnswers.push(obj);
-            }
-        });
-        return allAnswers;
-    };
-
-    /**
-     * @author Gillom McNeil
+     * @param {number} categoryNum the index of the current category to be voted on
+     * 
+     * collect all the answers corresponding to the category at index categoryNum
+     * from all clients in the current room
+     * 
+     * emit an event called "receive_category/answers" to all clients in same room
+     * along with a list of objects called "answers". The first object in the list
+     * is always the category number as a key and the title as the value.
+     * 
+     * If the client is seeking a category with an index out of bounds, the voting
+     * stage is over. Emit an event to enter the results page. 
+     *
      */
     socket.on("request_category/answers", (categoryNum) => {
         const player = Player.getCurrentPlayer(socket.id);
@@ -201,7 +186,7 @@ io.on("connection", (socket) => {
     // });
 
     /**
-     * @author Gillom McNeil
+     * @author Gillom McNeil (A00450414)
      *
      * Start all the timers in the same room as the admin who calls this
      *
@@ -215,34 +200,61 @@ io.on("connection", (socket) => {
     });
 
     /**
-     * @author Vitor Jeronimo <vitor.bently@hotmail.com>
+     * @author Vitor Jeronimo (A00431599)
      *
      * Handles the "disconnect" event emitted by the client.
      *
      * Removes player from the players list in the server.
      */
     socket.on("disconnect", () => {
-        // Get the room name of the player that's disconnecting
-        const player = Player.getCurrentPlayer(socket.id);
-        const room = Room.getCurrentRoom(player.roomName);
+        try {
+            // Get the room name of the player that's disconnecting
+            const player = Player.getCurrentPlayer(socket.id);
+            const room = Room.getCurrentRoom(player.roomName);
 
-        console.log(`disconnect: player -> ${player.userName}, room -> ${room.roomName}`);//DELETE
-        console.log();//DELETE
-        // Remove the player from the players list in and disconnect them
-        // from the server.
-        room.removePlayer(socket.id);
-        Player.playerDisconnects(socket.id);
-        socket.leave(player.roomName);
+            // Remove the player from the players list in and disconnect them
+            // from the server.
+            room.removePlayer(socket.id);
+            Player.playerDisconnects(socket.id);
+            socket.leave(player.roomName);
 
-        playersOnServer.forEach((player, index) => {
-            console.log(`${index}. Player -> ${player.userName}, ID -> ${player.id}`);
-        })
-
-        console.log("User disconnected", socket.id);
+            console.log("User disconnected", socket.id);
+        }
+        catch (error) {
+            console.log(error);
+            socket.emit("redirect_to_login");
+        }
     });
 });
+
+//===== FUNCTIONS =================================================================================
+/**
+ * @author Gillom McNeil (A00450414)
+ *
+ * @param {number} categoryIndex the index of the current category being requested
+ * @param {Room} room the room object containing all the players
+ * @returns {List[object]} allAnsers will always have the first object as the category
+ * index and title. Additional objects contain the username and their guess
+ * 
+ * collect all answers from the players currently in room, return in a list of objects
+ *  
+ */
+const getAllPlayerAnswers = (categoryIndex, room) => {
+    //the first element of answers is always the index and category
+    const category = room.gameState.currentCategories[categoryIndex].title;
+    const allAnswers = [{"index":categoryIndex, "category":category}];
+    room.playersList.forEach(player => {
+        if (category in player.words) {
+            //create object containing username and answer
+            const obj = {"userName":player.userName, "answer":player.words[category]};
+            allAnswers.push(obj);
+        }
+    });
+    return allAnswers;
+};
 
 //===== SERVER ====================================================================================
 server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 // TODO Store user's username and room id in session storage
+// TODO Improve server log messages
