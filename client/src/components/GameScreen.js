@@ -68,10 +68,9 @@ const GameScreen = ({ socket }) => {
      * Waits for currentLetter to change after "update_client" is handled by
      * the client side and plays the audio for the current letter.
      */
- //   useEffect(() => {
-   //     const audio = new Audio(currentLetter.audio);
-     //   audio.play();
-    //}, [currentLetter]);
+    useEffect(() => {
+        playSound();
+    }, [currentLetter]);
 
     //===== FUNCTIONS ===============================================================================
     /**
@@ -95,7 +94,8 @@ const GameScreen = ({ socket }) => {
      * Plays the current letter sound.
      */
     const playSound = () => {
-        //TODO Implement the logic for the button 
+        const audio = new Audio(currentLetter.audio);
+        audio.play();
     }
 
     //===== COMPONENT =============================================================================
