@@ -2,6 +2,12 @@
 
 echo "[*] Starting ./build_app.sh script..."
 
+echo "[*] Checking if all npm packages are installed..."
+npm install
+cd client/
+npm install
+cd ../
+
 echo "[*] Pulling changes from GitHub..."
 git pull
 
