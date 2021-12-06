@@ -1,3 +1,22 @@
+/* ===== VARIABLES ========================================================= */
+:root {
+    --color-background: rgba(144, 156, 164, 0.7);
+    --color-background-overlay: rgba(0, 0, 0, 0.3);
+
+    --color-login-input: rgb(255, 255, 255, 0.9);
+
+    --color-text: rgb(10, 10, 10);
+    --color-text-faint: rgb(30, 30, 30);
+    --color-text-alternate: rgb(255, 255, 255);
+
+    --color-button: rgb(10, 10 ,10);
+    --color-button-hover: rgb(30, 30, 30);
+
+    --color-border: rgb(10, 10, 10);
+    --color-border-alternate: rgb(80, 80, 80);
+}
+
+/* ===== GENERAL STYLING =================================================== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,46 +25,308 @@
 
 body {
   font-family: 'Nunito';
-  background-color:white;
-}
-
-.App {
-  display: grid;
-  grid-template-columns: 30% 70%;
-  grid-template-rows: auto;
-  margin-left:14%;
+  background: center/cover no-repeat url(./img/background.jpg);
+  overflow: hidden;
   height: 100vh;
   width: 100vw;
 }
 
+.Btn {
+  background: var(--color-button);
+  color: var(--color-text-alternate);
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 12px 28px;
+  text-decoration: none;
+}
+
+.Btn:hover {
+  background: var(--color-button-hover);
+  cursor: pointer;
+}
+
+/* This styling is a background overlay, to make the bg image darker */
+.App::before, 
+.LoginPage::before,
+.VoteScreen::before {
+    background-color: var(--color-background-overlay);
+    content: "";
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    z-index: -1;
+}
+
+/* ===== LOGIN PAGE ======================================================== */
+.LoginPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.LoginCard {
+  background-color: var(--color-background);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60%;
+  width: 50%;
+  max-height: 600px;
+  max-width: 500px;
+}
+
+.LoginCard .Logo {
+  color: var(--color-text);
+  font-size: 150px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.LoginCard .LoginInput {
+    background-color: var(--color-login-input);
+    border: 2px solid var(--color-border); 
+    border-radius: 5px;
+    text-align: center;
+    height: 36px;
+    width: 200px;
+    margin-bottom: 10px;
+    resize:none;
+}
+
+/* ===== GAME SCREEN ======================================================= */
+/* PAGE LAYOUT */
+.App {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  grid-template-rows: 2fr 1fr 2fr;
+  background-color: var(--color-background);
+  border: 4px solid var(--color-border);
+  height: 100vh;
+  width: 100vw;
+}
+
+/* INITIAL LETTER */
 .InitialLetter {
-  /* Grid placement properties */
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 1;
   grid-row-end: 2;
 
-  /* Style properties*/
-  font-weight: bold;
-  font-size: 7em;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 3px solid rgba(0, 0, 0, 0.8);
-  
+  background-color: transparent;
+  border-bottom: 4px solid var(--color-border);
 }
 
+.InitialLetter .LetterSound {
+  position: relative;
+  top: 10px;
+  left: 10px;
+  padding: 15px 15px;
+}
+
+.InitialLetter .LetterContainer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.LetterContainer h1 {
+  font-weight: bold;
+  font-size: 150px;
+}
+
+/* TIMER */
 .Timer {
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 2;
   grid-row-end: 3;
 
-  /* Style properties */
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 3px solid rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-bottom: 4px solid var(--color-border);
   padding: 20px;
-  font-size: 30px;
-  text-align: center;
+}
+
+.Time {
+  font-size: 80px;
+  margin-bottom: 20px;
+}
+
+/* CHAT */
+.Chat {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 3;
+  grid-row-end: 4;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.Chat .ChatNotification {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.Chat .ChatFooter {
+  display: none;
+}
+
+/* CATEGORIES LIST */
+.CategoryList {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 4;
+
+  height: 100%;
+  width: 100%;
+  max-height: 100vh;
+  max-width: 100vw;
+}
+
+.CategoriesContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+  border-left: 4px solid var(--color-border);
+  padding: 50px;
+}
+
+.Category {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin: 20px 30px;
+  height: 40px;
+}
+
+.Category label {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.Category input {
+  border: none;
+  border-bottom: 3px solid var(--color-border);
+  font-size: 20px;
+  font-weight: 600;
+  height: 100%;
+  width: 50%;
+  background-color: transparent;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--color-border-alternate);
+}
+
+/* ===== VOTE SCREEN ======================================================= */
+.VoteScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.VoteCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-background);
+  border-radius: 5px;
+  height: 80%;
+  width: 80%;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+.VoteCardTitle {
+  font-size: 32px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.NextCategorybtn {
+  margin-left: auto;
+}
+
+.VoteScreen .WordList {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+  max-height: 100%;
+  width: 80%;
+  overflow: auto;
+}
+
+.WordList .Word {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid var(--color-border-alternate);
+}
+
+.Word label, .Word button {
+  margin: 5px;
+}
+
+.Word .ContentLeft label {
+  font-size: 24px;
+  font-weight: 600;
+  overflow: hidden;
+}
+
+.Word .ContentRight .PlayerLabel {
+  font-size: 18;
+  font-weight: 400;
+  color: var(--color-text-faint);
+}
+
+.ContentRight .BtnVote {
+  border: none;
+  border-radius: 2px;
+  font-weight: 600;
+  padding: 8px 16px;
+}
+
+.ContentRight .BtnVote:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+.ContentRight .VoteYes {
+  background-color: #24bc16;
+}
+
+.ContentRight .VoteNo {
+  background-color: #f43030;
 }
 
 .ActionButtons {
@@ -56,7 +337,7 @@ body {
   grid-row-end: 4;
 
   /* Button style properties */
-  background-color: white;
+  background-color: rgba(144, 156, 164, 0.7);
   border: 3px solid rgba(0, 0, 0, 0.8);
   padding: 15px 32px;
   text-align: center;
@@ -77,66 +358,76 @@ body {
   font-size: 16px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
-.CategoryList {
-  /* Grid placement properties */
-  grid-column-start: 2;
-  grid-column-end: 3;
-  grid-row-start: 1;
-  grid-row-end: 5;
-
-  /* Positioning properties */
-  height: 100%;
-  width: 100%;
-}
-
-.CategoriesContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  height: 100%;
-  width: 60%;
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 3px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
-  font-size: 30px;
-}
-
-.Category {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: space-between;
-  margin: 20px 30px;
-  height: 40px;
-}
-
-.Category label {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.Category input {
+.btn:hover {
+  background-color:#606d76;
   border: none;
-  border-bottom: 2px solid #333;
-  font-size: 20px;
+  color: white;
+  padding: 12px 12px;
+  margin: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+
+.openButton {
+  top:20px;
+  left:45px;
+  font-size:60px;
+  background-color:#000000;
+}
+
+ .overlay {
   height: 100%;
-  width: 50%;
+  width: 0;
+  position: fixed; 
+  z-index: 1;
+  left: 0;
+  top: 0;
+  background-color: rgb(255,255,255); 
+  background-color: rgba(255,255,255, 0.9); 
+  overflow-x: hidden;
+  transition: 0.5s;
+ }
+
+.overlay-content {
+  position: relative;
+  top: 25%; 
+  width: 100%;
+  text-align: center; 
+  margin-top: 30px;
 }
 
-.Chat {
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 4;
-    grid-row-end: 5;
-    /* Style properties*/
-    font-weight: bold;
-    font-size: 5em;
-    text-align: center;
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 3px solid rgba(0, 0, 0, 0.8);
+
+.overlay .closebtn {
+  top: 20px;
+  left: 45px;
+  font-size: 60px;
+  background-color:#000000;
 }
 
-input:focus {
-  outline: none;
-  background-color: #f5f5f5
+
+
+.button {
+  /* background-color: #935637; */
+  /* border-radius: 25%; */
+  /* border-color: black;
+  color: black;
+  font-size: 20px;
+  padding: 20px;
+  margin: 0px 10px 20px 10px;
+  display: inline; */
+background-color: #000000;
+border: none;
+color: white;
+padding: 12px 12px;
+margin: 10px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 16px;
+box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+
 }

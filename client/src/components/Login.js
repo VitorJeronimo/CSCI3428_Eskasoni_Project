@@ -1,16 +1,33 @@
-import {Link} from "react-router-dom";
+import { useState } from 'react'
+import { Link } from "react-router-dom";
 
-const Login = ({setRoomName, setUserName, joinRoom}) => {
+const Login = ({ socket }) => {
+    //===== STATES ================================================================================
+    // These states are set by the Login component.
+    const [userName, setUserName] = useState("");
+    const [roomName, setRoomName] = useState("");
+
+    //===== EVENT EMISSION ========================================================================
+    const joinRoom = () => {
+      if (userName !== "" && roomName !== "") {
+          socket.emit("join_room", { userName, roomName });
+      }
+    };
+
+    //===== COMPONENT =============================================================================
     return (
-        <div>
-            <h3>Join game</h3>
-            <input type="text" placeholder="Username" 
-            onBlur={(event) => {setUserName(event.target.value)}}/>
-            <input type="text" placeholder="Room ID" 
-            onBlur={(event) => {setRoomName(event.target.value)}}/>
-            <Link to="/game" onClick={joinRoom}>Join</Link>
+        <div className="LoginPage">
+            <div className="LoginCard">
+                <div className="Logo">Aij?</div>
+                <input className="LoginInput" type="text" placeholder="Username"
+                onBlur={(event) => {setUserName(event.target.value)}}/>
+                <input className="LoginInput" type="text" placeholder="Room ID" 
+                onBlur={(event) => {setRoomName(event.target.value)}}/>
+                <Link className="Join Btn" to="/game" onClick={joinRoom}>Join</Link>
+            </div>
         </div>
     );
 }
  
 export default Login;
+// TODO: make sure no line is greater than 80 cols

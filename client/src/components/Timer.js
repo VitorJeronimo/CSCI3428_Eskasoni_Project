@@ -1,16 +1,24 @@
+import { useHistory } from "react-router";
 import { useState, useEffect } from "react";
-import styles from "./Timer.module.css";
 
-const Timer = ({ MinSecs, startGame }) => {
+const Timer = ({ minSecs, startGame, socket, categoryValues }) => {
 
-  const { minutes, seconds = 60 } = MinSecs;
+  const { minutes, seconds = 60 } = minSecs;
   const [[mins, secs], setTime] = useState([minutes, seconds]);
   const [isActive, setActive] = useState(false);
+  const [hideButton, setHideButton] = useState(false);
+
+  const history = useHistory();
 
   const tick = () => {
-    if (mins === 0 && secs ===0)
-      reset()
-    else if (secs === 0) {
+    if (mins === 0 && secs ===0) {
+      //game ends
+      //add current answers to the players list of words
+      socket.emit("deliver_values", categoryValues);
+      //go to voting page
+      history.push('/vote'); 
+      reset();
+    } else if (secs === 0) {
       setTime([mins - 1, 59]);
     } else {
       setTime([mins, secs - 1]);
@@ -19,18 +27,23 @@ const Timer = ({ MinSecs, startGame }) => {
 
   const handleStartClick = () => {
     startGame();
-    setTime([2,30]);
-    setActive(true);
+    //setTime([2,30]);
+    //setActive(true);
+    socket.emit("start_timers");
   }
 
-  const handleResetClick = () => {
-    setTime([0,0]);
-    setActive(false);
-  }
+  socket.on("start_timer", () => {
+    setTime([0,20]);
+    setActive(true);
+  });
+
+  socket.on("hide_buttons", () => {
+    setHideButton(true);
+  });
 
   const reset = () => {
     setActive(false);
-    setTime([parseInt(minutes), parseInt(seconds)]);
+    setTime([0, 0]);
   }
 
   useEffect(() => {
@@ -41,15 +54,17 @@ const Timer = ({ MinSecs, startGame }) => {
   });
 
   return (
-    <section className={ styles.Timer }>
+    <section className="Timer">
       <div>
-        <p className={ styles.time }>{`${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`}
+        <p 
+          className="Time">{`${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`}
         </p>
       </div>
-      <div className={ styles.timerButtons}>
-        <button className={ styles.button } onClick={handleStartClick}>START</button>
-        <button className={ styles.button } onClick={handleResetClick}>RESET</button>
-      </div>
+      {
+          hideButton
+          ? null
+          : <button className="Btn" onClick={handleStartClick}>START</button>
+      }
     </section>
   );
 }

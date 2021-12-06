@@ -1,11 +1,12 @@
-import Category from './Category'
+import Category from "./Category";
 
-const CategoryList = ({ categories }) => {
+const CategoryList = ({ categories, setCategoryValue }) => {
+
   return (
     <section className="CategoryList">
       <div className="CategoriesContainer">
         {categories.map((category) => (
-          <Category key={category.id} category={category}/>
+          <Category key={category.id} category={category} setCategoryValue={setCategoryValue}/>
         ))}
       </div>
     </section>
