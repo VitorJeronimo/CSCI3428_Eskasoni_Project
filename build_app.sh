@@ -12,6 +12,7 @@ echo "[*] Pulling changes from GitHub..."
 git pull
 
 echo "[*] Building React app in client/"
+export NODE_OPTIONS=--openssl-legacy-provider
 cd client/
 npm run build
 cd ../
