@@ -14,6 +14,7 @@ const GameScreen = ({ socket }) => {
     const categoryValues = {};
     const minSecs = {minutes: 0, seconds: 0}
     const history = useHistory();
+    const location = useLocation();
 
     //===== STATES ==================================================================================
     const [categories, setCategories] = useState([]);
@@ -90,7 +91,7 @@ const GameScreen = ({ socket }) => {
             <CurrentLetter currentLetter={currentLetter} />
             <Timer minSecs={minSecs} startGame={startGame} socket={socket} categoryValues={categoryValues} />
             <CategoryList categories={categories} setCategoryValue={setCategoryValue} />
-            <Chat socket={socket} />
+            <Chat socket={socket} userName={location.state.user} roomName={location.state.room} />
         </div>
     );
 }

@@ -1,16 +1,18 @@
 import { useState } from 'react'
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const Login = ({ socket }) => {
     //===== STATES ================================================================================
     // These states are set by the Login component.
     const [userName, setUserName] = useState("");
     const [roomName, setRoomName] = useState("");
+    const history = useHistory()
 
     //===== EVENT EMISSION ========================================================================
     const joinRoom = () => {
       if (userName !== "" && roomName !== "") {
           socket.emit("join_room", { userName, roomName });
+          history.push("/game", {user: userName, room: roomName});
       }
     };
 
@@ -22,7 +24,7 @@ const Login = ({ socket }) => {
             onBlur={(event) => {setUserName(event.target.value)}}/>
             <input className="rID" type="text" placeholder="Room ID" 
             onBlur={(event) => {setRoomName(event.target.value)}}/>
-            <Link className="joinButton" to="/game" onClick={joinRoom}>Join</Link>
+            <button className="joinButton" to="/game" onClick={joinRoom}>Join</button>
         </div>
     );
 }

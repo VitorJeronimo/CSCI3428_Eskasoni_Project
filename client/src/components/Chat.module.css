@@ -32,19 +32,18 @@
     display: none;
   }
   .chat_window .chat_body .message {
-    height: auto;
-    padding: 10px;
     display: flex;
+    flex-direction: row;
+    height: auto;
+    padding: 2px;
   }
   
   .chat_window .chat_body .message .message_content {
     width: auto;
     height: auto;
-    min-height: 40px;
-    max-width: 120px;
-    background-color: #43a047;
+    min-height: 20px;
+    max-width: 360px;
     border-radius: 5px;
-    color: white;
     display: flex;
     align-items: center;
     margin-right: 5px;
@@ -55,7 +54,7 @@
     word-break: break-word;
   }
   
-  #you {
+  /* #you {
     justify-content: flex-start;
   }
   
@@ -85,11 +84,15 @@
   .message_meta #author {
     margin-left: 10px;
     font-weight: bold;
-  }
+  } */
   
   .chat_window .chat_body .message .message_meta {
+    align-items: center;
+    margin-right: 5px;
+    margin-left: 5px;
     display: flex;
-    font-size: 6px;
+    font-size: 12px;
+    flex-shrink: 1;
   }
   
   .chat_window .chat_footer {

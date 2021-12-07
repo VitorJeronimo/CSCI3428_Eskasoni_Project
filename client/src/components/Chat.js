@@ -16,15 +16,15 @@ const Chat = ({socket, userName, roomName}) => {
             };
 
             await socket.emit("send_message", messageData);
-            setMessageList((currentList) => [...currentList, messageData]);
         }
     };
 
-    useEffect(() => {
-        socket.on("recieve_message", (data) => {
+    useEffect(()=>{
+        socket.on("receive_message", (data) => {
             setMessageList((currentList) => [...currentList, data]);
-        })
-    }, [socket]);
+            console.log("message received");
+        });
+    }, [socket]);    
 
     return (
         <div className = "Chat">
@@ -32,15 +32,13 @@ const Chat = ({socket, userName, roomName}) => {
             <div className = {styles.chat_body}>
                 {messageList.map((messageContent) => {
                     return (
-                    <div className="message">
-                        <div>
-                            <div className="message_content">
-                                <p>{messageContent.message}</p>
-                            </div>
-                            <div className="message_meta">
-                                <p>{messageContent.time}</p>
-                                <p>{messageContent.author}</p>
-                            </div>
+                    <div className={styles.message}>
+                        <div className={styles.message_meta}>
+                            <p>{messageContent.author}</p>
+                        </div>
+                        <div>:</div>
+                        <div className={styles.message_content}>
+                            <p>{messageContent.message}</p>
                         </div>
                     </div>
                     );
@@ -48,7 +46,7 @@ const Chat = ({socket, userName, roomName}) => {
             </div>
             <div className = {styles.chat_footer}>
                 <input type="text" placeholder="hey.."
-                onClick={(event) => {
+                onBlur={(event) => {
                     setCurrentMessage(event.target.value);
                 }}/>
                 <button onClick={sendMessage}>&#9658;</button>

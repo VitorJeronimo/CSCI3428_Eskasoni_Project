@@ -130,7 +130,8 @@ io.on("connection", (socket) => {
      * Send the message sent by one client to all clients in the room
      */
     socket.on("send_message", (data) => {
-        socket.to(data.room).emit("receive_message", data);
+        io.to(data.room).emit("receive_message", data);
+        console.log(data);
     });
 
     /**
