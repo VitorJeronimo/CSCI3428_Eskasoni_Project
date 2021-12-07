@@ -19,7 +19,8 @@ const PORT = process.env.PORT || 5014;
 const server = createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: `http://ugdev.cs.smu.ca:${PORT}`,
+        //origin: `http://ugdev.cs.smu.ca:${PORT}`,
+        origin: `http://localhost:${PORT}`,
         methods: ["GET", "POST"],
     }
 });
@@ -176,14 +177,15 @@ io.on("connection", (socket) => {
         }
     });
 
-    // socket.on("updateVoteScore", (answers, player, scoreDifference) => {
-    //     const user = Player.getCurrentPlayer(socket.id);
-    //     const room = Room.getCurrentRoom(user.roomName);
+    socket.on("updateVoteScore", (answers, player, scoreDifference) => {
+        const user = Player.getCurrentPlayer(socket.id);
+        const room = Room.getCurrentRoom(user.roomName);
 
-    //     const index = answers.findIndex(obj => obj.userName == player);
-    //     answers[index].score += scoreDifference;
-    //     io.to(room.roomName).emit("receive_category/answers", answers);
-    // });
+        const index = answers.findIndex(obj => obj.userName == player);
+        console.log(answers[index].userName);
+        answers[index].score += scoreDifference;
+        io.to(room.roomName).emit("receive_category/answers", answers);
+    });
 
     /**
      * @author Gillom McNeil (A00450414)
