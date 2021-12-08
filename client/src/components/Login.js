@@ -11,6 +11,14 @@ const Login = ({ socket }) => {
     const [roomName, setRoomName] = useState("");
 
     //===== EVENT EMISSION ====================================================
+
+    /**
+     * @author Gillom McNeil (A00450414)
+     *
+     * Handles the onClick event on the Join button
+     *
+     * Check to make sure input is non-empty and then emit the join_room event
+     */
     const joinRoom = () => {
       if (userName !== "" && roomName !== "") {
           socket.emit("join_room", { userName, roomName });
