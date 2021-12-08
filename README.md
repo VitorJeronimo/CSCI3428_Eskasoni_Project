@@ -29,3 +29,30 @@ npm start
 ```
 The app will be available on `localhost:PORT` if you chose to run it locally, or `YOUR_SERVER_ADDRESS:PORT` if you are running the app on a production server.
 
+## Technical Guide
+This is a guide for any future developers or anyone trying to navigate through this app.
+
+2 main pieces are the Client side of the app and the Server side
+
+Server side is a single js file "server.js" at "./server/server.js"
+    - server.js utilizes modules (players.js, rooms.js, utils.js) which helps with readability
+
+The client side is a react app and starts at the App.js file located under "./client/src/App.js"
+All of the pieces of this app are stored in "components" which are individual js files located 
+    in the folder "./client/src/components/component.js"
+Components are called by the return function at the bottom of each component.
+
+A map showing the hierarchy of components is below:
+
+App.js - Login.js
+
+       - GameScreen.js - CurrentLetter.js
+                       - Chat.js
+                       - Timer.js
+                       - CategoryList.js - [Category.js,
+                                            Category.js,
+                                            ...]
+       - VoteScreen.js - WordList.js - [Word.js,
+                                        Word.js,
+                                        ...]
+
