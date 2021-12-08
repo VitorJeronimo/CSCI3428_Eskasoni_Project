@@ -32,18 +32,13 @@ const VoteScreen = ({socket}) => {
         socket.emit('request_category/answers', categoryNumber);
     };
 
-    const vote = (scoreDifference, player) => {
-        socket.emit("updateVoteScore", answers, player, scoreDifference);
-        document.getElementsByClassName("BtnVote")[0].style.disabel = true;
-    };
-
     return (
         <div className="VoteScreen">
             <div className="VoteCardTitle">
                 <h2>{currentCategory}</h2>
                 <button className="nextCategorybtn" onClick={handleNextCategory}>Next</button>
             </div>
-            <WordList answers={answers} vote={vote}/>
+            <WordList answers={answers} socket={socket}/>
         </div>
     );
 }

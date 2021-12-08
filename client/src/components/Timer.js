@@ -37,7 +37,7 @@ const Timer = ({ minSecs, startGame, socket, categoryValues}) => {
   });
 
   socket.on("hide_buttons", () => {
-    document.getElementsByClassName("timerButtons")[0].style.display = "none";
+    document.getElementsByClassName("timerButtons")[0].style.visibility = "hidden";
   });
 
   const handleResetClick = () => {

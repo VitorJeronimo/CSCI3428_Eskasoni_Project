@@ -1,10 +1,10 @@
 import Word from "./Word";
 
-const WordList = ({answers, vote}) => {
+const WordList = ({answers, socket}) => {
     return (
         <div className="WordList">
             {answers.map((word) => (
-            <Word word={word.answer} player={word.userName} score={word.score} vote={vote}/>))}
+            <Word key={word.id} word={word.answer} player={word.userName} score={word.score} socket={socket}/>))}
         </div>
     );
 }
