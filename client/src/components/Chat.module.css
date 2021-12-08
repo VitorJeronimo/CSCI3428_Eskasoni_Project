@@ -20,6 +20,7 @@
     background: #fff;
     height: calc(400px - (45px + 70px));
     position: relative;
+    overflow-y: scroll;
   }
   .chat_window .chat_body .message_container {
     width: 100%;

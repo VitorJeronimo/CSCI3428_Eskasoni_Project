@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "./Chat.module.css";
 
 const Chat = ({socket, userName, roomName}) => {
     const [currentMessage, setCurrentMessage] = useState("");
     const [messageList, setMessageList] = useState([]);
+    const messagesEndRef = useRef(null)
 
     const sendMessage = async () => {
         if (currentMessage !== "") {
@@ -16,15 +17,22 @@ const Chat = ({socket, userName, roomName}) => {
             };
 
             await socket.emit("send_message", messageData);
+            setMessageList((currentList) => [...currentList, messageData]);
         }
     };
+
+    const scrollToBottom = () => {
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+
+    useEffect( scrollToBottom, [messageList]);
 
     useEffect(()=>{
         socket.on("receive_message", (data) => {
             setMessageList((currentList) => [...currentList, data]);
-            console.log("message received");
         });
     }, [socket]);    
+
 
     return (
         <div className = "Chat">
@@ -43,6 +51,7 @@ const Chat = ({socket, userName, roomName}) => {
                     </div>
                     );
                 })}
+                <div ref={messagesEndRef}/>
             </div>
             <div className = {styles.chat_footer}>
                 <input type="text" placeholder="hey.."
