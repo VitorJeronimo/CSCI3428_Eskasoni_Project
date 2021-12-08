@@ -120,7 +120,7 @@ const GameScreen = ({ socket }) => {
                 categories={categories} 
                 setCategoryValue={setCategoryValue} 
             />
-            <Chat socket={socket} />
+            <Chat socket={socket} userName={location.state.user} roomName={location.state.room}/>
         </div>
     );
 }
