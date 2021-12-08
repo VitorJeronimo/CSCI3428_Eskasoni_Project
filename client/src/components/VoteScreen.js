@@ -12,13 +12,15 @@ const VoteScreen = ({socket}) => {
     //subsequent calls will be done by the 'next' button
     useEffect(() => {
         socket.emit('request_category/answers', categoryNumber);
-    }, [location]);
+    }, []);
 
     //this will handle distributing the new category/ answers into the components
     socket.on("receive_category/answers", (answers) => {
         //set the new currentCategory
+        console.log(answers[0].category);
+        console.log(answers.slice(1));
         setCurrentCategory(answers[0].category);
-        setCurrentAnswers(answers.slice(1));
+        //setCurrentAnswers(answers.slice(1));
     });
 
     //this will handle recieving an updated list of scores whenever someone votes
@@ -32,13 +34,17 @@ const VoteScreen = ({socket}) => {
         socket.emit('request_category/answers', categoryNumber);
     };
 
+    const sendVote = (answers, player, scoreDifference) => {
+        // socket.emit("updateVoteScore", answers, player, scoreDifference);
+    };
+
     return (
         <div className="VoteScreen">
             <div className="VoteCardTitle">
                 <h2>{currentCategory}</h2>
                 <button className="nextCategorybtn" onClick={handleNextCategory}>Next</button>
             </div>
-            <WordList answers={answers} socket={socket}/>
+            <WordList answers={answers} sendVote={sendVote}/>
         </div>
     );
 }

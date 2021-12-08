@@ -177,13 +177,13 @@ io.on("connection", (socket) => {
     });
 
     socket.on("updateVoteScore", (answers, player, scoreDifference) => {
-        const user = Player.getCurrentPlayer(socket.id);
-        const room = Room.getCurrentRoom(user.roomName);
+        // const user = Player.getCurrentPlayer(socket.id);
+        // const room = Room.getCurrentRoom(user.roomName);
 
-        const index = answers.findIndex(obj => obj.userName == player);
-        console.log(answers[index].userName);
-        answers[index].score += scoreDifference;
-        io.to(room.roomName).emit("receive_category/answers", answers);
+        // const index = answers.findIndex(obj => obj.userName == player);
+        // console.log(answers[index].userName);
+        // answers[index].score += scoreDifference;
+        // io.to(room.roomName).emit("receive_category/answers", answers);
     });
 
     /**

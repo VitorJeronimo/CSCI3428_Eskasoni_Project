@@ -1,10 +1,10 @@
 import {useState} from "react";
 
-const Word = ({word, player, score, socket}) => {
+const Word = ({word, player, score, sendVote}) => {
     const [disable, setDisable] = useState(false);
 
     const vote = (scoreDifference, player) => {
-        socket.emit("updateVoteScore", answers, player, scoreDifference);
+        sendVote(player, scoreDifference);
         setDisable(true);
     };
 
