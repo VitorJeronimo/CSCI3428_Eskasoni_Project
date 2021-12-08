@@ -22,15 +22,16 @@ const Login = ({ socket }) => {
         <div className="LoginPage">
             <div className="LoginCard">
                 <div className="Logo">Aij?</div>
-                <input className="LoginInput" type="text" placeholder="Username"
-                onBlur={(event) => {setUserName(event.target.value)}}/>
-                <input className="LoginInput" type="text" placeholder="Room ID" 
-                onBlur={(event) => {setRoomName(event.target.value)}}/>
-                <Link className="Join Btn" to="/game" onClick={joinRoom}>Join</Link>
+                <input className="LoginInput" type="text"
+                    placeholder="Username"
+                    onBlur={(event) => {setUserName(event.target.value)}}/>
+                <input className="LoginInput" type="text" placeholder="Room ID"
+                    onBlur={(event) => {setRoomName(event.target.value)}}/>
+                <Link className="Join Btn" to="/game"
+                    onClick={joinRoom}>Join</Link>
             </div>
         </div>
     );
 }
- 
+
 export default Login;
-// TODO: make sure no line is greater than 80 cols
