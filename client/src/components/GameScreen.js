@@ -17,6 +17,7 @@ const GameScreen = ({ socket }) => {
     const categoryValues = {};
     const minSecs = {minutes: 0, seconds: 0}
     const history = useHistory();
+    const location = useLocation();
 
     //===== STATES ============================================================
     const [gameStarted, setGameStarted] = useState(false);
