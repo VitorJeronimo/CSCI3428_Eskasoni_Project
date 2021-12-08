@@ -1,4 +1,5 @@
 #!/bin/bash
+# Author: Vitor Jeronimo (A00431599)
 
 echo "[*] Starting ./build_app.sh script..."
 

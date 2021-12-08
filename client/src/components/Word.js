@@ -1,3 +1,6 @@
+// Author: Gillom McNeil (A00450414)
+// Author: Vitor Jeronimo (A00431599)
+
 const Word = ({word, player, score, vote}) => {
 
     return (

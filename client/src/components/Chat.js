@@ -1,3 +1,5 @@
+// Author: Gillom McNeil (A00450414)
+
 import { useEffect, useState } from "react";
 
 const Chat = ({socket, userName, roomName}) => {

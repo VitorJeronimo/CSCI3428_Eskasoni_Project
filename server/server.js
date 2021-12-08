@@ -1,4 +1,7 @@
-//===== IMPORTS ===================================================================================
+// Author: Vitor Jeronimo (A00431599)
+// Author: Gillom McNeil  (A00450414)
+
+//===== IMPORTS ===============================================================
 // Required imports
 const express = require("express");
 const path = require("path");
@@ -10,7 +13,7 @@ const { Server } = require("socket.io");
 const { playersOnServer, Player } = require("./modules/players");
 const { roomsOnServer, Room } = require("./modules/rooms");
 
-//===== SERVER SETUP ==============================================================================
+//===== SERVER SETUP ==========================================================
 
 // Server setup
 const app = express();
@@ -33,11 +36,10 @@ app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname,'client', '..', 'build', 'index.html'));
 });
 
-//===== EVENT HANDLING ============================================================================
+//===== EVENT HANDLING ========================================================
 
 io.on("connection", (socket) => {
     console.log(`User connected: ${socket.id}`);
-
     /**
      * @author Gillom McNeil  (A00450414)
      * @author Vitor Jeronimo (A00431599)
@@ -59,7 +61,10 @@ io.on("connection", (socket) => {
 
         // If a player with the same socket ID already exists in the list,
         // remove them to avoid duplicates
-        const index = playersOnServer.findIndex(player => player.id === socket.id);
+        const index = playersOnServer.findIndex(
+            player => player.id === socket.id
+        );
+
         if (index !== -1) {
             playersOnServer.splice(index, 1);
         }
@@ -196,6 +201,11 @@ io.on("connection", (socket) => {
         }
     });
 
+    /**
+     * @author Gillom McNeil (A00450414)
+     *
+     * IN PROGRESS
+     */
     // socket.on("updateVoteScore", (answers, player, scoreDifference) => {
     //     const user = Player.getCurrentPlayer(socket.id);
     //     const room = Room.getCurrentRoom(user.roomName);
@@ -209,7 +219,6 @@ io.on("connection", (socket) => {
      * @author Gillom McNeil (A00450414)
      *
      * Start all the timers in the same room as the admin who calls this
-     *
      */
     socket.on("start_timers", () => {
         const player = Player.getCurrentPlayer(socket.id);
@@ -247,7 +256,7 @@ io.on("connection", (socket) => {
     });
 });
 
-//===== FUNCTIONS =================================================================================
+//===== FUNCTIONS =============================================================
 /**
  * @author Gillom McNeil (A00450414)
  *
@@ -273,8 +282,5 @@ const getAllPlayerAnswers = (categoryIndex, room) => {
     return allAnswers;
 };
 
-//===== SERVER ====================================================================================
+//===== SERVER ================================================================
 server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
-
-// TODO Store user's username and room id in session storage
-// TODO Improve server log messages

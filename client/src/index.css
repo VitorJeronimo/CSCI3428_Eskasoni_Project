@@ -1,3 +1,9 @@
+/*
+ * Author: Vitor Jeronimo (A00431599)
+ * Author: Evan Meunier
+ * Author: Gillom McNeil  (A00450414)
+ */
+
 /* ===== VARIABLES ========================================================= */
 :root {
     --color-background: rgba(144, 156, 164, 0.7);
@@ -329,105 +335,3 @@ input:focus {
   background-color: #f43030;
 }
 
-.ActionButtons {
-  /* Button positioning properties */
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 3;
-  grid-row-end: 4;
-
-  /* Button style properties */
-  background-color: rgba(144, 156, 164, 0.7);
-  border: 3px solid rgba(0, 0, 0, 0.8);
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-}
-.btn {
- /* Button style properties */
-  background-color: #000000;
-  border: none;
-  color: white;
-  padding: 12px 12px;
-  margin: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-}
-.btn:hover {
-  background-color:#606d76;
-  border: none;
-  color: white;
-  padding: 12px 12px;
-  margin: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-}
-
-
-.openButton {
-  top:20px;
-  left:45px;
-  font-size:60px;
-  background-color:#000000;
-}
-
- .overlay {
-  height: 100%;
-  width: 0;
-  position: fixed; 
-  z-index: 1;
-  left: 0;
-  top: 0;
-  background-color: rgb(255,255,255); 
-  background-color: rgba(255,255,255, 0.9); 
-  overflow-x: hidden;
-  transition: 0.5s;
- }
-
-.overlay-content {
-  position: relative;
-  top: 25%; 
-  width: 100%;
-  text-align: center; 
-  margin-top: 30px;
-}
-
-
-.overlay .closebtn {
-  top: 20px;
-  left: 45px;
-  font-size: 60px;
-  background-color:#000000;
-}
-
-
-
-.button {
-  /* background-color: #935637; */
-  /* border-radius: 25%; */
-  /* border-color: black;
-  color: black;
-  font-size: 20px;
-  padding: 20px;
-  margin: 0px 10px 20px 10px;
-  display: inline; */
-background-color: #000000;
-border: none;
-color: white;
-padding: 12px 12px;
-margin: 10px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 16px;
-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-
-}

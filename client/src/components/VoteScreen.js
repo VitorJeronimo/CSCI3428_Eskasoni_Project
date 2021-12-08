@@ -1,3 +1,5 @@
+// Author: Gillom McNeil (A00450414)
+
 import WordList from "./WordList";
 import { useState,useEffect } from 'react';
 import { useLocation } from 'react-router-dom';

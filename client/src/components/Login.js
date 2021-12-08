@@ -1,20 +1,23 @@
+// Author: Gillom McNeil (A00450414)
+// Author: Evan Meunier
+
 import { useState } from 'react'
 import { Link } from "react-router-dom";
 
 const Login = ({ socket }) => {
-    //===== STATES ================================================================================
+    //===== STATES ============================================================
     // These states are set by the Login component.
     const [userName, setUserName] = useState("");
     const [roomName, setRoomName] = useState("");
 
-    //===== EVENT EMISSION ========================================================================
+    //===== EVENT EMISSION ====================================================
     const joinRoom = () => {
       if (userName !== "" && roomName !== "") {
           socket.emit("join_room", { userName, roomName });
       }
     };
 
-    //===== COMPONENT =============================================================================
+    //===== COMPONENT =========================================================
     return (
         <div className="LoginPage">
             <div className="LoginCard">

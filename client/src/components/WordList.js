@@ -1,3 +1,5 @@
+// Author: Gillom McNeil (A00450414)
+
 import Word from "./Word";
 
 const WordList = ({answers, vote}) => {

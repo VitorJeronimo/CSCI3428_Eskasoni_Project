@@ -1,3 +1,5 @@
+// Author: Vitor Jeronimo (A00431599)
+
 import Category from "./Category";
 
 const CategoryList = ({ categories, setCategoryValue }) => {

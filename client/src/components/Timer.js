@@ -1,3 +1,5 @@
+// Author: Gillom McNeil (A00450414)
+
 import { useHistory } from "react-router";
 import { useState, useEffect } from "react";
 

@@ -1,7 +1,7 @@
-//===== IMPORTS ===================================================================================
+//===== IMPORTS ===============================================================
 const { shuffle } = require("./utils");
 
-//===== VARIABLES =================================================================================
+//===== VARIABLES =============================================================
 const roomsOnServer = []        // List of existing rooms on the server
 
 // List of letters that can be the first letter of Mi'kmaq words
@@ -61,7 +61,8 @@ class Room {
      * @param {string} roomName     Room ID provided by the user at login
      * @param {object} admin        Player object that reflects the first player
      *                              to join the current room
-     * @param {object} playersList  Array containing all players currently in the room
+     * @param {object} playersList  Array containing all players currently in 
+     *                              the room
      */
     constructor(roomName, admin, playersList) {
         this._roomName = roomName;
@@ -128,14 +129,10 @@ class Room {
      * Sets the "gameStarted" property to true.
      */
     startGame() {
-        console.log();
-        console.log("startGame()#before", this._gameState); //DELETE
         this._gameState = {
             ...this._gameState,
             gameStarted: true
         }
-        console.log("startGame()#after", this._gameState); //DELETE
-        console.log();
     }
 
     /**
@@ -147,8 +144,6 @@ class Room {
     updateRoom() {
         this._gameState.currentLetter = Room.generateNewLetter();
         this._gameState.currentCategories = Room.generateCategoriesList();
-
-        console.log("updateRoom(): currentLetter -> ", this._gameState.currentLetter.character);//DELETE
     }
 
     /**
@@ -195,7 +190,9 @@ class Room {
      */
     static getCurrentRoom(roomName) {
         // Search for the room using room name
-        const index = roomsOnServer.findIndex(room => room.roomName === roomName);
+        const index = roomsOnServer.findIndex(
+            room => room.roomName === roomName
+        );
         
         // If the room was found, return it
         if (index !== -1) {
@@ -241,7 +238,7 @@ class Room {
     }
 }
 
-//===== EXPORTS ===================================================================================
+//===== EXPORTS ===============================================================
 
 module.exports = {
     roomsOnServer,

@@ -1,4 +1,7 @@
-//===== IMPORTS ===================================================================================
+// Author: Vitor Jeronimo (A00431599)
+// Author: Gillom McNeil  (A00450414)
+
+//===== IMPORTS ===============================================================
 // Required imports
 import { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
@@ -10,17 +13,17 @@ import CurrentLetter from "./CurrentLetter";
 import Timer from "./Timer";
 
 const GameScreen = ({ socket }) => {
-    //===== VARIABLES ===============================================================================
+    //===== VARIABLES =========================================================
     const categoryValues = {};
     const minSecs = {minutes: 0, seconds: 0}
     const history = useHistory();
 
-    //===== STATES ==================================================================================
+    //===== STATES ============================================================
     const [gameStarted, setGameStarted] = useState(false);
     const [categories, setCategories] = useState([]);
     const [currentLetter, setCurrentLetter] = useState({});
 
-    //===== EVENT EMISSION ==========================================================================
+    //===== EVENT EMISSION ====================================================
     /**
      * @author Gillom McNeil (A00450414)
      *
@@ -32,7 +35,7 @@ const GameScreen = ({ socket }) => {
         socket.emit("start_game");
     };
 
-    //===== EVENT HANDLING ==========================================================================
+    //===== EVENT HANDLING ====================================================
     /**
      * @author Vitor Jeronimo (A00431599)
      *
@@ -61,7 +64,7 @@ const GameScreen = ({ socket }) => {
         window.alert("The server could not access your username and room ID. Please, log in again.");
     });
 
-    //===== EFFECTS ===============================================================================
+    //===== EFFECTS ===========================================================
     /**
      * @author Vitor Jeronimo (A00431599)
      * 
@@ -72,7 +75,7 @@ const GameScreen = ({ socket }) => {
         playSound();
     }, [currentLetter]);
 
-    //===== FUNCTIONS ===============================================================================
+    //===== FUNCTIONS =========================================================
     /**
      * @author Gillom McNeil (A00450414)
      * 
@@ -98,7 +101,7 @@ const GameScreen = ({ socket }) => {
         audio.play();
     }
 
-    //===== COMPONENT =============================================================================
+    //===== COMPONENT =========================================================
     return (
         <div className="App">
             <CurrentLetter 

@@ -1,3 +1,6 @@
+// Author: Vitor Jeronimo (A00431599)
+// Author: Gillom McNeil  (A00450414)
+
 //===== IMPORTS ===================================================================================
 // Required imports
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
