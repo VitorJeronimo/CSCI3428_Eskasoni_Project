@@ -37,8 +37,8 @@ const Login = ({ socket }) => {
                     onBlur={(event) => {setUserName(event.target.value)}}/>
                 <input className="LoginInput" type="text" placeholder="Room ID"
                     onBlur={(event) => {setRoomName(event.target.value)}}/>
-                <Link className="Join Btn" to="/game"
-                    onClick={joinRoom}>Join</Link>
+                <button className="Join Btn" to="/game"
+                    onClick={joinRoom}>Join</button>
             </div>
         </div>
     );

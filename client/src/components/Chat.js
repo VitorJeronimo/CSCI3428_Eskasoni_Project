@@ -35,25 +35,24 @@ const Chat = ({socket, userName, roomName}) => {
 
 
     return (
-        <div className = "Chat">
-            <p className="ChatNotification">
-                The Chat will be available soon...
-            </p>
-            <div className = "ChatBody">
-                {messageList.map((messageContent) => {
-                    return (
-                    <div className={styles.message}>
-                        <div className={styles.message_meta}>
-                            <p>{messageContent.author}</p>
+        <div className = {styles.chat_window}>
+            <div className ={styles.chat_body}>
+                <div className={styles.messageContainer}>
+                    {messageList.map((messageContent) => {
+                        return (
+                        <div className={styles.message}>
+                            <div className={styles.message_meta}>
+                                <p>{messageContent.author}</p>
+                            </div>
+                            <div>:</div>
+                            <div className={styles.message_content}>
+                                <p>{messageContent.message}</p>
+                            </div>
                         </div>
-                        <div>:</div>
-                        <div className={styles.message_content}>
-                            <p>{messageContent.message}</p>
-                        </div>
-                    </div>
-                    );
-                })}
-                <div ref={messagesEndRef}/>
+                        );
+                    })}
+                    <div ref={messagesEndRef}/>
+                </div>
             </div>
             <div className = {styles.chat_footer}>
                 <input type="text" placeholder="hey.."
