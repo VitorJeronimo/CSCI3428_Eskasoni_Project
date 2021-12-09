@@ -29,6 +29,11 @@ npm start
 ```
 The app will be available on `localhost:PORT` if you chose to run it locally, or `YOUR_SERVER_ADDRESS:PORT` if you are running the app on a production server.
 
+## Audio
+If you would like to change the audio for each letter, all you need to do is to record each letter separately and put all audio files inside the `audio/` folder. However, it is important that you use the same file names as the default audio files, otherwise the audio won't work in the game.
+
+After changing the audio files, run `./build_app.sh` script on the root folder of your server to successfully update the audio.
+
 ## Technical Guide
 This is a guide for any future developers or anyone trying to navigate through this app.
 
