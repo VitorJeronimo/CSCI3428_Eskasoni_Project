@@ -1,5 +1,8 @@
-  .chat_window p {
-    margin: 0;
+  .chat_window {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-end: 4;
   }
   .chat_window .chat_header {
     border-radius: 6px;
@@ -18,7 +21,7 @@
   .chat_window .chat_body {
     border: 1px solid #263238;
     background: #fff;
-    height: calc(400px - (45px + 70px));
+    height:90%;
     position: relative;
     overflow-y: scroll;
   }
@@ -97,7 +100,7 @@
   }
   
   .chat_window .chat_footer {
-    height: 30px;
+    height: 10%;
     border: 1px solid #263238;
     border-top: none;
     display: flex;

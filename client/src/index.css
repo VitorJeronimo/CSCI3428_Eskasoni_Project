@@ -171,7 +171,8 @@ body {
 }
 
 /* CHAT */
-.Chat {
+/* moved to chat.module.css */
+/* .Chat {
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 3;
@@ -182,16 +183,16 @@ body {
   align-items: center;
   justify-content: center;
   background-color: transparent;
-}
+} */
 
-.Chat .ChatNotification {
+/* .Chat .ChatNotification {
     font-size: 20px;
     font-weight: 700;
 }
 
 .Chat .ChatFooter {
   display: none;
-}
+} */
 
 /* CATEGORIES LIST */
 .CategoryList {
