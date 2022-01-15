@@ -26,9 +26,11 @@ const VoteScreen = ({socket}) => {
         setCurrentAnswers(answers.slice(1));
     });
 
-    // socket.on("receive_updated_scores", (answers) => {
-    //     setCurrentAnswers(answers.slice(1));
-    // });
+    //this will handle recieving an updated list of scores whenever someone votes
+    socket.on("receive_updated_scores", (answers) => {
+        console.log(answers.slice(1));
+        setCurrentAnswers(answers.slice(1));
+    });
 
     //===== EVENT EMISSION ====================================================
     const handleNextCategory = () => {
@@ -37,7 +39,8 @@ const VoteScreen = ({socket}) => {
     };
 
     const vote = (scoreDifference, player) => {
-        //socket.emit("updateVoteScore", answers, player, scoreDifference);
+        socket.emit("updateVoteScore", answers, player, scoreDifference);
+        document.getElementsByClassName("BtnVote")[0].style.disabel = true;
     };
 
     //===== COMPONENT =========================================================
