@@ -40,6 +40,15 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
     console.log(`User connected: ${socket.id}`);
+
+    socket.on('join', ({ name, room }) => {
+        console.log(name, room);
+    });
+    
+    socket.on('disconnect', () => {
+        console.log('User disconnected')
+    });
+
     /**
      * @author Gillom McNeil  (A00450414)
      * @author Vitor Jeronimo (A00431599)
@@ -56,7 +65,7 @@ io.on("connection", (socket) => {
      * @param {string} userName Username provided by the user at login
      * @param {string} roomName Room ID provided by the user at login
      */
-    socket.on("join_room", ({ userName, roomName }) => {
+    socket.on("join_game", ({ userName, roomName }) => {
         const player = new Player(socket.id, userName, roomName);
         
         // If a player with the same socket ID already exists in the list,
@@ -218,25 +227,25 @@ io.on("connection", (socket) => {
          *
          * Removes player from the players list in the server.
          */
-        socket.on("disconnect", () => {
-            try {
-                // Get the room name of the player that's disconnecting
-                const player = Player.getCurrentPlayer(socket.id);
-                const room = Room.getCurrentRoom(player.roomName);
-                
-                // Remove the player from the players list in and disconnect them
-                // from the server.
-                room.removePlayer(socket.id);
-                Player.playerDisconnects(socket.id);
-                socket.leave(player.roomName);
-                
-                console.log("User disconnected", socket.id);
-            }
-            catch (error) {
-                console.log(error);
-                socket.emit("redirect_to_login");
-            }
-        });
+//        socket.on("disconnect", () => {
+//            try {
+//                // Get the room name of the player that's disconnecting
+//                const player = Player.getCurrentPlayer(socket.id);
+//                const room = Room.getCurrentRoom(player.roomName);
+//                
+//                // Remove the player from the players list in and disconnect them
+//                // from the server.
+//                room.removePlayer(socket.id);
+//                Player.playerDisconnects(socket.id);
+//                socket.leave(player.roomName);
+//                
+//                console.log("User disconnected", socket.id);
+//            }
+//            catch (error) {
+//                console.log(error);
+//                socket.emit("redirect_to_login");
+//            }
+//        });
     });
     
     //===== FUNCTIONS =============================================================

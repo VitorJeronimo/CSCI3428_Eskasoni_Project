@@ -5,6 +5,7 @@
 // Required imports
 import { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
+import socket from "../Lobby";
 
 // Local imports
 import CategoryList from "./CategoryList";
@@ -12,7 +13,7 @@ import Chat from "./Chat";
 import CurrentLetter from "./CurrentLetter";
 import Timer from "./Timer";
 
-const GameScreen = ({ socket }) => {
+const GameScreen = () => {
     //===== VARIABLES =========================================================
     const categoryValues = {};
     const minSecs = {minutes: 0, seconds: 0}
