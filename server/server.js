@@ -4,6 +4,8 @@ const http = require('http');
 const cors = require('cors');
 const { Server } = require('socket.io');
 
+const startLobby = require('./modules/lobby');
+
 const PORT = process.env.PORT || 5000;
 const ORIGIN = process.env.ORIGIN || 'http://localhost:3000';
 
@@ -20,7 +22,7 @@ if (process.env.NODE_ENV !== 'development') {
     app.use(cors());
 }
 
-//startLobby(io);
+startLobby(io);
 //startChat(io);
 
 httpServer.listen(PORT, () => console.log(`Listening on port ${PORT}`));

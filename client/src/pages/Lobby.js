@@ -12,7 +12,7 @@ const Lobby = ({ location }) => {
         const { name, room } = queryString.parse(location.search) 
 
         socket = io(SERVER);
-        socket.emit('test', { name, room });
+        socket.emit('join', { name, room });
         console.log(socket)
 
         return () => {
@@ -22,7 +22,7 @@ const Lobby = ({ location }) => {
     }, [SERVER, location.search]);
 
     return (
-        <GameScreen />
+        <p>Test</p>
     )
 }
 
