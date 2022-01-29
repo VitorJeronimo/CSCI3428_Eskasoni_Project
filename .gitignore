@@ -14,6 +14,9 @@ server/package-lock.json
 # production
 /build
 
+# temporary files
+/tmp
+
 # misc
 .DS_Store
 .env
