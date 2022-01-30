@@ -1,28 +1,27 @@
 import { useState, useEffect} from 'react';
-import queryString from 'query-string';
 import io from 'socket.io-client';
 
 import GameScreen from './components/GameScreen';
 
 const Lobby = ({ location }) => {
-    const SERVER = 'localhost:5000';
-    let socket;
+    const ENDPOINT = 'localhost:5000';
+    const [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        const { name, room } = queryString.parse(location.search) 
+        const newSocket = io(ENDPOINT);
+        setSocket(newSocket);
 
-        socket = io(SERVER);
-        socket.emit('join', { name, room });
-        console.log(socket)
-
-        return () => {
-            socket.disconnect();
-        }
-
-    }, [SERVER, location.search]);
+        return () => newSocket.close();
+    }, [ENDPOINT, location.search])
 
     return (
-        <p>Test</p>
+        <>
+            {socket ? (
+                <GameScreen socket={socket} />
+            ) : (
+                <p>Not Connected</p>
+            )}
+        </>
     )
 }
 

@@ -12,7 +12,6 @@ class Connection {
 
     addPlayer(name, room) {
         // TODO: implement "addPlayer" method
-        console.log(name, room);
         players.set(this.socket.id, {name: name, room: room});
         console.log(players)
     }

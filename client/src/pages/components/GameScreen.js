@@ -5,7 +5,7 @@
 // Required imports
 import { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import socket from "../Lobby";
+import queryString from 'query-string';
 
 // Local imports
 import CategoryList from "./CategoryList";
@@ -13,7 +13,7 @@ import Chat from "./Chat";
 import CurrentLetter from "./CurrentLetter";
 import Timer from "./Timer";
 
-const GameScreen = () => {
+const GameScreen = ({ socket }) => {
     //===== VARIABLES =========================================================
     const categoryValues = {};
     const minSecs = {minutes: 0, seconds: 0}
@@ -103,6 +103,9 @@ const GameScreen = () => {
         audio.play();
     }
 
+    const { name, room } = queryString.parse(location.search)
+    socket.on('connect', () => socket.emit('join', { name, room }))
+
     //===== COMPONENT =========================================================
     return (
         <div className="App">
@@ -121,7 +124,6 @@ const GameScreen = () => {
                 categories={categories} 
                 setCategoryValue={setCategoryValue} 
             />
-            <Chat socket={socket} userName={location.state.user} roomName={location.state.room}/>
         </div>
     );
 }
