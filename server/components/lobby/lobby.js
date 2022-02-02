@@ -1,5 +1,6 @@
+const players = require('../users/players');
+
 const rooms = new Map();
-const players = new Map();
 
 const defaultGameState = {
     currentLetter: {},
@@ -19,13 +20,7 @@ class Connection {
     }
 
     addPlayer(playerName, roomID) {
-        const newPlayer = {
-            name: playerName,
-            room: roomID,
-            isAdmin: false,
-            score: 0,
-            gameWords: []
-        };
+        const newPlayer = players.createPlayer(socket.id, playerName, roomID);
 
         if (rooms.has(roomID)) {
             const room = rooms.get(roomID);

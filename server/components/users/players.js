@@ -5,10 +5,14 @@ const createPlayer = (id, username, roomID) => {
         username: username,
         roomID: roomID,
         isRoomAdmin: false,
-    }
+    };
 
     players.set(id, newPlayer);
     return newPlayer;
+};
+
+const getPlayerById = (id) => {
+    return players.get(id);
 };
 
 const makePlayerAdmin = (id) => {
@@ -22,6 +26,7 @@ const deletePlayer = (id) => {
 
 module.exports = {
     createPlayer: createPlayer,
+    getPlayerById: getPlayerById,
     makePlayerAdmin: makePlayerAdmin,
     deletePlayer: deletePlayer
-}
+};
