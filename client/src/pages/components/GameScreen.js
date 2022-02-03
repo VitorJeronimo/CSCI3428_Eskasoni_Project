@@ -104,7 +104,9 @@ const GameScreen = ({ socket }) => {
     }
 
     const { name, room } = queryString.parse(location.search)
-    socket.on('connect', () => socket.emit('join', { name, room }))
+    useEffect(() => {
+        socket.on('connect', () => socket.emit('join_lobby', { name, room }))
+    }, [])
 
     //===== COMPONENT =========================================================
     return (

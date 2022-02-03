@@ -5,7 +5,7 @@ const rooms = new Map();
 const _createRoom = (roomID, roomAdmin) => {
     const newRoom = {
         roomAdmin: roomAdmin,
-        playersList: null
+        playersList: new Map()
     };
 
     rooms.set(roomID, newRoom);
@@ -15,21 +15,26 @@ const _createRoom = (roomID, roomAdmin) => {
 const addPlayerToRoom = (roomID, playerID) => {
     const player = players.getPlayerById(playerID);
 
-    if (rooms.has(roomID)) {
-        const room = rooms.get(roomID);
-        room.playersList.set(playerID, player);
+    if (!rooms.has(roomID)) {
+        players.makePlayerAdmin(playerID);
+        _createRoom(roomID, player);
     }
-    else {
-        const playersList = new Map();
-        players.makePlayerAdmin(player);
-        playersList.set(playerID, player);
 
-        const newRoom = _createRoom(roomID, player);
+    const room = rooms.get(roomID);
+    room.playersList.set(playerID, player);
+};
 
-        rooms.set(roomID, newRoom);
+const removePlayerFromRoom = (roomID, playerID) => {
+    const room = rooms.get(roomID);
+    const playersList = room.playersList;
+    playersList.delete(playerID);
+
+    if (playersList.size === 0) {
+        rooms.delete(roomID);
     }
 };
 
 module.exports = {
     addPlayerToRoom: addPlayerToRoom,
+    removePlayerFromRoom: removePlayerFromRoom,
 };
