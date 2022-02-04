@@ -4,7 +4,7 @@ import WordList from "./WordList";
 import { useState,useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const VoteScreen = ({socket}) => {
+const VoteScreen = ({socket, setGamePhase }) => {
     //===== STATES ============================================================
     const [currentCategory, setCurrentCategory] = useState("");
     const [answers, setCurrentAnswers] = useState([]);

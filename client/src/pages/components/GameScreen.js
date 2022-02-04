@@ -13,7 +13,7 @@ import Chat from "./Chat";
 import CurrentLetter from "./CurrentLetter";
 import Timer from "./Timer";
 
-const GameScreen = ({ socket }) => {
+const GameScreen = ({ socket, setGamePhase }) => {
     //===== VARIABLES =========================================================
     const categoryValues = {};
     const minSecs = {minutes: 0, seconds: 0}
@@ -121,6 +121,7 @@ const GameScreen = ({ socket }) => {
                 startGame={startGame} 
                 socket={socket} 
                 categoryValues={categoryValues} 
+                setGamePhase={setGamePhase}
             />
             <CategoryList 
                 categories={categories} 
