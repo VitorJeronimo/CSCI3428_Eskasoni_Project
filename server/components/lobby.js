@@ -6,19 +6,34 @@ class Lobby {
 
     constructor(lobbyId) {
         this.lobbyId = lobbyId;
-        this.players = new Map();
-        this.lobbyAdmin = null;
+        this.players = [];
+    }
+
+    getLobbyAdmin() {
+        if (this.players.length === 0) {
+            return null;
+        }
+        return this.players[0];
     }
 
     addPlayerToLobby(player) {
-        if (!this.lobbyAdmin) {
-            this.lobbyAdmin = player;
-        }
+        this.players.push(player)
 
         const playerId = player.getPlayerId();
-
-        this.players.set(playerId, player);
         Lobby.playerToLobbyMapping.set(playerId, this.lobbyId)
+    }
+    
+    removePlayerFromLobby(playerId) {
+        const index = this.players.findIndex(player => player.getPlayerId() === playerId);
+
+        if (index === -1) {
+            // TODO: implement custom error
+            console.log(`ERROR: ${playerId} not found in ${this.lobbyId}`)
+            return
+        }
+
+        this.players.splice(index, 1);
+        Lobby.playerToLobbyMapping.delete(playerId);
     }
 
     static createLobby(lobbyId) {
@@ -36,11 +51,15 @@ class Lobby {
         if (!Lobby.activeLobbies.has(lobbyId)) {
             //TODO: implement custom error
             console.log(`ERROR: no lobby with ID ${lobbyId}`);
+            return
         }
-
         return Lobby.activeLobbies.get(lobbyId);
     }
 
+    static getLobbyByPlayerId(playerId) {
+        const lobbyId = Lobby.playerToLobbyMapping.get(playerId);
+        return Lobby.activeLobbies.get(lobbyId);
+    }
 }
 
 module.exports = Lobby;

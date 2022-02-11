@@ -24,8 +24,8 @@ class Connection {
     };
 
     disconnect() {
-        console.log(`${this.socket.id} disconnected...`)
-
+        const lobby = Lobby.getLobbyByPlayerId(this.socket.id);
+        lobby.removePlayerFromLobby(this.socket.id);
     };
 }
 
