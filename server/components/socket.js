@@ -11,17 +11,21 @@ class Connection {
     };
 
     addPlayer(username, lobbyId) {
-        console.log(username, lobbyId); // DELETE
         const player = Player.createNewPlayer(this.socket.id, username);
+        let lobby = null;
 
         if (!Lobby.hasLobbyWithId(lobbyId)) {
-            Lobby.createLobby(lobbyId);
+            lobby = Lobby.createLobby(lobbyId);
+        } else {
+            lobby = Lobby.getLobbyById(lobbyId);
         } 
-        Lobby.addPlayerToLobby(player, lobbyId);
+
+        lobby.addPlayerToLobby(player);
     };
 
     disconnect() {
         console.log(`${this.socket.id} disconnected...`)
+
     };
 }
 

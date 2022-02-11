@@ -4,27 +4,28 @@ class Lobby {
     static activeLobbies = new Map();
     static playerToLobbyMapping = new Map();
 
-    constructor() {
+    constructor(lobbyId) {
+        this.lobbyId = lobbyId;
         this.players = new Map();
         this.lobbyAdmin = null;
     }
 
-    static addPlayerToLobby(player, lobbyId) {
-        const lobby = Lobby.activeLobbies.get(lobbyId);
-        if (lobby.players.size === 0) {
-            lobby.lobbyAdmin = player;
+    addPlayerToLobby(player) {
+        if (!this.lobbyAdmin) {
+            this.lobbyAdmin = player;
         }
 
         const playerId = player.getPlayerId();
-        lobby.players.set(playerId, player);
-        Lobby.playerToLobbyMapping.set(playerId, lobbyId)
-        
-        console.log(Lobby.activeLobbies, Lobby.playerToLobbyMapping) //DELETE
+
+        this.players.set(playerId, player);
+        Lobby.playerToLobbyMapping.set(playerId, this.lobbyId)
     }
 
     static createLobby(lobbyId) {
-        const newLobby = new Lobby();
+        const newLobby = new Lobby(lobbyId);
         Lobby.activeLobbies.set(lobbyId, newLobby);
+
+        return newLobby;
     }
 
     static hasLobbyWithId(lobbyId) {

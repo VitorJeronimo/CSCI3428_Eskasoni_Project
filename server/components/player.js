@@ -1,16 +1,16 @@
 class Player {
-    constructor(playerID, username) {
-        this.playerID = playerID;
+    constructor(playerId, username) {
+        this.playerId = playerId;
         this.username = username;
         this.score = 0;
     }
 
     getPlayerId() {
-        return this.playerID;
+        return this.playerId;
     }
 
-    static createNewPlayer(playerID, username) {
-        const newPlayer = new Player(playerID, username);
+    static createNewPlayer(playerId, username) {
+        const newPlayer = new Player(playerId, username);
         return newPlayer;
     }
 
