@@ -1,5 +1,3 @@
-// Author: Vitor Jeronimo (A00431599)
-
 const CurrentLetter = ({ currentLetter, gameStarted, playSound }) => {
 
   return (

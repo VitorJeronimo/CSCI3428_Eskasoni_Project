@@ -5,10 +5,10 @@ import queryString from 'query-string';
 const GameScreen = ({ socket, setGamePhase }) => {
     const location = useLocation();
 
-    const { username, roomID } = queryString.parse(location.search)
+    const { username, lobbyId } = queryString.parse(location.search)
     useEffect(() => {
-        console.log(username, roomID)
-        socket.on('connect', () => socket.emit('join_lobby', { username, roomID }));
+        console.log(username, lobbyId)
+        socket.on('connect', () => socket.emit('join_lobby', { username, lobbyId }));
     }, [])
 
     //===== COMPONENT =========================================================

@@ -4,7 +4,7 @@ const http = require('http');
 const cors = require('cors');
 const { Server } = require('socket.io');
 
-const startLobby = require('./components/lobby');
+const startLobby = require('./components/socket');
 
 const PORT = process.env.PORT || 5000;
 const ORIGIN = process.env.ORIGIN || 'http://localhost:3000';
