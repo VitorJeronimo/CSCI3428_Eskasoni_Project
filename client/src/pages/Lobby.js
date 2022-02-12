@@ -9,7 +9,7 @@ const Lobby = ({ location }) => {
     let socket;
 
     useEffect(() => {
-        const { name, room } = queryString.parse(location.search) 
+        const { name, room } = queryString.parse(location.search)
 
         socket = io(SERVER);
         socket.emit('test', { name, room });
@@ -22,7 +22,7 @@ const Lobby = ({ location }) => {
     }, [SERVER, location.search]);
 
     return (
-        <GameScreen />
+        <GameScreen socket={socket}/>
     )
 }
 
