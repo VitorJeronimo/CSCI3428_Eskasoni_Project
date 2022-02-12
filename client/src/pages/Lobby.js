@@ -1,28 +1,33 @@
 import { useState, useEffect} from 'react';
-import queryString from 'query-string';
 import io from 'socket.io-client';
 
 import GameScreen from './components/GameScreen';
+import VoteScreen from './components/VoteScreen';
 
 const Lobby = ({ location }) => {
-    const SERVER = 'localhost:5000';
-    let socket;
+    const ENDPOINT = 'localhost:5000';
+    const [socket, setSocket] = useState(null);
+    const [gamePhase, setGamePhase] = useState("not_started");
 
     useEffect(() => {
-        const { name, room } = queryString.parse(location.search)
+        const newSocket = io(ENDPOINT);
+        setSocket(newSocket);
 
-        socket = io(SERVER);
-        socket.emit('test', { name, room });
-        console.log(socket)
-
-        return () => {
-            socket.disconnect();
-        }
-
-    }, [SERVER, location.search]);
+        return () => newSocket.close();
+    }, [ENDPOINT, location.search])
 
     return (
-        <GameScreen socket={socket}/>
+        <>
+            {socket ? (
+                (gamePhase === 'not_started') ? (
+                    <GameScreen socket={socket} setGamePhase={setGamePhase} />
+                ) : (
+                    <VoteScreen socket={socket} setGamePhase={setGamePhase} />
+                )
+            ) : (
+                <p>Not Connected</p>
+            )}
+        </>
     )
 }
 

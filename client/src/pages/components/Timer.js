@@ -3,7 +3,7 @@
 import { useHistory } from "react-router";
 import { useState, useEffect } from "react";
 
-const Timer = ({ minSecs, startGame, socket, categoryValues }) => {
+const Timer = ({ minSecs, startGame, socket, categoryValues, setGamePhase }) => {
 
   //===== STATES ============================================================
   const { minutes, seconds = 60 } = minSecs;
@@ -70,7 +70,8 @@ const Timer = ({ minSecs, startGame, socket, categoryValues }) => {
       //add current answers to the players list of words
       socket.emit("deliver_values", categoryValues);
       //go to voting page
-      history.push('/vote');
+      //history.push('/vote');
+      setGamePhase('voting');
       reset();
     } else if (secs === 0) {
       setTime([mins - 1, 59]);
