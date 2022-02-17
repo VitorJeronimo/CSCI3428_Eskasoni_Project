@@ -10,6 +10,9 @@ class Lobby {
         // Generate new gamestate when lobby is created
     }
 
+    /**
+     * Retrieves admin player object associated with this lobby
+     */
     getLobbyAdmin() {
         if (this.players.length === 0) {
             return null;
