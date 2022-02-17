@@ -34,6 +34,10 @@ class Lobby {
         Lobby.playerToLobbyMapping.set(playerId, this.lobbyId)
     }
     
+    /**
+     * Removes player from the collection of players in this lobby.
+     * @param {string}   playerId - unique string that identifies the player.
+     */
     removePlayerFromLobby(playerId) {
         const index = this.players.findIndex(player => player.getPlayerId() === playerId);
 
