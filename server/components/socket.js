@@ -10,6 +10,12 @@ class Connection {
         socket.on('disconnect', () => this.disconnect());
     };
 
+    /**
+     * Adds player to a lobby that matches the Lobby ID given at login.
+     * If there is no lobby with the given ID, it creates a new one.
+     * @param {string}  username - username provided by the player at login.
+     * @param {string}  lobbyId  - lobby ID provided by the player at login.
+     */
     addPlayer(username, lobbyId) {
         let lobby = null;
         if (!Lobby.hasLobbyWithId(lobbyId)) {
