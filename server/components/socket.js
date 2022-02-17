@@ -1,5 +1,4 @@
 const Lobby = require('./lobby');
-const Player = require('./player');
 
 class Connection {
     constructor(io, socket) {
@@ -7,21 +6,26 @@ class Connection {
         this.socket = socket;
 
         socket.on('join_lobby', ({ username, lobbyId }) => this.addPlayer(username, lobbyId));
+        socket.on('gamestate_update_request', () => this.updateClientGamestate());
         socket.on('disconnect', () => this.disconnect());
     };
 
     addPlayer(username, lobbyId) {
-        const player = Player.createNewPlayer(this.socket.id, username);
         let lobby = null;
-
         if (!Lobby.hasLobbyWithId(lobbyId)) {
             lobby = Lobby.createLobby(lobbyId);
         } else {
             lobby = Lobby.getLobbyById(lobbyId);
         } 
 
-        lobby.addPlayerToLobby(player);
+        lobby.addPlayerToLobby(this.socket.id, username);
     };
+
+    updateClientGamestate() {
+        console.log(`Client with ID ${this.socket.id} requested gamestate update`);
+        // Lobby: update lobby game state
+        // Lobby: send gamestate obj to the client
+    }
 
     disconnect() {
         const lobby = Lobby.getLobbyByPlayerId(this.socket.id);

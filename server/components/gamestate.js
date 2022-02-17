@@ -39,8 +39,32 @@ const categories = [
 
 class GameState {
     constuctor() {
-        console.log('GameState constructor')
+        this.currentLetter = {};
+        this.currentCategories = [];
+        this.gamePhase = null;
+        this.timer = {
+            timerDuration: null,
+            timeRemaining: null
+        }
     }
+
+    generateNewGameState() {
+        this.currentLetter = _getNewCurrentLetter();
+        console.log('currentLetter: ', this.currentLetter)
+        
+    }
+
+    _getNewCurrentLetter() {
+        return letters[Math.floor(Math.random() * letters.length)];
+    }
+
+    static createGameState() {
+        const newGameState = new GameState();
+        newGameState.generateNewGameState();
+
+        return newGameState;
+    }
+
 }
 
 module.exports = GameState;

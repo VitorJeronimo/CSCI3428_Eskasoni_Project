@@ -7,6 +7,7 @@ class Lobby {
     constructor(lobbyId) {
         this.lobbyId = lobbyId;
         this.players = [];
+        // Generate new gamestate when lobby is created
     }
 
     getLobbyAdmin() {
@@ -16,10 +17,10 @@ class Lobby {
         return this.players[0];
     }
 
-    addPlayerToLobby(player) {
+    addPlayerToLobby(playerId, username) {
+        const player = Player.createNewPlayer(playerId, username);
         this.players.push(player)
 
-        const playerId = player.getPlayerId();
         Lobby.playerToLobbyMapping.set(playerId, this.lobbyId)
     }
     

@@ -8,7 +8,10 @@ const GameScreen = ({ socket, setGamePhase }) => {
     const { username, lobbyId } = queryString.parse(location.search)
     useEffect(() => {
         console.log(username, lobbyId)
-        socket.on('connect', () => socket.emit('join_lobby', { username, lobbyId }));
+        socket.on('connect', () => {
+            socket.emit('join_lobby', { username, lobbyId })
+            socket.emit('gamestate_update_request');
+        });
     }, [])
 
     //===== COMPONENT =========================================================
