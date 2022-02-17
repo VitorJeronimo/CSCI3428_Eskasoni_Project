@@ -11,7 +11,8 @@ class Lobby {
     }
 
     /**
-     * Retrieves admin player object associated with this lobby
+     * Retrieves admin player object associated with this lobby.
+     * @returns {Player}    Lobby admin.
      */
     getLobbyAdmin() {
         if (this.players.length === 0) {
