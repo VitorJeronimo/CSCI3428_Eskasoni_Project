@@ -31,6 +31,7 @@ class Connection {
         console.log(`Client with ID ${this.socket.id} requested gamestate update`);
         // Lobby: update lobby game state
         // Lobby: send gamestate obj to the client
+        const lobby = Lobby.getLobbyByPlayerId(this.socket.id);
     }
 
     /**

@@ -12,7 +12,7 @@ class Lobby {
 
     /**
      * Retrieves admin player object associated with this lobby.
-     * @returns {Player}    Lobby admin.
+     * @returns {Player} lobby admin.
      */
     getLobbyAdmin() {
         if (this.players.length === 0) {
@@ -21,6 +21,12 @@ class Lobby {
         return this.players[0];
     }
 
+    /**
+     * Creates a player object and appends it to the collection of players
+     * in this lobby.
+     * @param {string}  playerId - unique string that identifies the player.
+     * @param {string}  username - player username.
+     */ 
     addPlayerToLobby(playerId, username) {
         const player = Player.createNewPlayer(playerId, username);
         this.players.push(player)
