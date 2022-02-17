@@ -33,6 +33,10 @@ class Connection {
         // Lobby: send gamestate obj to the client
     }
 
+    /**
+     * Removes player from their corresponding lobby as soon as they
+     * disconnect from the server.
+     */ 
     disconnect() {
         const lobby = Lobby.getLobbyByPlayerId(this.socket.id);
         lobby.removePlayerFromLobby(this.socket.id);
