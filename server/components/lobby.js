@@ -65,6 +65,11 @@ class Lobby {
         return newLobby;
     }
 
+    /**
+     * Returns whether there exists a Lobby object with the specified ID.
+     * @param {string}   lobbyId - unique string that identifies the lobby.
+     * @returns {boolean}   true if there exists such object; false otherwise.
+     */
     static hasLobbyWithId(lobbyId) {
         return Lobby.activeLobbies.has(lobbyId);
     }
