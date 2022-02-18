@@ -1,4 +1,4 @@
-const shuffle = require('./utils');
+const { shuffle } = require('./utils');
 
 const letters = [
     {character: "A'", audio: "./audio/A_long.mp3"}, 
@@ -55,6 +55,7 @@ class GameState {
     generateNewGameState() {
         this.currentLetter = this._getNewCurrentLetter();
         this.currentCategories = this._getNewCurrentCategories();
+        console.log(this);
     }
 
     _getNewCurrentLetter() {
@@ -77,7 +78,6 @@ class GameState {
 
     static createGameState() {
         const newGameState = new GameState();
-        console.log('newGameState', newGameState);
         newGameState.generateNewGameState();
 
         return newGameState;
