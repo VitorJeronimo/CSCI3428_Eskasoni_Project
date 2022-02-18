@@ -76,6 +76,10 @@ class GameState {
         return newCurrentCategories;
     }
 
+    /**
+     * Creates a GameState object.
+     * @returns {GameState} new object with a pre-generated game state.
+     */
     static createGameState() {
         const newGameState = new GameState();
         newGameState.generateNewGameState();
