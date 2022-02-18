@@ -1,3 +1,5 @@
+const shuffle = require('./utils');
+
 const letters = [
     {character: "A'", audio: "./audio/A_long.mp3"}, 
     {character: "A", audio: "./audio/A.mp3"},
@@ -38,7 +40,7 @@ const categories = [
 ];
 
 class GameState {
-    constuctor() {
+    constructor() {
         this.currentLetter = {};
         this.currentCategories = [];
         this.gamePhase = null;
@@ -46,20 +48,36 @@ class GameState {
             timerDuration: null,
             timeRemaining: null
         }
+
+        console.log('constructor entered');
     }
 
     generateNewGameState() {
-        this.currentLetter = _getNewCurrentLetter();
-        console.log('currentLetter: ', this.currentLetter)
-        
+        this.currentLetter = this._getNewCurrentLetter();
+        this.currentCategories = this._getNewCurrentCategories();
     }
 
     _getNewCurrentLetter() {
         return letters[Math.floor(Math.random() * letters.length)];
     }
 
+    _getNewCurrentCategories() {
+        const shuffledCategories = shuffle(categories).slice(0, 6);
+        const newCurrentCategories = [];
+
+        shuffledCategories.forEach((categoryTitle, index) => {
+            newCurrentCategories.push({
+                id: index,
+                title: categoryTitle
+            });
+        });
+
+        return newCurrentCategories;
+    }
+
     static createGameState() {
         const newGameState = new GameState();
+        console.log('newGameState', newGameState);
         newGameState.generateNewGameState();
 
         return newGameState;

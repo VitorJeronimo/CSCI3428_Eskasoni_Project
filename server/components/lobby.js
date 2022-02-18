@@ -1,3 +1,4 @@
+const GameState = require('./gamestate');
 const Player = require('./player');
 
 class Lobby {
@@ -52,7 +53,8 @@ class Lobby {
     }
 
     static createLobby(lobbyId) {
-        const newLobby = new Lobby(lobbyId);
+        const gameState = GameState.createGameState();
+        const newLobby = new Lobby(lobbyId, gameState);
         Lobby.activeLobbies.set(lobbyId, newLobby);
 
         return newLobby;
