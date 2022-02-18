@@ -52,6 +52,11 @@ class Lobby {
         Lobby.playerToLobbyMapping.delete(playerId);
     }
 
+    /**
+     * Creates a Lobby object.
+     * @param {string}   lobbyId - unique string that identifies the lobby.
+     * @returns {Lobby}  empty Lobby object with a pre-generated game state.
+     */
     static createLobby(lobbyId) {
         const gameState = GameState.createGameState();
         const newLobby = new Lobby(lobbyId, gameState);
