@@ -58,6 +58,12 @@ class GameState {
         console.log(this);
     }
 
+    /**
+     * Generates a new random initial letter.
+     * @returns {{character: string, audioPath: string}} object contaning
+     *          the random character and the path to an audio file corresponding
+     *          to the letter.
+     */
     _getNewCurrentLetter() {
         return letters[Math.floor(Math.random() * letters.length)];
     }
