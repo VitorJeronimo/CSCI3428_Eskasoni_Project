@@ -1,3 +1,6 @@
+# Note
+*Aij?* is currently being refactored to guarantee a bug-free experience to all players and administrators. We will be back soon!
+
 # CSCI3428 - Saint Mary's University: Eskasoni Project
 This project is a version of a Mi’kmaw Scattergories game called *Aij?*, 
 developed for the Mi’kmaw community at Eskasoni.
